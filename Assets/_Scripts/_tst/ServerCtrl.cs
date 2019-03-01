@@ -37,7 +37,8 @@ public class ServerCtrl : MonoBehaviour
 
     public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, Account account)
     {
-        if (!account.isPlayer())
+        // Debug.LogError("account.isPlayer():  " + account.isPlayer());
+        if (account.isPlayer())
         {
             Account tAccount = (Account)KBEngineApp.app.player();
             if (tAccount == null)
@@ -53,7 +54,6 @@ public class ServerCtrl : MonoBehaviour
             PlayerEnterIn(tm);
 
             Debug.LogError("onEnterWorld, Player: " + eid);
-
         }
         else
         {
