@@ -20,30 +20,14 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
-    private static List<TankManager> m_tankList = new List<TankManager>();
+    private List<TankManager> m_tankList = new List<TankManager>();
 
     private void Start()
     {
         // Create the delays so they only have to be made once.
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
-
-        StartCoroutine(CheckRoom());
-    }
-
-    public static void PlayerEnterIn(TankManager tTank)
-    {
-        m_tankList.Add(tTank);
-        Debug.Log("m_tankList: " + m_tankList.Count);
-    }
-
-    IEnumerator CheckRoom()
-    {
-        while (m_tankList.Count < 1)
-        {
-            yield return null;
-        }
-
+        m_tankList = ServerCtrl.g_tankList;
         SpawnAllTanks();
         SetCameraTargets();
 
@@ -59,7 +43,10 @@ public class GameManager : MonoBehaviour
             // ... create them, set their player number and references needed for control.
             m_tankList[i].m_Instance =
                 Instantiate(m_TankPrefab, m_tanks[i].m_SpawnPoint.position, m_tanks[i].m_SpawnPoint.rotation) as GameObject;
+            m_tankList[i].m_account.renderObj = m_tankList[i].m_Instance;
+            m_tankList[i].m_SpawnPoint = m_tanks[i].m_SpawnPoint;
             m_tankList[i].m_PlayerNumber = i + 1;
+            m_tankList[i].m_PlayerColor = m_tanks[i].m_PlayerColor;
             m_tankList[i].Setup();
         }
     }

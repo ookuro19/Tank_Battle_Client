@@ -31,5 +31,17 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
+		public void enterGameWorld(byte[] arg1, Vector3 arg2, Vector3 arg3)
+		{
+			Bundle pBundle = newCall("enterGameWorld", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeEntitycall(arg1);
+			bundle.writeVector3(arg2);
+			bundle.writeVector3(arg3);
+			sendCall(null);
+		}
+
 	}
 	}

@@ -19,6 +19,8 @@
 
         public override void onDestroy()
         {
+            Debug.Log("-----------Account onDestroy, id:" + id + " -----------");
+
             if (isPlayer())
             {
                 KBEngine.Event.deregisterIn(this);
@@ -28,11 +30,8 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-
-            if (isPlayer())
-            {
-                Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, id, this });
-            }
+            Debug.Log("Account onEnterWorld, id:" + id);
+            Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, id, this });
         }
 
         public virtual void updatePlayer(float x, float y, float z, float yaw)
@@ -42,6 +41,15 @@
             position.z = z;
 
             direction.z = yaw;
+        }
+
+        public void SetInitPos(Vector3 tpos, Vector3 trot)
+        {
+            if (isPlayer())
+            {
+                Debug.Log("SetInitPos");
+                cellCall("enterGameWorld", new object[] { this, tpos, trot });
+            }
         }
     }
 }

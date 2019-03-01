@@ -165,7 +165,7 @@ namespace KBEngine
 
 			{
 				UInt16 utype = 5;
-				string typeName = "SPACE_KEY";
+				string typeName = "ROOM_NUM";
 				string name = "UINT64";
 				DATATYPE_BASE val = null;
 				EntityDef.datatypes.TryGetValue(name, out val);

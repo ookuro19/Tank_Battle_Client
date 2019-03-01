@@ -11,11 +11,17 @@ public class UI_Login : MonoBehaviour
     public InputField ipt_pwd;
     private string stringAccount = "";
     private string stringPasswd = "";
-    
+
     // Use this for initialization
     void Start()
     {
         installEvents();
+        // List<int> tlist = new List<int>() { 1, 4, 8, 3, 2 };
+        // tlist.Sort((x, y) =>x.CompareTo(y));
+        // for (int i = 0; i < tlist.Count; i++)
+        // {
+        //     Debug.LogError(string.Format("tlist[{0}] is {1}", i, tlist[i]));
+        // }
     }
 
     #region KBEngine
@@ -62,7 +68,7 @@ public class UI_Login : MonoBehaviour
     public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, Account accountEntity)
     {
         Debug.Log("login is successfully!(登陆成功!)");
-        SceneManager.LoadScene("World");
+        SceneManager.LoadScene("Room");
     }
     #endregion
 }

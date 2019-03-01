@@ -899,5 +899,42 @@ namespace KBEngine
 		}
 	}
 
+	public struct ROOM_NUM
+	{
+		UInt64 value;
+
+		ROOM_NUM(UInt64 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator UInt64(ROOM_NUM value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator ROOM_NUM(UInt64 value)
+		{
+			UInt64 tvalue = (UInt64)value;
+			return new ROOM_NUM(tvalue);
+		}
+
+		public static UInt64 MaxValue
+		{
+			get
+			{
+				return UInt64.MaxValue;
+			}
+		}
+
+		public static UInt64 MinValue
+		{
+			get
+			{
+				return UInt64.MinValue;
+			}
+		}
+	}
+
 
 }

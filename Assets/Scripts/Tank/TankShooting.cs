@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class TankShooting : MonoBehaviour
 {
-    public int m_PlayerNumber = 1;              // Used to identify the different players.
     public Rigidbody m_Shell;                   // Prefab of the shell.
     public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
     public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
@@ -20,6 +19,8 @@ public class TankShooting : MonoBehaviour
     private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
     private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
+    //Server
+    [HideInInspector] public bool m_isPlayer = false;
 
     private void OnEnable()
     {
@@ -32,15 +33,19 @@ public class TankShooting : MonoBehaviour
     private void Start()
     {
         // The fire axis is based on the player number.
-        m_FireButton = "Fire" + m_PlayerNumber;
+        m_FireButton = "Fire";
 
         // The rate that the launch force charges up is the range of possible forces by the max charge time.
         m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
     }
 
-
     private void Update()
     {
+        if (!m_isPlayer)
+        {
+            return;
+        }
+
         // The slider should have a default value of the minimum launch force.
         m_AimSlider.value = m_MinLaunchForce;
 
