@@ -92,7 +92,7 @@
         public string serverScriptVersion = "";
         public string clientScriptVersion = "0.1.0";
         public string serverProtocolMD5 = "78D6E7A3B539900D86F0C2145E44AEB3";
-        public string serverEntitydefMD5 = "457F74F417F3443FA6B4BA7CAB6A373E";
+        public string serverEntitydefMD5 = "4174ACFB13F6DB8EA9C92A0CF762CDAD";
 
         // 当前玩家的实体id与实体类别
         public UInt64 entity_uuid = 0;
@@ -1623,7 +1623,6 @@
             {
                 entity.position.Set(_entityServerPos.x, _entityServerPos.y, _entityServerPos.z);
                 Event.fireOut(EventOutTypes.updatePosition, entity);
-                Debug.LogError("Client_onUpdateBasePos");
                 entity.onUpdateVolatileData();
             }
         }
@@ -1639,7 +1638,6 @@
                 entity.position.x = _entityServerPos.x;
                 entity.position.z = _entityServerPos.z;
                 Event.fireOut(EventOutTypes.updatePosition, entity);
-                Debug.LogError("Client_onUpdateBasePosXZ");
                 entity.onUpdateVolatileData();
             }
         }
@@ -2279,6 +2277,8 @@
                 done = true;
             }
 
+            Debug.Log(string.Format("KBEngine::set_direction::entity: {0}, rot: {1}", entity.id, entity.direction));
+
             bool positionChanged = x != KBEMath.KBE_FLT_MAX || y != KBEMath.KBE_FLT_MAX || z != KBEMath.KBE_FLT_MAX;
             if (x == KBEMath.KBE_FLT_MAX) x = 0.0f;
             if (y == KBEMath.KBE_FLT_MAX) y = 0.0f;
@@ -2290,10 +2290,6 @@
 
                 entity.position = pos;
                 done = true;
-                System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace();
-                Debug.Log("trace: " + trace.GetFrame(1).GetMethod().ToString());
-
-                Debug.LogError("_updateVolatileData");
                 Event.fireOut(EventOutTypes.updatePosition, entity);
             }
 

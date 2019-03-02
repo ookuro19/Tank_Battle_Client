@@ -113,10 +113,11 @@ public class ServerCtrl : MonoBehaviour
 
     public void set_direction(KBEngine.Entity entity)
     {
+        Debug.Log(string.Format("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction));
         if (entity.renderObj == null)
             return;
 
-        ((UnityEngine.GameObject)entity.renderObj).transform.eulerAngles =
+        ((UnityEngine.GameObject)entity.renderObj).transform.eulerAngles = 180f / (float)System.Math.PI *
             new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
     }
     #endregion
