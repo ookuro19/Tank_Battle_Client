@@ -33,6 +33,7 @@ public class ServerCtrl : MonoBehaviour
         KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
         KBEngine.Event.registerOut("set_position", this, "set_position");
         KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
+        KBEngine.Event.registerOut("set_direction", this, "set_direction");
     }
 
     public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, Account account)
@@ -108,6 +109,15 @@ public class ServerCtrl : MonoBehaviour
         GameObject go = ((UnityEngine.GameObject)entity.renderObj);
         Vector3 currpos = new Vector3(entity.position.x, entity.position.z, entity.position.y);
         go.transform.position = currpos;
+    }
+
+    public void set_direction(KBEngine.Entity entity)
+    {
+        if (entity.renderObj == null)
+            return;
+
+        ((UnityEngine.GameObject)entity.renderObj).transform.eulerAngles =
+            new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
     }
     #endregion
 }
