@@ -95,8 +95,8 @@ public class ServerCtrl : MonoBehaviour
         }
 
         GameObject go = ((UnityEngine.GameObject)entity.renderObj);
-        // Vector3 currpos = new Vector3(entity.position.x, entity.position.z, go.transform.position.z);
-        go.transform.position = entity.position;
+        Vector3 currpos = new Vector3(entity.position.x, entity.position.z, go.transform.position.z);
+        go.transform.position = currpos;
     }
 
     public void set_position(KBEngine.Entity entity)
