@@ -936,5 +936,79 @@ namespace KBEngine
 		}
 	}
 
+	public struct MAP_NUM
+	{
+		UInt64 value;
+
+		MAP_NUM(UInt64 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator UInt64(MAP_NUM value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator MAP_NUM(UInt64 value)
+		{
+			UInt64 tvalue = (UInt64)value;
+			return new MAP_NUM(tvalue);
+		}
+
+		public static UInt64 MaxValue
+		{
+			get
+			{
+				return UInt64.MaxValue;
+			}
+		}
+
+		public static UInt64 MinValue
+		{
+			get
+			{
+				return UInt64.MinValue;
+			}
+		}
+	}
+
+	public struct MODE_NUM
+	{
+		UInt64 value;
+
+		MODE_NUM(UInt64 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator UInt64(MODE_NUM value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator MODE_NUM(UInt64 value)
+		{
+			UInt64 tvalue = (UInt64)value;
+			return new MODE_NUM(tvalue);
+		}
+
+		public static UInt64 MaxValue
+		{
+			get
+			{
+				return UInt64.MaxValue;
+			}
+		}
+
+		public static UInt64 MinValue
+		{
+			get
+			{
+				return UInt64.MinValue;
+			}
+		}
+	}
+
 
 }

@@ -45,7 +45,7 @@
 
 		// 只在多线程模式启用
 		// 线程主循环处理频率
-		public int threadUpdateHZ = 10;
+		public int threadUpdateHZ = 60;
 
 		// 强制禁用UDP通讯
 		public bool forceDisableUDP = false;
@@ -75,4 +75,3 @@
     }
 
 } 
-

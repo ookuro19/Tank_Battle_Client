@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         // Create the delays so they only have to be made once.
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
-        m_tankList = ServerCtrl.g_tankList;
+        m_tankList = ServerCore.g_tankList;
         SpawnAllTanks();
         SetCameraTargets();
 

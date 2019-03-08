@@ -5,7 +5,7 @@ using UnityEngine;
 using KBEngine;
 using UnityEngine.SceneManagement;
 
-public class ServerCtrl : MonoBehaviour
+public class ServerCore : MonoBehaviour
 {
     public static List<TankManager> g_tankList = new List<TankManager>();
 
@@ -13,12 +13,6 @@ public class ServerCtrl : MonoBehaviour
     void Start()
     {
         installEvents();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void OnDestroy()
@@ -30,18 +24,60 @@ public class ServerCtrl : MonoBehaviour
     #region KBEngine
     void installEvents()
     {
+        // common
+        KBEngine.Event.registerOut("onConnectionState", this, "onConnectionState");
+
+        // login
+        KBEngine.Event.registerOut("onLoginFailed", this, "onLoginFailed");
+        KBEngine.Event.registerOut("onLoginSuccessfully", this, "onLoginSuccessfully");
+
+        // matching
         KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
+        KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
+
+        // world
         KBEngine.Event.registerOut("set_position", this, "set_position");
         KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
         KBEngine.Event.registerOut("set_direction", this, "set_direction");
     }
 
-    public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, Account account)
+    #region login
+    public void onConnectionState(bool success)
     {
+        if (!success)
+            Debug.LogError("connect(" + KBEngineApp.app.getInitArgs().ip + ":" + KBEngineApp.app.getInitArgs().port + ") is error! (连接错误)");
+        else
+            Debug.Log("connect successfully, please wait...(连接成功，请等候...)");
+    }
+
+    public void onLoginFailed(UInt16 failedcode)
+    {
+        if (failedcode == 20)
+        {
+            Debug.LogError("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.ASCII.GetString(KBEngineApp.app.serverdatas()));
+        }
+        else
+        {
+            Debug.LogError("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode));
+        }
+    }
+
+    public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, KBEngine.Avatar accountEntity)
+    {
+        Debug.Log("login is successfully!(登陆成功!)");
+        ServerEvents.Instance.onLoginSuccessfully();
+    }
+    #endregion
+
+    #region matching
+    public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account)
+    {
+        ServerEvents.Instance.onAvatarEnter();
+        
         // Debug.LogError("account.isPlayer():  " + account.isPlayer());
         if (account.isPlayer())
         {
-            Account tAccount = (Account)KBEngineApp.app.player();
+            KBEngine.Avatar tAccount = (KBEngine.Avatar)KBEngineApp.app.player();
             if (tAccount == null)
             {
                 Debug.Log("wait create(palyer)!");
@@ -66,6 +102,12 @@ public class ServerCtrl : MonoBehaviour
         }
     }
 
+    public void onMatchingFinish(int suc)
+    {
+        ServerEvents.Instance.MatchingFinish();
+    }
+    #endregion
+
     private void PlayerEnterIn(TankManager tPlayer)
     {
         g_tankList.Add(tPlayer);
@@ -76,14 +118,7 @@ public class ServerCtrl : MonoBehaviour
             {
                 Debug.Log("g_tankList[i].eid is: " + g_tankList[i].eid);
             }
-            StartCoroutine(GameStart());
         }
-    }
-
-    IEnumerator GameStart()
-    {
-        AsyncOperation async = SceneManager.LoadSceneAsync("World");
-        yield return async;
     }
 
     public void updatePosition(KBEngine.Entity entity)

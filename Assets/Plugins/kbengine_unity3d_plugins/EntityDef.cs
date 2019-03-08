@@ -75,68 +75,145 @@ namespace KBEngine
 
 		public static void initScriptModules()
 		{
-			ScriptModule pAccountModule = new ScriptModule("Account");
-			EntityDef.moduledefs["Account"] = pAccountModule;
-			EntityDef.idmoduledefs[1] = pAccountModule;
+			ScriptModule pAvatarModule = new ScriptModule("Avatar");
+			EntityDef.moduledefs["Avatar"] = pAvatarModule;
+			EntityDef.idmoduledefs[1] = pAvatarModule;
 
-			Property pAccount_position = new Property();
-			pAccount_position.name = "position";
-			pAccount_position.properUtype = 40000;
-			pAccount_position.properFlags = 4;
-			pAccount_position.aliasID = 1;
-			Vector3 Account_position_defval = new Vector3();
-			pAccount_position.defaultVal = Account_position_defval;
-			pAccountModule.propertys["position"] = pAccount_position; 
+			Property pAvatar_position = new Property();
+			pAvatar_position.name = "position";
+			pAvatar_position.properUtype = 40000;
+			pAvatar_position.properFlags = 4;
+			pAvatar_position.aliasID = 1;
+			Vector3 Avatar_position_defval = new Vector3();
+			pAvatar_position.defaultVal = Avatar_position_defval;
+			pAvatarModule.propertys["position"] = pAvatar_position; 
 
-			pAccountModule.usePropertyDescrAlias = true;
-			pAccountModule.idpropertys[(UInt16)pAccount_position.aliasID] = pAccount_position;
+			pAvatarModule.usePropertyDescrAlias = true;
+			pAvatarModule.idpropertys[(UInt16)pAvatar_position.aliasID] = pAvatar_position;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(position / 40000).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(position / 40000).");
 
-			Property pAccount_direction = new Property();
-			pAccount_direction.name = "direction";
-			pAccount_direction.properUtype = 40001;
-			pAccount_direction.properFlags = 4;
-			pAccount_direction.aliasID = 2;
-			Vector3 Account_direction_defval = new Vector3();
-			pAccount_direction.defaultVal = Account_direction_defval;
-			pAccountModule.propertys["direction"] = pAccount_direction; 
+			Property pAvatar_direction = new Property();
+			pAvatar_direction.name = "direction";
+			pAvatar_direction.properUtype = 40001;
+			pAvatar_direction.properFlags = 4;
+			pAvatar_direction.aliasID = 2;
+			Vector3 Avatar_direction_defval = new Vector3();
+			pAvatar_direction.defaultVal = Avatar_direction_defval;
+			pAvatarModule.propertys["direction"] = pAvatar_direction; 
 
-			pAccountModule.usePropertyDescrAlias = true;
-			pAccountModule.idpropertys[(UInt16)pAccount_direction.aliasID] = pAccount_direction;
+			pAvatarModule.usePropertyDescrAlias = true;
+			pAvatarModule.idpropertys[(UInt16)pAvatar_direction.aliasID] = pAvatar_direction;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(direction / 40001).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(direction / 40001).");
 
-			Property pAccount_spaceID = new Property();
-			pAccount_spaceID.name = "spaceID";
-			pAccount_spaceID.properUtype = 40002;
-			pAccount_spaceID.properFlags = 16;
-			pAccount_spaceID.aliasID = 3;
-			UInt32 Account_spaceID_defval;
-			UInt32.TryParse("", out Account_spaceID_defval);
-			pAccount_spaceID.defaultVal = Account_spaceID_defval;
-			pAccountModule.propertys["spaceID"] = pAccount_spaceID; 
+			Property pAvatar_spaceID = new Property();
+			pAvatar_spaceID.name = "spaceID";
+			pAvatar_spaceID.properUtype = 40002;
+			pAvatar_spaceID.properFlags = 16;
+			pAvatar_spaceID.aliasID = 3;
+			UInt32 Avatar_spaceID_defval;
+			UInt32.TryParse("", out Avatar_spaceID_defval);
+			pAvatar_spaceID.defaultVal = Avatar_spaceID_defval;
+			pAvatarModule.propertys["spaceID"] = pAvatar_spaceID; 
 
-			pAccountModule.usePropertyDescrAlias = true;
-			pAccountModule.idpropertys[(UInt16)pAccount_spaceID.aliasID] = pAccount_spaceID;
+			pAvatarModule.usePropertyDescrAlias = true;
+			pAvatarModule.idpropertys[(UInt16)pAvatar_spaceID.aliasID] = pAvatar_spaceID;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(spaceID / 40002).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(spaceID / 40002).");
 
-			Property pAccount_name = new Property();
-			pAccount_name.name = "name";
-			pAccount_name.properUtype = 2;
-			pAccount_name.properFlags = 4;
-			pAccount_name.aliasID = 4;
-			string Account_name_defval = "";
-			pAccount_name.defaultVal = Account_name_defval;
-			pAccountModule.propertys["name"] = pAccount_name; 
+			Property pAvatar_name = new Property();
+			pAvatar_name.name = "name";
+			pAvatar_name.properUtype = 2;
+			pAvatar_name.properFlags = 4;
+			pAvatar_name.aliasID = 4;
+			string Avatar_name_defval = "";
+			pAvatar_name.defaultVal = Avatar_name_defval;
+			pAvatarModule.propertys["name"] = pAvatar_name; 
 
-			pAccountModule.usePropertyDescrAlias = true;
-			pAccountModule.idpropertys[(UInt16)pAccount_name.aliasID] = pAccount_name;
+			pAvatarModule.usePropertyDescrAlias = true;
+			pAvatarModule.idpropertys[(UInt16)pAvatar_name.aliasID] = pAvatar_name;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(name / 2).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(name / 2).");
 
-			pAccountModule.useMethodDescrAlias = true;
+			Property pAvatar_progress = new Property();
+			pAvatar_progress.name = "progress";
+			pAvatar_progress.properUtype = 4;
+			pAvatar_progress.properFlags = 4;
+			pAvatar_progress.aliasID = 5;
+			Int32 Avatar_progress_defval;
+			Int32.TryParse("0", out Avatar_progress_defval);
+			pAvatar_progress.defaultVal = Avatar_progress_defval;
+			pAvatarModule.propertys["progress"] = pAvatar_progress; 
+
+			pAvatarModule.usePropertyDescrAlias = true;
+			pAvatarModule.idpropertys[(UInt16)pAvatar_progress.aliasID] = pAvatar_progress;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(progress / 4).");
+
+			List<DATATYPE_BASE> pAvatar_onLoadingFinish_args = new List<DATATYPE_BASE>();
+			pAvatar_onLoadingFinish_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_onLoadingFinish = new Method();
+			pAvatar_onLoadingFinish.name = "onLoadingFinish";
+			pAvatar_onLoadingFinish.methodUtype = 7;
+			pAvatar_onLoadingFinish.aliasID = 1;
+			pAvatar_onLoadingFinish.args = pAvatar_onLoadingFinish_args;
+
+			pAvatarModule.methods["onLoadingFinish"] = pAvatar_onLoadingFinish; 
+			pAvatarModule.useMethodDescrAlias = true;
+			pAvatarModule.idmethods[(UInt16)pAvatar_onLoadingFinish.aliasID] = pAvatar_onLoadingFinish;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onLoadingFinish / 7).");
+
+			List<DATATYPE_BASE> pAvatar_onMatchingFinish_args = new List<DATATYPE_BASE>();
+			pAvatar_onMatchingFinish_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_onMatchingFinish = new Method();
+			pAvatar_onMatchingFinish.name = "onMatchingFinish";
+			pAvatar_onMatchingFinish.methodUtype = 6;
+			pAvatar_onMatchingFinish.aliasID = 2;
+			pAvatar_onMatchingFinish.args = pAvatar_onMatchingFinish_args;
+
+			pAvatarModule.methods["onMatchingFinish"] = pAvatar_onMatchingFinish; 
+			pAvatarModule.useMethodDescrAlias = true;
+			pAvatarModule.idmethods[(UInt16)pAvatar_onMatchingFinish.aliasID] = pAvatar_onMatchingFinish;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onMatchingFinish / 6).");
+
+			List<DATATYPE_BASE> pAvatar_regLoadingProgress_args = new List<DATATYPE_BASE>();
+			pAvatar_regLoadingProgress_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_regLoadingProgress = new Method();
+			pAvatar_regLoadingProgress.name = "regLoadingProgress";
+			pAvatar_regLoadingProgress.methodUtype = 4;
+			pAvatar_regLoadingProgress.aliasID = -1;
+			pAvatar_regLoadingProgress.args = pAvatar_regLoadingProgress_args;
+
+			pAvatarModule.methods["regLoadingProgress"] = pAvatar_regLoadingProgress; 
+			pAvatarModule.base_methods["regLoadingProgress"] = pAvatar_regLoadingProgress;
+
+			pAvatarModule.idbase_methods[pAvatar_regLoadingProgress.methodUtype] = pAvatar_regLoadingProgress;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(regLoadingProgress / 4).");
+
+			List<DATATYPE_BASE> pAvatar_startMatching_args = new List<DATATYPE_BASE>();
+			pAvatar_startMatching_args.Add(EntityDef.id2datatypes[5]);
+			pAvatar_startMatching_args.Add(EntityDef.id2datatypes[5]);
+
+			Method pAvatar_startMatching = new Method();
+			pAvatar_startMatching.name = "startMatching";
+			pAvatar_startMatching.methodUtype = 1;
+			pAvatar_startMatching.aliasID = -1;
+			pAvatar_startMatching.args = pAvatar_startMatching_args;
+
+			pAvatarModule.methods["startMatching"] = pAvatar_startMatching; 
+			pAvatarModule.base_methods["startMatching"] = pAvatar_startMatching;
+
+			pAvatarModule.idbase_methods[pAvatar_startMatching.methodUtype] = pAvatar_startMatching;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(startMatching / 1).");
+
 		}
 
 		public static void initDefTypes()
@@ -165,7 +242,7 @@ namespace KBEngine
 
 			{
 				UInt16 utype = 5;
-				string typeName = "ROOM_NUM";
+				string typeName = "MODE_NUM";
 				string name = "UINT64";
 				DATATYPE_BASE val = null;
 				EntityDef.datatypes.TryGetValue(name, out val);

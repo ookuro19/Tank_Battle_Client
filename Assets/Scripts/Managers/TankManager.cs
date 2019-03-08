@@ -23,7 +23,7 @@ public class TankManager
 
     //server
     public bool entityEnabled = true;
-    public Account m_account;
+    public KBEngine.Avatar m_account;
     public Int32 eid;
     private bool isPlayer = false;
 
@@ -56,10 +56,10 @@ public class TankManager
             renderers[i].material.color = m_PlayerColor;
         }
 
-        if (isPlayer)
-        {
-            m_account.SetInitPos(m_SpawnPoint.position, m_SpawnPoint.rotation.eulerAngles);
-        }
+        // if (isPlayer)
+        // {
+        //     m_account.SetInitPos(m_SpawnPoint.position, m_SpawnPoint.rotation.eulerAngles);
+        // }
     }
 
     // Used during the phases of the game where the player shouldn't be able to control their tank.
