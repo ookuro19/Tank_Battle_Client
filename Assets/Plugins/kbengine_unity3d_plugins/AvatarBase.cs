@@ -23,6 +23,8 @@ namespace KBEngine
 		public virtual void onNameChanged(string oldValue) {}
 		public Int32 progress = 0;
 		public virtual void onProgressChanged(Int32 oldValue) {}
+		public Int32 roomNo = 0;
+		public virtual void onRoomNoChanged(Int32 oldValue) {}
 
 		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onMatchingFinish(Int32 arg1); 
@@ -229,6 +231,22 @@ namespace KBEngine
 						}
 
 						break;
+					case 5:
+						Int32 oldval_roomNo = roomNo;
+						roomNo = stream.readInt32();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onRoomNoChanged(oldval_roomNo);
+						}
+						else
+						{
+							if(inWorld)
+								onRoomNoChanged(oldval_roomNo);
+						}
+
+						break;
 					case 40002:
 						stream.readUint32();
 						break;
@@ -323,6 +341,27 @@ namespace KBEngine
 					else
 					{
 						onProgressChanged(oldval_progress);
+					}
+				}
+			}
+
+			Int32 oldval_roomNo = roomNo;
+			Property prop_roomNo = pdatas[6];
+			if(prop_roomNo.isBase())
+			{
+				if(inited && !inWorld)
+					onRoomNoChanged(oldval_roomNo);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_roomNo.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onRoomNoChanged(oldval_roomNo);
 					}
 				}
 			}

@@ -151,6 +151,21 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(progress / 4).");
 
+			Property pAvatar_roomNo = new Property();
+			pAvatar_roomNo.name = "roomNo";
+			pAvatar_roomNo.properUtype = 5;
+			pAvatar_roomNo.properFlags = 4;
+			pAvatar_roomNo.aliasID = 6;
+			Int32 Avatar_roomNo_defval;
+			Int32.TryParse("0", out Avatar_roomNo_defval);
+			pAvatar_roomNo.defaultVal = Avatar_roomNo_defval;
+			pAvatarModule.propertys["roomNo"] = pAvatar_roomNo; 
+
+			pAvatarModule.usePropertyDescrAlias = true;
+			pAvatarModule.idpropertys[(UInt16)pAvatar_roomNo.aliasID] = pAvatar_roomNo;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(roomNo / 5).");
+
 			List<DATATYPE_BASE> pAvatar_onLoadingFinish_args = new List<DATATYPE_BASE>();
 			pAvatar_onLoadingFinish_args.Add(EntityDef.id2datatypes[8]);
 

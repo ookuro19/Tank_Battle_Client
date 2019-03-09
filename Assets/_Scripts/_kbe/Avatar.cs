@@ -32,8 +32,8 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-            Debug.Log("Account onEnterWorld, id:" + id);
-            Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, id, this });
+            Debug.Log(string.Format("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo));
+            Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
         }
 
         public virtual void updatePlayer(float x, float y, float z, float yaw)

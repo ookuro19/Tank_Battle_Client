@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using KBEngine;
 
 public class ServerEvents
 {
@@ -50,8 +51,9 @@ public class ServerEvents
         SceneManager.LoadScene("Room");
     }
 
-    public void onAvatarEnter()
+    public void onAvatarEnter(int eid, KBEngine.Avatar account)
     {
+        ClientCore.Instance.AccountEnterWorld(eid, account);
         UI_Room.playerNum++;
     }
 

@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class ServerCore : MonoBehaviour
 {
-    public static List<TankManager> g_tankList = new List<TankManager>();
-
     #region Unity Method
     void Start()
     {
@@ -72,34 +70,7 @@ public class ServerCore : MonoBehaviour
     #region matching
     public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account)
     {
-        ServerEvents.Instance.onAvatarEnter();
-        
-        // Debug.LogError("account.isPlayer():  " + account.isPlayer());
-        if (account.isPlayer())
-        {
-            KBEngine.Avatar tAccount = (KBEngine.Avatar)KBEngineApp.app.player();
-            if (tAccount == null)
-            {
-                Debug.Log("wait create(palyer)!");
-                return;
-            }
-
-            TankManager tm = new TankManager();
-            tm.m_account = account;
-            tm.SetCurPlayer();
-            tm.eid = eid;
-            PlayerEnterIn(tm);
-
-            Debug.LogError("onEnterWorld, Player: " + eid);
-        }
-        else
-        {
-            TankManager tm = new TankManager();
-            tm.m_account = account;
-            tm.eid = eid;
-            PlayerEnterIn(tm);
-            Debug.LogError("onEnterWorld, Enemy" + eid);
-        }
+        ServerEvents.Instance.onAvatarEnter(eid, account);
     }
 
     public void onMatchingFinish(int suc)
@@ -107,19 +78,6 @@ public class ServerCore : MonoBehaviour
         ServerEvents.Instance.MatchingFinish();
     }
     #endregion
-
-    private void PlayerEnterIn(TankManager tPlayer)
-    {
-        g_tankList.Add(tPlayer);
-        if (g_tankList.Count == 2)
-        {
-            g_tankList.Sort((x, y) => x.eid.CompareTo(y.eid));
-            for (int i = 0; i < g_tankList.Count; i++)
-            {
-                Debug.Log("g_tankList[i].eid is: " + g_tankList[i].eid);
-            }
-        }
-    }
 
     public void updatePosition(KBEngine.Entity entity)
     {

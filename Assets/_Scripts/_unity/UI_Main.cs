@@ -8,4 +8,9 @@ public class UI_Main : MonoBehaviour
     {
         ServerEvents.StartMatching(0, 0);
     }
+
+    public void Logout()
+    {
+        KBEngine.Event.fireIn("logout");
+    }
 }
