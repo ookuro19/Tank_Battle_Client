@@ -48,6 +48,7 @@
         public void updateProgress(int tprogerss)
         {
             progress = tprogerss;
+            Debug.LogErrorFormat("Player:{0} updateProgress:{1}", name, progress);
             if (!isLoadingFinish && progress == 100)
             {
                 isLoadingFinish = true;
@@ -57,7 +58,7 @@
 
         public override void onProgressChanged(int oldValue)
         {
-            Debug.Log(string.Format("id: {0} , progress: {1}", id, oldValue));
+            Debug.LogErrorFormat("name: {0} , progress: {1}", name, oldValue);
         }
 
         public void StartMatching(int map, int mode)

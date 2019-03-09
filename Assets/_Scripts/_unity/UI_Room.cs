@@ -47,13 +47,14 @@ public class UI_Room : MonoBehaviour
         // 如果，场景的数据加载完毕，async.progress 的值就会等于0.9
         if (async.progress < 0.9f)
         {
-            tProcess = (int)async.progress * 100;
+            tProcess = (int)(async.progress * 100);
         }
         else
         {
             tProcess = 100;
         }
 
+        Debug.LogFormat("Cur Player progress is: {0}", tProcess);
         ServerEvents.Instance.UpdateLoadingProgress(tProcess);
     }
 

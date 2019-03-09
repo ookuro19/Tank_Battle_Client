@@ -24,7 +24,8 @@ public class TankManager
     //server
     public bool entityEnabled = true;
     public KBEngine.Avatar m_account;
-    public Int32 eid;
+    public int m_roomNo;
+    public string m_avatarName;
     private bool isPlayer = false;
 
     public void SetCurPlayer()
@@ -37,7 +38,7 @@ public class TankManager
         // Get references to the components.
         m_Movement = m_Instance.GetComponent<TankMovement>();
         m_Shooting = m_Instance.GetComponent<TankShooting>();
-        m_Instance.GetComponent<TankHealth>().SetIDText(eid, isPlayer);
+        m_Instance.GetComponent<TankHealth>().SetIDText(m_avatarName, isPlayer);
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
         m_Movement.m_isPlayer = isPlayer;

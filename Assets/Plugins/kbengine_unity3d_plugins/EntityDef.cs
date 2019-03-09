@@ -139,7 +139,7 @@ namespace KBEngine
 			Property pAvatar_progress = new Property();
 			pAvatar_progress.name = "progress";
 			pAvatar_progress.properUtype = 4;
-			pAvatar_progress.properFlags = 4;
+			pAvatar_progress.properFlags = 128;
 			pAvatar_progress.aliasID = 5;
 			Int32 Avatar_progress_defval;
 			Int32.TryParse("0", out Avatar_progress_defval);

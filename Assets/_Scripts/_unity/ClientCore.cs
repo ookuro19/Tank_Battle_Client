@@ -30,18 +30,20 @@ public class ClientCore : MonoBehaviour
             TankManager tm = new TankManager();
             tm.m_account = account;
             tm.SetCurPlayer();
-            tm.eid = eid;
+            tm.m_roomNo = account.roomNo;
+            tm.m_avatarName = account.name;
             PlayerEnterIn(tm);
 
-            Debug.LogError("onEnterWorld, Player: " + eid);
+            Debug.LogError("onEnterWorld, Player: " + account.name);
         }
         else
         {
             TankManager tm = new TankManager();
             tm.m_account = account;
-            tm.eid = eid;
+            tm.m_roomNo = account.roomNo;
+            tm.m_avatarName = account.name;
             PlayerEnterIn(tm);
-            Debug.LogError("onEnterWorld, Enemy" + eid);
+            Debug.LogError("onEnterWorld, Enemy" + account.name);
         }
     }
 
@@ -50,11 +52,7 @@ public class ClientCore : MonoBehaviour
         g_tankList.Add(tPlayer);
         if (g_tankList.Count == 2)
         {
-            g_tankList.Sort((x, y) => x.eid.CompareTo(y.eid));
-            for (int i = 0; i < g_tankList.Count; i++)
-            {
-                Debug.Log("g_tankList[i].eid is: " + g_tankList[i].eid);
-            }
+            g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
         }
     }
 }
