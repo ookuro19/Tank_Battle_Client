@@ -19,6 +19,7 @@ public class ServerCore : MonoBehaviour
     }
     #endregion
 
+
     #region KBEngine
     void installEvents()
     {
@@ -81,7 +82,7 @@ public class ServerCore : MonoBehaviour
 
     public void updatePosition(KBEngine.Entity entity)
     {
-        Debug.Log(string.Format("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position));
+        Debug.LogFormat("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position);
         if (entity.renderObj == null)
         {
             Debug.LogError("entity.renderObj == null");
@@ -95,7 +96,7 @@ public class ServerCore : MonoBehaviour
 
     public void set_position(KBEngine.Entity entity)
     {
-        Debug.Log(string.Format("set_position::entity: {0}, pos: {1}", entity.id, entity.position));
+        Debug.LogFormat("set_position::entity: {0}, pos: {1}", entity.id, entity.position);
         if (entity.renderObj == null)
             return;
 
@@ -106,7 +107,7 @@ public class ServerCore : MonoBehaviour
 
     public void set_direction(KBEngine.Entity entity)
     {
-        Debug.Log(string.Format("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction));
+        Debug.LogFormat("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction);
         if (entity.renderObj == null)
             return;
 

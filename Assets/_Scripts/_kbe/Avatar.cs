@@ -32,32 +32,26 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-            Debug.Log(string.Format("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo));
+            Debug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
             Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
         }
 
-        public virtual void updatePlayer(float x, float y, float z, float yaw)
+        public virtual void updatePlayer(Vector3 pos, float yaw)
         {
-            position.x = x;
-            position.y = y;
-            position.z = z;
+            position.x = pos.x;
+            position.y = pos.z;
+            position.z = pos.y;
 
             direction.z = yaw;
         }
 
         public void updateProgress(int tprogerss)
         {
-            if (progress != tprogerss)
+            if (progress < tprogerss)
             {
                 progress = tprogerss;
                 // Debug.LogErrorFormat("Player:{0} updateProgress:{1}", name, progress);
                 cellCall("regProgress", progress);
-
-                if (!isLoadingFinish && progress == 100)
-                {
-                    isLoadingFinish = true;
-                    baseCall("regLoadingProgress", progress);
-                }
             }
         }
 

@@ -121,8 +121,7 @@ public class TankMovement : MonoBehaviour
         // Adjust the rigidbodies position and orientation in FixedUpdate.
         Move();
         Turn();
-        KBEngine.Event.fireIn("updatePlayer", gameObject.transform.position.x,
-        gameObject.transform.position.z, gameObject.transform.position.y, gameObject.transform.rotation.eulerAngles.y);
+        KBEngine.Event.fireIn("updatePlayer", gameObject.transform.position, gameObject.transform.rotation.eulerAngles.y);
     }
 
     private void Move()
