@@ -47,25 +47,25 @@
 
         public void updateProgress(int tprogerss)
         {
-            progress = tprogerss;
-            Debug.LogErrorFormat("Player:{0} updateProgress:{1}", name, progress);
-            if (!isLoadingFinish && progress == 100)
+            if (progress != tprogerss)
             {
-                isLoadingFinish = true;
-                baseCall("regLoadingProgress", new object[] { progress });
-            }
-        }
+                progress = tprogerss;
+                // Debug.LogErrorFormat("Player:{0} updateProgress:{1}", name, progress);
+                cellCall("regProgress", progress);
 
-        public override void onProgressChanged(int oldValue)
-        {
-            Debug.LogErrorFormat("name: {0} , progress: {1}", name, oldValue);
+                if (!isLoadingFinish && progress == 100)
+                {
+                    isLoadingFinish = true;
+                    baseCall("regLoadingProgress", progress);
+                }
+            }
         }
 
         public void StartMatching(int map, int mode)
         {
             isLoadingFinish = false;
             Debug.Log("Player Start Matching, id:" + id);
-            baseCall("startMatching", new object[] { map, mode });
+            baseCall("startMatching", 3, 2);//new object[] { map, mode });
         }
 
         public override void onLoadingFinish(int arg1)

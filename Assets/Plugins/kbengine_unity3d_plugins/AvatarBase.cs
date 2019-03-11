@@ -111,11 +111,11 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 7:
+				case 8:
 					Int32 onLoadingFinish_arg1 = stream.readInt32();
 					onLoadingFinish(onLoadingFinish_arg1);
 					break;
-				case 6:
+				case 7:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
 					break;

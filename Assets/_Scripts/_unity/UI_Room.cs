@@ -5,32 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class UI_Room : MonoBehaviour
 {
-    public GameObject[] tankImg;
-    private int nowProcess;
-    private int tProcess;
+    public UI_PlayerRoomItem[] playerUIItem;
+    private int nowProcess = 0;
+    private int tProcess = 0;
     private static AsyncOperation async;
 
     [HideInInspector]
     public static bool isStartLoading = false;
-    [HideInInspector]
-    public static int playerNum = 0;
+
+    public static UI_Room Instance;
 
     void Start()
     {
-        for (int i = 0; i < tankImg.Length; i++)
+        Instance = this;
+
+        for (int i = 0; i < playerUIItem.Length; i++)
         {
-            tankImg[i].SetActive(false);
+            playerUIItem[i].Reset();
         }
-        playerNum = 0;
     }
 
     void Update()
     {
-        for (int i = 0; i < playerNum; i++)
-        {
-            tankImg[i].SetActive(true);
-        }
-
         if (isStartLoading)
         {
             isStartLoading = false;
@@ -54,8 +50,12 @@ public class UI_Room : MonoBehaviour
             tProcess = 100;
         }
 
-        Debug.LogFormat("Cur Player progress is: {0}", tProcess);
-        ServerEvents.Instance.UpdateLoadingProgress(tProcess);
+        // Debug.LogFormat("Cur Player progress is: {0}", tProcess);
+        if (nowProcess < tProcess)
+        {
+            nowProcess = tProcess;
+            ServerEvents.Instance.UpdateLoadingProgress(nowProcess);
+        }
     }
 
     public IEnumerator LoadingScene()
@@ -68,5 +68,13 @@ public class UI_Room : MonoBehaviour
     public static void onLoadingFinish()
     {
         async.allowSceneActivation = true;
+    }
+
+    public void PlayerEnterin()
+    {
+        for (int i = 0; i < ClientCore.g_tankList.Count; i++)
+        {
+            playerUIItem[i].SetItem(ClientCore.g_tankList[i]);
+        }
     }
 }

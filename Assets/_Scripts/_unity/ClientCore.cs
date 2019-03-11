@@ -50,9 +50,6 @@ public class ClientCore : MonoBehaviour
     private void PlayerEnterIn(TankManager tPlayer)
     {
         g_tankList.Add(tPlayer);
-        if (g_tankList.Count == 2)
-        {
-            g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
-        }
+        g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
     }
 }

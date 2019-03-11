@@ -38,7 +38,7 @@ public class TankManager
         // Get references to the components.
         m_Movement = m_Instance.GetComponent<TankMovement>();
         m_Shooting = m_Instance.GetComponent<TankShooting>();
-        m_Instance.GetComponent<TankHealth>().SetIDText(m_avatarName, isPlayer);
+        m_Instance.GetComponent<TankHealth>().SetIDText(m_avatarName);
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
         m_Movement.m_isPlayer = isPlayer;
@@ -99,5 +99,14 @@ public class TankManager
     public void entityDisable()
     {
         entityEnabled = false;
+    }
+
+    public int GetProgress()
+    {
+        if (m_account == null)
+        {
+            return 0;
+        }
+        return m_account.progress;
     }
 }

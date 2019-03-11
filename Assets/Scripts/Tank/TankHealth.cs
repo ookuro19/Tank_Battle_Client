@@ -18,9 +18,9 @@ public class TankHealth : MonoBehaviour
     private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
 
     public Text txt_id;
-    public void SetIDText(string t, bool isPlayer)
+    public void SetIDText(string t)
     {
-        txt_id.text = t + " " + isPlayer;
+        txt_id.text = t;
     }
 
     private void Awake()

@@ -54,7 +54,7 @@ public class ServerEvents
     public void onAvatarEnter(int eid, KBEngine.Avatar account)
     {
         ClientCore.Instance.AccountEnterWorld(eid, account);
-        UI_Room.playerNum++;
+        UI_Room.Instance.PlayerEnterin();
     }
 
     /// <summary>
