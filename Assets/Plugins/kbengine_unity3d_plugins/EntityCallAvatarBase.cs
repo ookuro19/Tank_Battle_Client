@@ -21,16 +21,6 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_BASE;
 		}
 
-		public void regLoadingProgress(Int32 arg1)
-		{
-			Bundle pBundle = newCall("regLoadingProgress", 0);
-			if(pBundle == null)
-				return;
-
-			bundle.writeInt32(arg1);
-			sendCall(null);
-		}
-
 		public void startMatching(UInt64 arg1, UInt64 arg2)
 		{
 			Bundle pBundle = newCall("startMatching", 0);

@@ -171,7 +171,7 @@ namespace KBEngine
 
 			Method pAvatar_onLoadingFinish = new Method();
 			pAvatar_onLoadingFinish.name = "onLoadingFinish";
-			pAvatar_onLoadingFinish.methodUtype = 8;
+			pAvatar_onLoadingFinish.methodUtype = 7;
 			pAvatar_onLoadingFinish.aliasID = 1;
 			pAvatar_onLoadingFinish.args = pAvatar_onLoadingFinish_args;
 
@@ -179,14 +179,14 @@ namespace KBEngine
 			pAvatarModule.useMethodDescrAlias = true;
 			pAvatarModule.idmethods[(UInt16)pAvatar_onLoadingFinish.aliasID] = pAvatar_onLoadingFinish;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onLoadingFinish / 8).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onLoadingFinish / 7).");
 
 			List<DATATYPE_BASE> pAvatar_onMatchingFinish_args = new List<DATATYPE_BASE>();
 			pAvatar_onMatchingFinish_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAvatar_onMatchingFinish = new Method();
 			pAvatar_onMatchingFinish.name = "onMatchingFinish";
-			pAvatar_onMatchingFinish.methodUtype = 7;
+			pAvatar_onMatchingFinish.methodUtype = 6;
 			pAvatar_onMatchingFinish.aliasID = 2;
 			pAvatar_onMatchingFinish.args = pAvatar_onMatchingFinish_args;
 
@@ -194,23 +194,7 @@ namespace KBEngine
 			pAvatarModule.useMethodDescrAlias = true;
 			pAvatarModule.idmethods[(UInt16)pAvatar_onMatchingFinish.aliasID] = pAvatar_onMatchingFinish;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onMatchingFinish / 7).");
-
-			List<DATATYPE_BASE> pAvatar_regLoadingProgress_args = new List<DATATYPE_BASE>();
-			pAvatar_regLoadingProgress_args.Add(EntityDef.id2datatypes[8]);
-
-			Method pAvatar_regLoadingProgress = new Method();
-			pAvatar_regLoadingProgress.name = "regLoadingProgress";
-			pAvatar_regLoadingProgress.methodUtype = 5;
-			pAvatar_regLoadingProgress.aliasID = -1;
-			pAvatar_regLoadingProgress.args = pAvatar_regLoadingProgress_args;
-
-			pAvatarModule.methods["regLoadingProgress"] = pAvatar_regLoadingProgress; 
-			pAvatarModule.base_methods["regLoadingProgress"] = pAvatar_regLoadingProgress;
-
-			pAvatarModule.idbase_methods[pAvatar_regLoadingProgress.methodUtype] = pAvatar_regLoadingProgress;
-
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(regLoadingProgress / 5).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onMatchingFinish / 6).");
 
 			List<DATATYPE_BASE> pAvatar_startMatching_args = new List<DATATYPE_BASE>();
 			pAvatar_startMatching_args.Add(EntityDef.id2datatypes[5]);
@@ -218,7 +202,7 @@ namespace KBEngine
 
 			Method pAvatar_startMatching = new Method();
 			pAvatar_startMatching.name = "startMatching";
-			pAvatar_startMatching.methodUtype = 2;
+			pAvatar_startMatching.methodUtype = 3;
 			pAvatar_startMatching.aliasID = -1;
 			pAvatar_startMatching.args = pAvatar_startMatching_args;
 
@@ -227,7 +211,7 @@ namespace KBEngine
 
 			pAvatarModule.idbase_methods[pAvatar_startMatching.methodUtype] = pAvatar_startMatching;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(startMatching / 2).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(startMatching / 3).");
 
 			List<DATATYPE_BASE> pAvatar_regProgress_args = new List<DATATYPE_BASE>();
 			pAvatar_regProgress_args.Add(EntityDef.id2datatypes[8]);
