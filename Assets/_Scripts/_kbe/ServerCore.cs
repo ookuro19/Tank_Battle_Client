@@ -76,7 +76,7 @@ public class ServerCore : MonoBehaviour
 
     public void onMatchingFinish(int suc)
     {
-        ServerEvents.Instance.MatchingFinish();
+        ServerEvents.Instance.onMatchingFinish();
     }
     #endregion
 
