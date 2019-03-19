@@ -166,35 +166,81 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(roomNo / 5).");
 
+			List<DATATYPE_BASE> pAvatar_onGetProps_args = new List<DATATYPE_BASE>();
+			pAvatar_onGetProps_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_onGetProps = new Method();
+			pAvatar_onGetProps.name = "onGetProps";
+			pAvatar_onGetProps.methodUtype = 13;
+			pAvatar_onGetProps.aliasID = 1;
+			pAvatar_onGetProps.args = pAvatar_onGetProps_args;
+
+			pAvatarModule.methods["onGetProps"] = pAvatar_onGetProps; 
+			pAvatarModule.useMethodDescrAlias = true;
+			pAvatarModule.idmethods[(UInt16)pAvatar_onGetProps.aliasID] = pAvatar_onGetProps;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onGetProps / 13).");
+
 			List<DATATYPE_BASE> pAvatar_onLoadingFinish_args = new List<DATATYPE_BASE>();
 			pAvatar_onLoadingFinish_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAvatar_onLoadingFinish = new Method();
 			pAvatar_onLoadingFinish.name = "onLoadingFinish";
-			pAvatar_onLoadingFinish.methodUtype = 7;
-			pAvatar_onLoadingFinish.aliasID = 1;
+			pAvatar_onLoadingFinish.methodUtype = 10;
+			pAvatar_onLoadingFinish.aliasID = 2;
 			pAvatar_onLoadingFinish.args = pAvatar_onLoadingFinish_args;
 
 			pAvatarModule.methods["onLoadingFinish"] = pAvatar_onLoadingFinish; 
 			pAvatarModule.useMethodDescrAlias = true;
 			pAvatarModule.idmethods[(UInt16)pAvatar_onLoadingFinish.aliasID] = pAvatar_onLoadingFinish;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onLoadingFinish / 7).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onLoadingFinish / 10).");
 
 			List<DATATYPE_BASE> pAvatar_onMatchingFinish_args = new List<DATATYPE_BASE>();
 			pAvatar_onMatchingFinish_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAvatar_onMatchingFinish = new Method();
 			pAvatar_onMatchingFinish.name = "onMatchingFinish";
-			pAvatar_onMatchingFinish.methodUtype = 6;
-			pAvatar_onMatchingFinish.aliasID = 2;
+			pAvatar_onMatchingFinish.methodUtype = 9;
+			pAvatar_onMatchingFinish.aliasID = 3;
 			pAvatar_onMatchingFinish.args = pAvatar_onMatchingFinish_args;
 
 			pAvatarModule.methods["onMatchingFinish"] = pAvatar_onMatchingFinish; 
 			pAvatarModule.useMethodDescrAlias = true;
 			pAvatarModule.idmethods[(UInt16)pAvatar_onMatchingFinish.aliasID] = pAvatar_onMatchingFinish;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onMatchingFinish / 6).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onMatchingFinish / 9).");
+
+			List<DATATYPE_BASE> pAvatar_onReachDestination_args = new List<DATATYPE_BASE>();
+			pAvatar_onReachDestination_args.Add(EntityDef.id2datatypes[8]);
+			pAvatar_onReachDestination_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_onReachDestination = new Method();
+			pAvatar_onReachDestination.name = "onReachDestination";
+			pAvatar_onReachDestination.methodUtype = 11;
+			pAvatar_onReachDestination.aliasID = 4;
+			pAvatar_onReachDestination.args = pAvatar_onReachDestination_args;
+
+			pAvatarModule.methods["onReachDestination"] = pAvatar_onReachDestination; 
+			pAvatarModule.useMethodDescrAlias = true;
+			pAvatarModule.idmethods[(UInt16)pAvatar_onReachDestination.aliasID] = pAvatar_onReachDestination;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onReachDestination / 11).");
+
+			List<DATATYPE_BASE> pAvatar_onTimerChanged_args = new List<DATATYPE_BASE>();
+			pAvatar_onTimerChanged_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_onTimerChanged = new Method();
+			pAvatar_onTimerChanged.name = "onTimerChanged";
+			pAvatar_onTimerChanged.methodUtype = 12;
+			pAvatar_onTimerChanged.aliasID = 5;
+			pAvatar_onTimerChanged.args = pAvatar_onTimerChanged_args;
+
+			pAvatarModule.methods["onTimerChanged"] = pAvatar_onTimerChanged; 
+			pAvatarModule.useMethodDescrAlias = true;
+			pAvatarModule.idmethods[(UInt16)pAvatar_onTimerChanged.aliasID] = pAvatar_onTimerChanged;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(onTimerChanged / 12).");
 
 			List<DATATYPE_BASE> pAvatar_startMatching_args = new List<DATATYPE_BASE>();
 			pAvatar_startMatching_args.Add(EntityDef.id2datatypes[5]);
@@ -202,7 +248,7 @@ namespace KBEngine
 
 			Method pAvatar_startMatching = new Method();
 			pAvatar_startMatching.name = "startMatching";
-			pAvatar_startMatching.methodUtype = 3;
+			pAvatar_startMatching.methodUtype = 6;
 			pAvatar_startMatching.aliasID = -1;
 			pAvatar_startMatching.args = pAvatar_startMatching_args;
 
@@ -211,7 +257,38 @@ namespace KBEngine
 
 			pAvatarModule.idbase_methods[pAvatar_startMatching.methodUtype] = pAvatar_startMatching;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(startMatching / 3).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(startMatching / 6).");
+
+			List<DATATYPE_BASE> pAvatar_getProps_args = new List<DATATYPE_BASE>();
+			pAvatar_getProps_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_getProps = new Method();
+			pAvatar_getProps.name = "getProps";
+			pAvatar_getProps.methodUtype = 4;
+			pAvatar_getProps.aliasID = -1;
+			pAvatar_getProps.args = pAvatar_getProps_args;
+
+			pAvatarModule.methods["getProps"] = pAvatar_getProps; 
+			pAvatarModule.cell_methods["getProps"] = pAvatar_getProps;
+
+			pAvatarModule.idcell_methods[pAvatar_getProps.methodUtype] = pAvatar_getProps;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(getProps / 4).");
+
+			List<DATATYPE_BASE> pAvatar_reachDestination_args = new List<DATATYPE_BASE>();
+
+			Method pAvatar_reachDestination = new Method();
+			pAvatar_reachDestination.name = "reachDestination";
+			pAvatar_reachDestination.methodUtype = 3;
+			pAvatar_reachDestination.aliasID = -1;
+			pAvatar_reachDestination.args = pAvatar_reachDestination_args;
+
+			pAvatarModule.methods["reachDestination"] = pAvatar_reachDestination; 
+			pAvatarModule.cell_methods["reachDestination"] = pAvatar_reachDestination;
+
+			pAvatarModule.idcell_methods[pAvatar_reachDestination.methodUtype] = pAvatar_reachDestination;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(reachDestination / 3).");
 
 			List<DATATYPE_BASE> pAvatar_regProgress_args = new List<DATATYPE_BASE>();
 			pAvatar_regProgress_args.Add(EntityDef.id2datatypes[8]);

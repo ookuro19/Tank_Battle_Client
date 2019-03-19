@@ -124,7 +124,7 @@ public class ServerEvents
     /// <param name="sec">倒计时</param>
     public void onTimerChanged(int sec)
     {
-
+        Debug.LogFormat("-------onTimerChanged : {0} ----------", sec);
     }
 
     /// <summary>
@@ -134,7 +134,10 @@ public class ServerEvents
     /// <param name="type"></param>
     public void onGetProps(int eid, int type)
     {
-
+        if (ClientCore.g_tankDict.ContainsKey(eid))
+        {
+            ClientCore.g_tankDict[eid].onGetProps(type);
+        }
     }
 
     /// <summary>

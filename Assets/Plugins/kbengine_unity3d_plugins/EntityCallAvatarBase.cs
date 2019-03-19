@@ -42,6 +42,25 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
+		public void getProps(Int32 arg1)
+		{
+			Bundle pBundle = newCall("getProps", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			sendCall(null);
+		}
+
+		public void reachDestination()
+		{
+			Bundle pBundle = newCall("reachDestination", 0);
+			if(pBundle == null)
+				return;
+
+			sendCall(null);
+		}
+
 		public void regProgress(Int32 arg1)
 		{
 			Bundle pBundle = newCall("regProgress", 0);

@@ -33,6 +33,7 @@ public class ServerCore : MonoBehaviour
         // matching
         KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
+        KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
 
         // world
         KBEngine.Event.registerOut("set_position", this, "set_position");
@@ -78,11 +79,17 @@ public class ServerCore : MonoBehaviour
     {
         ServerEvents.Instance.onMatchingFinish();
     }
+
+    public void onLoadingFinish(int suc)
+    {
+        ServerEvents.Instance.onLoadingFinish(suc);
+    }
     #endregion
 
+    #region Playing
     public void updatePosition(KBEngine.Entity entity)
     {
-        Debug.LogFormat("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position);
+        // Debug.LogFormat("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position);
         if (entity.renderObj == null)
         {
             Debug.LogError("entity.renderObj == null");
@@ -96,7 +103,7 @@ public class ServerCore : MonoBehaviour
 
     public void set_position(KBEngine.Entity entity)
     {
-        Debug.LogFormat("set_position::entity: {0}, pos: {1}", entity.id, entity.position);
+        // Debug.LogFormat("set_position::entity: {0}, pos: {1}", entity.id, entity.position);
         if (entity.renderObj == null)
             return;
 
@@ -107,7 +114,7 @@ public class ServerCore : MonoBehaviour
 
     public void set_direction(KBEngine.Entity entity)
     {
-        Debug.LogFormat("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction);
+        // Debug.LogFormat("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction);
         if (entity.renderObj == null)
             return;
 
@@ -115,4 +122,6 @@ public class ServerCore : MonoBehaviour
             new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
     }
     #endregion
+
+    #endregion KBEngine
 }

@@ -144,4 +144,17 @@ public class TankMovement : MonoBehaviour
         // Apply this rotation to the rigidbody's rotation.
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!m_isPlayer)
+        {
+            return;
+        }
+
+        if (other.tag == "destination")
+        {
+            ServerEvents.Instance.ReachDestination();
+        }
+    }
 }

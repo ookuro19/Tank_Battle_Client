@@ -58,7 +58,7 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-            Debug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
+            Debug.LogErrorFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
             Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
         }
 
@@ -75,13 +75,12 @@
         {
             if (isPlayer())
             {
-                // Event.fireOut("onLoadingFinish", new object[] { arg1 });
-                ServerEvents.Instance.onLoadingFinish(arg1);
+                Event.fireOut("onLoadingFinish", arg1);
             }
         }
         #endregion
 
-        #region Playing Sendx
+        #region Playing Send
         public virtual void updatePlayer(Vector3 pos, float yaw)
         {
             position.x = pos.x;
@@ -93,29 +92,42 @@
 
         public void getProps(int type)
         {
+            Debug.Log("send get orops info, type: " + type);
             cellCall("getProps", type);
         }
 
         public void reachDestination()
         {
+            Debug.Log("send reachDestination info");
             cellCall("reachDestination");
         }
         #endregion
 
         #region Playing Callback
-        public void onGetProps(int type)
+        /// <summary>
+        /// 玩家获得道具，不一定是当前player
+        /// </summary>
+        /// <param name="type">道具类型</param>
+        public override void onGetProps(int type)
         {
+            Debug.LogFormat("onGetProps, name:{0}, type:{1}", name, type);
             ServerEvents.Instance.onGetProps(id, type);
         }
 
-        public void onTimerChanged(int sec)
+        public override void onTimerChanged(int sec)
         {
+            // Debug.LogFormat("onTimerChanged:{0}, name:{1}", sec, name);
             ServerEvents.Instance.onTimerChanged(sec);
         }
 
         public void onExitRoom(int suc)
         {
             ServerEvents.Instance.onExitRoom(suc);
+        }
+
+        public override void onReachDestination(int arg1, int arg2)
+        {
+            ServerEvents.Instance.onReachDestination(eid: arg1, time: arg2);
         }
         #endregion
     }

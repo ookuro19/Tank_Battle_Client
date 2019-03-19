@@ -26,8 +26,11 @@ namespace KBEngine
 		public Int32 roomNo = 0;
 		public virtual void onRoomNoChanged(Int32 oldValue) {}
 
+		public abstract void onGetProps(Int32 arg1); 
 		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onMatchingFinish(Int32 arg1); 
+		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
+		public abstract void onTimerChanged(Int32 arg1); 
 
 		public AvatarBase()
 		{
@@ -111,13 +114,26 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 7:
+				case 13:
+					Int32 onGetProps_arg1 = stream.readInt32();
+					onGetProps(onGetProps_arg1);
+					break;
+				case 10:
 					Int32 onLoadingFinish_arg1 = stream.readInt32();
 					onLoadingFinish(onLoadingFinish_arg1);
 					break;
-				case 6:
+				case 9:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
+					break;
+				case 11:
+					Int32 onReachDestination_arg1 = stream.readInt32();
+					Int32 onReachDestination_arg2 = stream.readInt32();
+					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
+					break;
+				case 12:
+					Int32 onTimerChanged_arg1 = stream.readInt32();
+					onTimerChanged(onTimerChanged_arg1);
 					break;
 				default:
 					break;

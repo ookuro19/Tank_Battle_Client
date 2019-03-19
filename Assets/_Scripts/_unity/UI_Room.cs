@@ -72,6 +72,7 @@ public class UI_Room : MonoBehaviour
 
     public void PlayerEnterin()
     {
+        Debug.Log("ClientCore.g_tankList.count: " + ClientCore.g_tankList.Count);
         for (int i = 0; i < ClientCore.g_tankList.Count; i++)
         {
             playerUIItem[i].SetItem(ClientCore.g_tankList[i]);

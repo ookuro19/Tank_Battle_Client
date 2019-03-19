@@ -7,6 +7,10 @@ public class ClientCore : MonoBehaviour
 {
     public static ClientCore Instance;
 
+    // 以玩家ID为key的dictionary
+    public static Dictionary<int, TankManager> g_tankDict = new Dictionary<int, TankManager>();
+
+    // 按座位号排序的列表
     public static List<TankManager> g_tankList = new List<TankManager>();
 
     // Use this for initialization
@@ -17,39 +21,10 @@ public class ClientCore : MonoBehaviour
 
     public void AccountEnterWorld(int eid, KBEngine.Avatar account)
     {
-        // Debug.LogError("account.isPlayer():  " + account.isPlayer());
-        if (account.isPlayer())
-        {
-            KBEngine.Avatar tAccount = (KBEngine.Avatar)KBEngineApp.app.player();
-            if (tAccount == null)
-            {
-                Debug.Log("wait create(palyer)!");
-                return;
-            }
-
-            TankManager tm = new TankManager();
-            tm.m_account = account;
-            tm.SetCurPlayer();
-            tm.m_roomNo = account.roomNo;
-            tm.m_avatarName = account.name;
-            PlayerEnterIn(tm);
-
-            Debug.LogError("onEnterWorld, Player: " + account.name);
-        }
-        else
-        {
-            TankManager tm = new TankManager();
-            tm.m_account = account;
-            tm.m_roomNo = account.roomNo;
-            tm.m_avatarName = account.name;
-            PlayerEnterIn(tm);
-            Debug.LogError("onEnterWorld, Enemy" + account.name);
-        }
-    }
-
-    private void PlayerEnterIn(TankManager tPlayer)
-    {
-        g_tankList.Add(tPlayer);
+        TankManager tm = new TankManager();
+        tm.SetAvatar(account);
+        g_tankDict.Add(account.id, tm);
+        g_tankList.Add(tm);
         g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
     }
 }

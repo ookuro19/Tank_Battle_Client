@@ -27,7 +27,7 @@ public class NewEvents
     /// <param name="time">用时</param>
     public void onReachDestination(int eid, float time)
     {
-
+        
     }
 
     /// <summary>

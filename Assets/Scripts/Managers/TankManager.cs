@@ -23,18 +23,26 @@ public class TankManager
 
     //server
     public bool entityEnabled = true;
-    public KBEngine.Avatar m_account;
-    public int m_roomNo;
-    public string m_avatarName;
+    public KBEngine.Avatar m_account { get; private set; }
+    public int m_eid { get; private set; }
+    public int m_roomNo { get; private set; }
+    public string m_avatarName { get; private set; }
     private bool isPlayer = false;
 
-    public void SetCurPlayer()
+    public void SetAvatar(KBEngine.Avatar tAccount)
     {
-        isPlayer = true;
+        m_account = tAccount;
+        m_eid = tAccount.id;
+        m_roomNo = tAccount.roomNo;
+        m_avatarName = tAccount.name;
+        isPlayer = tAccount.isPlayer();
+
+        Debug.LogErrorFormat("onEnterWorld,{0} is Player: {1} ", m_avatarName, isPlayer);
     }
 
     public void Setup()
     {
+        m_Instance.GetComponent<Collider>().enabled = isPlayer;
         // Get references to the components.
         m_Movement = m_Instance.GetComponent<TankMovement>();
         m_Shooting = m_Instance.GetComponent<TankShooting>();
@@ -108,5 +116,10 @@ public class TankManager
             return 0;
         }
         return m_account.progress;
+    }
+
+    public void onGetProps(int type)
+    {
+        Debug.LogErrorFormat("id: {0} get props {1}", m_eid, (EPropType)type);
     }
 }
