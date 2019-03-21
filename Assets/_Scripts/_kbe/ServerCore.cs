@@ -15,7 +15,8 @@ public class ServerCore : MonoBehaviour
 
     void OnDestroy()
     {
-        KBEngine.Event.fireIn("logout");
+        KBEngineApp.app.logout();
+        // KBEngine.Event.fireIn("logout");
     }
     #endregion
 
@@ -35,10 +36,7 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
         KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
 
-        // world
-        KBEngine.Event.registerOut("set_position", this, "set_position");
-        KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
-        KBEngine.Event.registerOut("set_direction", this, "set_direction");
+        
     }
 
     #region login
@@ -87,40 +85,7 @@ public class ServerCore : MonoBehaviour
     #endregion
 
     #region Playing
-    public void updatePosition(KBEngine.Entity entity)
-    {
-        // Debug.LogFormat("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position);
-        if (entity.renderObj == null)
-        {
-            Debug.LogError("entity.renderObj == null");
-            return;
-        }
-
-        GameObject go = ((UnityEngine.GameObject)entity.renderObj);
-        Vector3 currpos = new Vector3(entity.position.x, entity.position.z, entity.position.y);
-        go.transform.position = currpos;
-    }
-
-    public void set_position(KBEngine.Entity entity)
-    {
-        // Debug.LogFormat("set_position::entity: {0}, pos: {1}", entity.id, entity.position);
-        if (entity.renderObj == null)
-            return;
-
-        GameObject go = ((UnityEngine.GameObject)entity.renderObj);
-        Vector3 currpos = new Vector3(entity.position.x, entity.position.z, entity.position.y);
-        go.transform.position = currpos;
-    }
-
-    public void set_direction(KBEngine.Entity entity)
-    {
-        // Debug.LogFormat("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction);
-        if (entity.renderObj == null)
-            return;
-
-        ((UnityEngine.GameObject)entity.renderObj).transform.eulerAngles = 180f / (float)System.Math.PI *
-            new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
-    }
+    
     #endregion
 
     #endregion KBEngine

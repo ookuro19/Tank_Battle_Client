@@ -19,7 +19,7 @@
                 Event.registerIn("updatePlayer", this, "updatePlayer");
                 Event.registerIn("getProps", this, "getProps");
                 Event.registerIn("reachDestination", this, "reachDestination");
-                #endregion
+                #endregion register
 
                 // 触发登陆成功事件
                 Event.fireOut("onLoginSuccessfully", KBEngineApp.app.entity_uuid, id, this);
@@ -52,7 +52,7 @@
                 cellCall("regProgress", progress);
             }
         }
-        #endregion
+        #endregion Matching Send
 
         #region Matching Callback
         public override void onEnterWorld()
@@ -78,14 +78,14 @@
                 Event.fireOut("onLoadingFinish", arg1);
             }
         }
-        #endregion
+        #endregion Matching Callback
 
         #region Playing Send
         public virtual void updatePlayer(Vector3 pos, float yaw)
         {
-            position.x = pos.x;
-            position.y = pos.z;
-            position.z = pos.y;
+            position.x = pos.x / 100f;
+            position.y = pos.z / 100f;
+            position.z = pos.y / 100f;
 
             direction.z = yaw;
         }
@@ -101,7 +101,7 @@
             Debug.Log("send reachDestination info");
             cellCall("reachDestination");
         }
-        #endregion
+        #endregion Playing Send
 
         #region Playing Callback
         /// <summary>

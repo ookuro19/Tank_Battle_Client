@@ -17,6 +17,12 @@ public class ClientCore : MonoBehaviour
     void Start()
     {
         Instance = this;
+        installEvents();
+    }
+
+    void Update()
+    {
+        Debug.LogErrorFormat("distance:{0}", Vector3.Distance(g_tankList[0].m_Instance.transform.position, g_tankList[1].m_Instance.transform.position));
     }
 
     public void AccountEnterWorld(int eid, KBEngine.Avatar account)
@@ -27,4 +33,49 @@ public class ClientCore : MonoBehaviour
         g_tankList.Add(tm);
         g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
     }
+
+    #region KBEngine
+    void installEvents()
+    {
+        // world
+        KBEngine.Event.registerOut("set_position", this, "set_position");
+        KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
+        KBEngine.Event.registerOut("set_direction", this, "set_direction");
+    }
+
+    public void updatePosition(KBEngine.Entity entity)
+    {
+        // Debug.LogFormat("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position);
+        if (entity.renderObj == null)
+        {
+            Debug.LogError("entity.renderObj == null");
+            return;
+        }
+
+        GameObject go = ((UnityEngine.GameObject)entity.renderObj);
+        Vector3 currpos = new Vector3(entity.position.x, entity.position.z, entity.position.y);
+        go.transform.position = currpos * 100f;
+    }
+
+    public void set_position(KBEngine.Entity entity)
+    {
+        // Debug.LogFormat("set_position::entity: {0}, pos: {1}", entity.id, entity.position);
+        if (entity.renderObj == null)
+            return;
+
+        GameObject go = ((UnityEngine.GameObject)entity.renderObj);
+        Vector3 currpos = new Vector3(entity.position.x, entity.position.z, entity.position.y);
+        go.transform.position = currpos * 100f;
+    }
+
+    public void set_direction(KBEngine.Entity entity)
+    {
+        // Debug.LogFormat("set_direction::entity: {0}, rot: {1}", entity.id, entity.direction);
+        if (entity.renderObj == null)
+            return;
+
+        ((UnityEngine.GameObject)entity.renderObj).transform.eulerAngles = 180f / (float)System.Math.PI *
+            new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
+    }
+    #endregion
 }
