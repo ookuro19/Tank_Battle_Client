@@ -29,7 +29,7 @@ public class ServerEvents
     {
         KBEngine.Event.fireIn("login", name, pwd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
     }
-    #endregion
+    #endregion Login Send
 
     #region Login Callback
     /// <summary>
@@ -39,7 +39,7 @@ public class ServerEvents
     {
         SceneManager.LoadScene("Main");
     }
-    #endregion
+    #endregion Login Callback
 
     #region Matching Send
     /// <summary>
@@ -61,7 +61,7 @@ public class ServerEvents
     {
         KBEngine.Event.fireIn("updateProgress", tProcess);
     }
-    #endregion
+    #endregion Matching Send
 
     #region Matching Callback
     public void onAvatarEnter(int eid, KBEngine.Avatar account)
@@ -86,17 +86,9 @@ public class ServerEvents
     {
         UI_Room.onLoadingFinish();
     }
-    #endregion
+    #endregion Matching Callback
 
-    #region Playing Send
-    /// <summary>
-    /// 当前玩家到达终点
-    /// </summary>
-    public void ReachDestination()
-    {
-        KBEngine.Event.fireIn("reachDestination");
-    }
-
+    #region Props Send
     /// <summary>
     /// 当前玩家获得道具
     /// </summary>
@@ -105,9 +97,34 @@ public class ServerEvents
     {
         KBEngine.Event.fireIn("getProps", type);
     }
-    #endregion
+    #endregion Props Send
 
-    #region Playing Callback
+    #region Props Callback
+    /// <summary>
+    /// 其他玩家获得道具
+    /// </summary>
+    /// <param name="eid"></param>
+    /// <param name="type"></param>
+    public void onGetProps(int eid, int type)
+    {
+        if (ClientCore.g_tankDict.ContainsKey(eid))
+        {
+            ClientCore.g_tankDict[eid].onGetProps(type);
+        }
+    }
+    #endregion Props Callback
+
+    #region Destination Send
+    /// <summary>
+    /// 当前玩家到达终点
+    /// </summary>
+    public void ReachDestination()
+    {
+        KBEngine.Event.fireIn("reachDestination");
+    }
+    #endregion Destination Send
+
+    #region Destination Callback
     /// <summary>
     /// 其他玩家到达终点
     /// </summary>
@@ -128,19 +145,6 @@ public class ServerEvents
     }
 
     /// <summary>
-    /// 其他玩家获得道具
-    /// </summary>
-    /// <param name="eid"></param>
-    /// <param name="type"></param>
-    public void onGetProps(int eid, int type)
-    {
-        if (ClientCore.g_tankDict.ContainsKey(eid))
-        {
-            ClientCore.g_tankDict[eid].onGetProps(type);
-        }
-    }
-
-    /// <summary>
     /// 当前玩家是否成功退出房间
     /// </summary>
     /// <param name="suc"></param>
@@ -148,6 +152,54 @@ public class ServerEvents
     {
 
     }
-    #endregion
+    #endregion Destination Callback
+
+    #region Skill Send
+    /// <summary>
+    /// 当前玩家实用技能
+    /// </summary>
+    /// <param name="targetID">施放目标ID</param>
+    /// <param name="skill">技能编号</param>
+    public void useSkill(int targetID, int skill)
+    {
+        KBEngine.Event.fireIn("useSkill", targetID, skill);
+    }
+
+    /// <summary>
+    /// 技能结算结果
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">施放目标ID</param>
+    /// <param name="suc">结算结果编号</param>
+    public void skillResult(int userID, int targetID, int suc)
+    {
+        //最好当前玩家与技能施放者相同时才上报技能计算结果
+        KBEngine.Event.fireIn("skillResult", userID, targetID, suc);
+    }
+    #endregion Skill Send
+
+    #region Skill Callback
+    /// <summary>
+    /// 有玩家施放技能
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">技能目标ID</param>
+    /// <param name="skill">技能编号</param>
+    public void onUseSkill(int userID, int targetID, int skill)
+    {
+
+    }
+
+    /// <summary>
+    /// 技能施放结果回调
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">技能目标ID</param>
+    /// <param name="skill">技能编号</param>
+    public void onSkillResult(int userID, int targetID, int skill)
+    {
+
+    }
+    #endregion Skill Callback
 
 }

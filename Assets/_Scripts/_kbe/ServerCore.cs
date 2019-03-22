@@ -18,10 +18,10 @@ public class ServerCore : MonoBehaviour
         KBEngineApp.app.logout();
         // KBEngine.Event.fireIn("logout");
     }
-    #endregion
-
+    #endregion Unity Method
 
     #region KBEngine
+    
     void installEvents()
     {
         // common
@@ -36,10 +36,16 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
         KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
 
-        
+        // gaming 
+        KBEngine.Event.registerOut("onGetProps", this, "onGetProps");
+        KBEngine.Event.registerOut("onUseSkill", this, "onUseSkill");
+        KBEngine.Event.registerOut("onSkillResult", this, "onSkillResult");
+        KBEngine.Event.registerOut("onTimerChanged", this, "onTimerChanged");
+        KBEngine.Event.registerOut("onExitRoom", this, "onExitRoom");
+        KBEngine.Event.registerOut("onReachDestination", this, "onReachDestination");
     }
 
-    #region login
+    #region Login
     public void onConnectionState(bool success)
     {
         if (!success)
@@ -65,9 +71,9 @@ public class ServerCore : MonoBehaviour
         Debug.Log("login is successfully!(登陆成功!)");
         ServerEvents.Instance.onLoginSuccessfully();
     }
-    #endregion
+    #endregion Login
 
-    #region matching
+    #region Matching
     public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account)
     {
         ServerEvents.Instance.onAvatarEnter(eid, account);
@@ -82,11 +88,59 @@ public class ServerCore : MonoBehaviour
     {
         ServerEvents.Instance.onLoadingFinish(suc);
     }
-    #endregion
+    #endregion Matching
 
-    #region Playing
-    
-    #endregion
+    #region Props
+    /// <summary>
+    /// 玩家获得道具，不一定是当前player
+    /// </summary>
+    /// <param name="type">道具类型</param>
+    public void onGetProps(int id, int type)
+    {
+        ServerEvents.Instance.onGetProps(id, type);
+    }
+    #endregion Props
+
+    #region Skill
+    /// <summary>
+    /// 有玩家施放技能
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">技能目标ID</param>
+    /// <param name="skill">技能编号</param>
+    public void onUseSkill(int userID, int targetID, int skill)
+    {
+        ServerEvents.Instance.onUseSkill(userID, targetID, skill);
+    }
+
+    /// <summary>
+    /// 技能施放结果回调
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">技能目标ID</param>
+    /// <param name="skill">技能编号</param>
+    public void onSkillResult(int userID, int targetID, int skill)
+    {
+        ServerEvents.Instance.onSkillResult(userID, targetID, skill);
+    }
+    #endregion Skill
+
+    #region Destination
+    public void onTimerChanged(int sec)
+    {
+        ServerEvents.Instance.onTimerChanged(sec);
+    }
+
+    public void onExitRoom(int suc)
+    {
+        ServerEvents.Instance.onExitRoom(suc);
+    }
+
+    public void onReachDestination(int eid, int time)
+    {
+        ServerEvents.Instance.onReachDestination(eid, time);
+    }
+    #endregion Destination
 
     #endregion KBEngine
 }

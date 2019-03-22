@@ -18,6 +18,8 @@
                 //比赛
                 Event.registerIn("updatePlayer", this, "updatePlayer");
                 Event.registerIn("getProps", this, "getProps");
+                Event.registerIn("useSkill", this, "useSkill");
+                Event.registerIn("useSkill", this, "useSkill");
                 Event.registerIn("reachDestination", this, "reachDestination");
                 #endregion register
 
@@ -80,7 +82,7 @@
         }
         #endregion Matching Callback
 
-        #region Playing Send
+        #region Transform Send
         public virtual void updatePlayer(Vector3 pos, float yaw)
         {
             position.x = pos.x / 100f;
@@ -89,21 +91,17 @@
 
             direction.z = yaw;
         }
+        #endregion Transform Send
 
+        #region Props Send
         public void getProps(int type)
         {
             Debug.Log("send get orops info, type: " + type);
             cellCall("getProps", type);
         }
+        #endregion Props Send
 
-        public void reachDestination()
-        {
-            Debug.Log("send reachDestination info");
-            cellCall("reachDestination");
-        }
-        #endregion Playing Send
-
-        #region Playing Callback
+        #region Props Callback
         /// <summary>
         /// 玩家获得道具，不一定是当前player
         /// </summary>
@@ -111,24 +109,86 @@
         public override void onGetProps(int type)
         {
             Debug.LogFormat("onGetProps, name:{0}, type:{1}", name, type);
-            ServerEvents.Instance.onGetProps(id, type);
+            Event.fireOut("onGetProps", id, type);
+        }
+        #endregion Props Callback
+
+        #region Skill Send
+        /// <summary>
+        /// 当前玩家实用技能
+        /// </summary>
+        /// <param name="targetID">施放目标ID</param>
+        /// <param name="skill">技能编号</param>
+        public void useSkill(int targetID, int skill)
+        {
+            cellCall("useSkill", targetID, skill);
         }
 
+        /// <summary>
+        /// 技能结算结果
+        /// </summary>
+        /// <param name="userID">使用者ID</param>
+        /// <param name="targetID">施放目标ID</param>
+        /// <param name="suc">结算结果编号</param>
+        public void skillResult(int userID, int targetID, int suc)
+        {
+            //只有当前玩家与技能施放者相同时才上报技能计算结果
+            if (userID == id)
+            {
+                cellCall("skillResult", targetID, suc);
+            }
+        }
+        #endregion Skill Send
+
+        #region Skill Callback
+        /// <summary>
+        /// 有玩家施放技能
+        /// </summary>
+        /// <param name="userID">使用者ID</param>
+        /// <param name="targetID">技能目标ID</param>
+        /// <param name="skill">技能编号</param>
+        public void onUseSkill(int userID, int targetID, int skill)
+        {
+            Event.fireOut("onUseSkill", userID, targetID, skill);
+        }
+
+        /// <summary>
+        /// 技能施放结果回调
+        /// </summary>
+        /// <param name="userID">使用者ID</param>
+        /// <param name="targetID">技能目标ID</param>
+        /// <param name="skill">技能编号</param>
+        public void onSkillResult(int userID, int targetID, int skill)
+        {
+            Event.fireOut("onSkillResult", userID, targetID, skill);
+        }
+        #endregion Skill Callback
+
+        #region Destination Send
+        public void reachDestination()
+        {
+            Debug.Log("send reachDestination info");
+            cellCall("reachDestination");
+        }
+        #endregion Destination Send
+
+        #region Destination Callback
         public override void onTimerChanged(int sec)
         {
             // Debug.LogFormat("onTimerChanged:{0}, name:{1}", sec, name);
-            ServerEvents.Instance.onTimerChanged(sec);
+            Event.fireOut("onTimerChanged", sec);
         }
 
         public void onExitRoom(int suc)
         {
-            ServerEvents.Instance.onExitRoom(suc);
+            Event.fireOut("onExitRoom", suc);
         }
 
         public override void onReachDestination(int arg1, int arg2)
         {
-            ServerEvents.Instance.onReachDestination(eid: arg1, time: arg2);
+            Event.fireOut("onReachDestination", arg1, arg2);
         }
-        #endregion
+        #endregion Destination Callback
+
     }
 }

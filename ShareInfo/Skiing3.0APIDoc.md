@@ -36,6 +36,8 @@ Send:
 |:-: | :-: | :-: |
 | ReachDestination() | Avatar.reachDestination() | cell.reachDestination()|
 | GetProps(int type) | Avatar.getProps(int type)| cell.getProps(int type) |
+|useSkill(targetID, skill) | Avatar.useSkill(targetID, skill) | cell.otherClients.useSkill(id,target_id,skill)
+|skillResult(int userID, int targetID, int suc)|Avatar.skillResult(int userID, int targetID, int suc)|cell.room.skillResult(int userID, int targetID, int suc)|
 
 Callback:
 | C | C/S | S |
@@ -44,3 +46,5 @@ Callback:
 | onGetProps(int type) | Avatar.onGetProps(int eid, int type) | otherClients.onGetProps(type)
 | onTimerChanged(int sec) | Avatar.onTimerChanged(int sec) | cell.onTimerChanged(int sec) |
 | onExitRoom(int suc) | Avatar.onExitRoom(int suc) | base.onExitRoom(int suc)|
+| onUseSkill(userID, targetID, skill) | Avatar.onUseSkill(userID, targetID, skill) | onUseSkill(userID, targetID, skill)|
+|onSkillResult(int userID, int targetID, int skill)| Avatar.onSkillResult(int userID, int targetID, int skill)| cell.room.onSkillResult(int userID, int targetID, int skill)|
