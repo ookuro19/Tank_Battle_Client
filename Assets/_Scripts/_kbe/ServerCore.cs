@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * @Description: 主要用于KBEngine与unity交互的回调，避免线程错误
+ * @Author: ookuro19 
+ * @Date: 2019-03-23 10:51:27 
+ * @Last Modified by: ookuro19
+ * @Last Modified time: 2019-03-23 10:55:54
+ */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -118,10 +125,10 @@ public class ServerCore : MonoBehaviour
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
-    /// <param name="skill">技能编号</param>
-    public void onSkillResult(int userID, int targetID, int skill)
+    /// <param name="suc">结算结果：0命中，1未命中</param>
+    public void onSkillResult(int userID, int targetID, int suc)
     {
-        ServerEvents.Instance.onSkillResult(userID, targetID, skill);
+        ServerEvents.Instance.onSkillResult(userID, targetID, suc);
     }
     #endregion Skill
 

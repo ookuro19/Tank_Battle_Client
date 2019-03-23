@@ -30,7 +30,9 @@ namespace KBEngine
 		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onMatchingFinish(Int32 arg1); 
 		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
+		public abstract void onSkillResult(Int32 arg1, Int32 arg2, Int32 arg3); 
 		public abstract void onTimerChanged(Int32 arg1); 
+		public abstract void onUseSkill(Int32 arg1, Int32 arg2, Int32 arg3); 
 
 		public AvatarBase()
 		{
@@ -118,22 +120,34 @@ namespace KBEngine
 					Int32 onGetProps_arg1 = stream.readInt32();
 					onGetProps(onGetProps_arg1);
 					break;
-				case 10:
+				case 12:
 					Int32 onLoadingFinish_arg1 = stream.readInt32();
 					onLoadingFinish(onLoadingFinish_arg1);
 					break;
-				case 9:
+				case 11:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
 					break;
-				case 11:
+				case 16:
 					Int32 onReachDestination_arg1 = stream.readInt32();
 					Int32 onReachDestination_arg2 = stream.readInt32();
 					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
 					break;
-				case 12:
+				case 15:
+					Int32 onSkillResult_arg1 = stream.readInt32();
+					Int32 onSkillResult_arg2 = stream.readInt32();
+					Int32 onSkillResult_arg3 = stream.readInt32();
+					onSkillResult(onSkillResult_arg1, onSkillResult_arg2, onSkillResult_arg3);
+					break;
+				case 17:
 					Int32 onTimerChanged_arg1 = stream.readInt32();
 					onTimerChanged(onTimerChanged_arg1);
+					break;
+				case 14:
+					Int32 onUseSkill_arg1 = stream.readInt32();
+					Int32 onUseSkill_arg2 = stream.readInt32();
+					Int32 onUseSkill_arg3 = stream.readInt32();
+					onUseSkill(onUseSkill_arg1, onUseSkill_arg2, onUseSkill_arg3);
 					break;
 				default:
 					break;

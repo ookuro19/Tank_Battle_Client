@@ -13,6 +13,8 @@ public class ClientCore : MonoBehaviour
     // 按座位号排序的列表
     public static List<TankManager> g_tankList = new List<TankManager>();
 
+
+
     // Use this for initialization
     void Start()
     {
@@ -20,9 +22,12 @@ public class ClientCore : MonoBehaviour
         installEvents();
     }
 
-    void Update()
+    void installEvents()
     {
-        Debug.LogErrorFormat("distance:{0}", Vector3.Distance(g_tankList[0].m_Instance.transform.position, g_tankList[1].m_Instance.transform.position));
+        // world
+        KBEngine.Event.registerOut("set_position", this, "set_position");
+        KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
+        KBEngine.Event.registerOut("set_direction", this, "set_direction");
     }
 
     public void AccountEnterWorld(int eid, KBEngine.Avatar account)
@@ -34,15 +39,7 @@ public class ClientCore : MonoBehaviour
         g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
     }
 
-    #region KBEngine
-    void installEvents()
-    {
-        // world
-        KBEngine.Event.registerOut("set_position", this, "set_position");
-        KBEngine.Event.registerOut("updatePosition", this, "updatePosition");
-        KBEngine.Event.registerOut("set_direction", this, "set_direction");
-    }
-
+    #region Transform
     public void updatePosition(KBEngine.Entity entity)
     {
         // Debug.LogFormat("updatePosition:: entity: {0}, pos: {1}", entity.id, entity.position);
@@ -77,5 +74,74 @@ public class ClientCore : MonoBehaviour
         ((UnityEngine.GameObject)entity.renderObj).transform.eulerAngles = 180f / (float)System.Math.PI *
             new Vector3(entity.direction.y, entity.direction.z, entity.direction.x);
     }
-    #endregion
+    #endregion Transform
+
+    #region Props
+    public void onGetProps(int eid, int type)
+    {
+        if (g_tankDict.ContainsKey(eid))
+        {
+            g_tankDict[eid].onGetProps(type);
+        }
+    }
+    #endregion Props
+
+    #region Skill
+    public int GetEnemyID(int selfID)
+    {
+        int tid = 0;
+        if (g_tankDict.ContainsKey(selfID))
+        {
+            foreach (var key in g_tankDict.Keys)
+            {
+                // Debug.LogFormat("g_tankDict key is : {0}", key);
+                if (key != selfID)
+                {
+                    tid = key;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            tid = 0;
+        }
+
+        // Debug.LogFormat("player {0} enemy is : {1}", selfID, tid);
+
+        return tid;
+    }
+
+    /// <summary>
+    /// 有玩家施放技能
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">技能目标ID</param>
+    /// <param name="skill">技能编号</param>
+    public void onUseSkill(int userID, int targetID, int skill)
+    {
+        if (g_tankDict.ContainsKey(userID)
+                && g_tankDict.ContainsKey(targetID))
+        {
+            g_tankDict[userID].onUseSkill(g_tankDict[targetID], skill);
+        }
+    }
+
+    /// <summary>
+    /// 技能施放结果回调
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">技能目标ID</param>
+    /// <param name="suc">结算结果：0命中，1未命中</param>
+    public void onSkillResult(int userID, int targetID, int suc)
+    {
+        if (g_tankDict.ContainsKey(targetID))
+        {
+            
+            g_tankDict[targetID].onSkillResult(suc); 
+        }
+    }
+    #endregion skill
+
+
 }

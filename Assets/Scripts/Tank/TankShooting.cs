@@ -13,7 +13,6 @@ public class TankShooting : MonoBehaviour
     public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
-
     private string m_FireButton;                // The input axis that is used for launching shells.
     private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
     private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
@@ -21,6 +20,7 @@ public class TankShooting : MonoBehaviour
 
     //Server
     [HideInInspector] public bool m_isPlayer = false;
+    [HideInInspector] public TankManager m_tankmanager = null;
 
     private void OnEnable()
     {
@@ -89,18 +89,24 @@ public class TankShooting : MonoBehaviour
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
+        // Reset the launch force.  This is a precaution in case of missing button events.
+        m_CurrentLaunchForce = m_MinLaunchForce;
+
+        ServerEvents.Instance.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), 0);
+    }
+
+    public void onUseSkill(TankManager target, int skill)
+    {
         // Create an instance of the shell and store a reference to it's rigidbody.
         Rigidbody shellInstance =
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
+        shellInstance.velocity = m_MinLaunchForce * (target.m_Instance.transform.position - transform.position).normalized;// m_CurrentLaunchForce * m_FireTransform.forward;
 
+        shellInstance.GetComponent<ShellExplosion>().SetUp(m_tankmanager.m_eid, target.m_eid, m_isPlayer);
         // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
-
-        // Reset the launch force.  This is a precaution in case of missing button events.
-        m_CurrentLaunchForce = m_MinLaunchForce;
     }
 }

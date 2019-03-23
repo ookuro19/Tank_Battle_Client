@@ -10,15 +10,16 @@ public class TankManager
     // and whether or not players have control of their tank in the 
     // different phases of the game.
 
-    public Color m_PlayerColor = Color.blue;                             // This is the color this tank will be tinted.
+    public Color m_PlayerColor = Color.blue;                // This is the color this tank will be tinted.
     public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
     [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
     [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.
     [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
     [HideInInspector] public int m_Wins;                    // The number of wins this player has so far.
 
-    private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
-    private TankShooting m_Shooting;                        // Reference to tank's shooting script, used to disable and enable control.
+    private TankMovement m_movement;                        // Reference to tank's movement script, used to disable and enable control.
+    private TankShooting m_shooting;                        // Reference to tank's shooting script, used to disable and enable control.
+    private TankHealth m_health;                          // Reference to tank's health script, used to disable and enable control.
     private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
 
     //server
@@ -42,16 +43,17 @@ public class TankManager
 
     public void Setup()
     {
-        m_Instance.GetComponent<Collider>().enabled = isPlayer;
+        // m_Instance.GetComponent<Collider>().enabled = isPlayer;
         // Get references to the components.
-        m_Movement = m_Instance.GetComponent<TankMovement>();
-        m_Shooting = m_Instance.GetComponent<TankShooting>();
-        m_Instance.GetComponent<TankHealth>().SetIDText(m_avatarName);
+        m_movement = m_Instance.GetComponent<TankMovement>();
+        m_shooting = m_Instance.GetComponent<TankShooting>();
+        m_health = m_Instance.GetComponent<TankHealth>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
-        m_Movement.m_isPlayer = isPlayer;
-        m_Shooting.m_isPlayer = isPlayer;
-
+        m_movement.m_isPlayer = isPlayer;
+        m_shooting.m_isPlayer = isPlayer;
+        m_shooting.m_tankmanager = this;
+        m_health.SetIDText(m_avatarName);
         // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
         m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
 
@@ -74,8 +76,8 @@ public class TankManager
     // Used during the phases of the game where the player shouldn't be able to control their tank.
     public void DisableControl()
     {
-        m_Movement.enabled = false;
-        m_Shooting.enabled = false;
+        m_movement.enabled = false;
+        m_shooting.enabled = false;
 
         m_CanvasGameObject.SetActive(false);
     }
@@ -83,8 +85,8 @@ public class TankManager
     // Used during the phases of the game where the player should be able to control their tank.
     public void EnableControl()
     {
-        m_Movement.enabled = true;
-        m_Shooting.enabled = true;
+        m_movement.enabled = true;
+        m_shooting.enabled = true;
 
         m_CanvasGameObject.SetActive(true);
     }
@@ -121,5 +123,23 @@ public class TankManager
     public void onGetProps(int type)
     {
         Debug.LogErrorFormat("id: {0} get props {1}", m_eid, (EPropType)type);
+    }
+
+    // 向target使用技能
+    public void onUseSkill(TankManager targetTM, int skill)
+    {
+        m_shooting.onUseSkill(targetTM, skill);
+    }
+
+    /// <summary>
+    /// 被使用技能的结算结果
+    /// </summary>
+    /// <param name="suc">结算结果：0命中，1未命中</param>
+    public void onSkillResult(int suc)
+    {
+        if (suc == 0)
+        {
+            m_health.TakeDamage(10);
+        }
     }
 }

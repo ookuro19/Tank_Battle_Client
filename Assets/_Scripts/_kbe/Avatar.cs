@@ -19,7 +19,7 @@
                 Event.registerIn("updatePlayer", this, "updatePlayer");
                 Event.registerIn("getProps", this, "getProps");
                 Event.registerIn("useSkill", this, "useSkill");
-                Event.registerIn("useSkill", this, "useSkill");
+                Event.registerIn("skillResult", this, "skillResult");
                 Event.registerIn("reachDestination", this, "reachDestination");
                 #endregion register
 
@@ -146,9 +146,10 @@
         /// </summary>
         /// <param name="userID">使用者ID</param>
         /// <param name="targetID">技能目标ID</param>
-        /// <param name="skill">技能编号</param>
-        public void onUseSkill(int userID, int targetID, int skill)
+        /// <param name="suc">结算结果：0命中，1未命中</param>
+        public override void onUseSkill(int userID, int targetID, int skill)
         {
+            Debug.LogFormat("{0} use skill {1} to {2}", userID, skill, targetID);
             Event.fireOut("onUseSkill", userID, targetID, skill);
         }
 
@@ -157,10 +158,12 @@
         /// </summary>
         /// <param name="userID">使用者ID</param>
         /// <param name="targetID">技能目标ID</param>
-        /// <param name="skill">技能编号</param>
-        public void onSkillResult(int userID, int targetID, int skill)
+        /// <param name="suc">结算结果：0命中，1未命中</param>
+        public override void onSkillResult(int userID, int targetID, int suc)
         {
-            Event.fireOut("onSkillResult", userID, targetID, skill);
+
+            Debug.LogFormat("{0} use skill hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
+            Event.fireOut("onSkillResult", userID, targetID, suc);
         }
         #endregion Skill Callback
 

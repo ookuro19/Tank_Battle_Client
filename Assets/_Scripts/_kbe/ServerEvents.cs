@@ -107,10 +107,7 @@ public class ServerEvents
     /// <param name="type"></param>
     public void onGetProps(int eid, int type)
     {
-        if (ClientCore.g_tankDict.ContainsKey(eid))
-        {
-            ClientCore.g_tankDict[eid].onGetProps(type);
-        }
+        ClientCore.Instance.onGetProps(eid, type);
     }
     #endregion Props Callback
 
@@ -187,7 +184,7 @@ public class ServerEvents
     /// <param name="skill">技能编号</param>
     public void onUseSkill(int userID, int targetID, int skill)
     {
-
+        ClientCore.Instance.onUseSkill(userID, targetID, skill);
     }
 
     /// <summary>
@@ -195,10 +192,10 @@ public class ServerEvents
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
-    /// <param name="skill">技能编号</param>
-    public void onSkillResult(int userID, int targetID, int skill)
+    /// <param name="suc">结算结果：0命中，1未命中</param>
+    public void onSkillResult(int userID, int targetID, int suc)
     {
-
+        ClientCore.Instance.onSkillResult(userID, targetID, suc);
     }
     #endregion Skill Callback
 

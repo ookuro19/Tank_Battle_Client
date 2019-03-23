@@ -71,5 +71,27 @@ namespace KBEngine
 			sendCall(null);
 		}
 
+		public void skillResult(Int32 arg1, Int32 arg2)
+		{
+			Bundle pBundle = newCall("skillResult", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			bundle.writeInt32(arg2);
+			sendCall(null);
+		}
+
+		public void useSkill(Int32 arg1, Int32 arg2)
+		{
+			Bundle pBundle = newCall("useSkill", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			bundle.writeInt32(arg2);
+			sendCall(null);
+		}
+
 	}
 	}
