@@ -117,7 +117,7 @@ public class ClientCore : MonoBehaviour
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
-    /// <param name="skill">技能编号</param>
+    /// <param name="skill">本来是技能编号，本游戏中作为炮弹力度大小</param>
     public void onUseSkill(int userID, int targetID, int skill)
     {
         if (g_tankDict.ContainsKey(userID)

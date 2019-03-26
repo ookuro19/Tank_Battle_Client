@@ -89,10 +89,10 @@ public class TankShooting : MonoBehaviour
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
+        ServerEvents.Instance.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), (int)m_CurrentLaunchForce);
+
         // Reset the launch force.  This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
-
-        ServerEvents.Instance.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), 0);
     }
 
     public void onUseSkill(TankManager target, int skill)
@@ -102,7 +102,7 @@ public class TankShooting : MonoBehaviour
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        shellInstance.velocity = m_MinLaunchForce * (target.m_Instance.transform.position - transform.position).normalized;// m_CurrentLaunchForce * m_FireTransform.forward;
+        shellInstance.velocity = (float)skill * m_FireTransform.forward;
 
         shellInstance.GetComponent<ShellExplosion>().SetUp(m_tankmanager.m_eid, target.m_eid, m_isPlayer);
         // Change the clip to the firing clip and play it.
