@@ -39,6 +39,35 @@ public class ServerEvents
     {
         SceneManager.LoadScene("Main");
     }
+
+    /// <summary>
+    /// 玩家登陆时在服务器中的状态
+    /// </summary>
+    /// <param name="loginState">0-未登录或未匹配; 1-匹配但未比赛; 2-比赛中</param>
+    public void onLoginState(int loginState)
+    {
+        switch (loginState)
+        {
+            case 0:
+                {
+                    break;
+                }
+            case 1:
+                {
+
+                    break;
+                }
+            case 2:
+                {
+                    SceneManager.LoadSceneAsync("World");
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
     #endregion Login Callback
 
     #region Matching Send
@@ -67,7 +96,6 @@ public class ServerEvents
     public void onAvatarEnter(int eid, KBEngine.Avatar account)
     {
         ClientCore.Instance.AccountEnterWorld(eid, account);
-        UI_Room.Instance.PlayerEnterin();
     }
 
     /// <summary>
@@ -75,7 +103,7 @@ public class ServerEvents
     /// </summary>
     public void onMatchingFinish()
     {
-        UI_Room.isStartLoading = true;
+        UI_Room.Instance.StartLoading();
     }
 
     /// <summary>
@@ -111,45 +139,6 @@ public class ServerEvents
     }
     #endregion Props Callback
 
-    #region Destination Send
-    /// <summary>
-    /// 当前玩家到达终点
-    /// </summary>
-    public void ReachDestination()
-    {
-        KBEngine.Event.fireIn("reachDestination");
-    }
-    #endregion Destination Send
-
-    #region Destination Callback
-    /// <summary>
-    /// 其他玩家到达终点
-    /// </summary>
-    /// <param name="eid">玩家实体ID</param>
-    /// <param name="time">用时</param>
-    public void onReachDestination(int eid, float time)
-    {
-
-    }
-
-    /// <summary>
-    /// 有玩家抵达终点后，服务器发来的统一倒计时
-    /// </summary>
-    /// <param name="sec">倒计时</param>
-    public void onTimerChanged(int sec)
-    {
-        Debug.LogFormat("-------onTimerChanged : {0} ----------", sec);
-    }
-
-    /// <summary>
-    /// 当前玩家是否成功退出房间
-    /// </summary>
-    /// <param name="suc"></param>
-    public void onExitRoom(int suc)
-    {
-
-    }
-    #endregion Destination Callback
 
     #region Skill Send
     /// <summary>
@@ -198,5 +187,46 @@ public class ServerEvents
         ClientCore.Instance.onSkillResult(userID, targetID, suc);
     }
     #endregion Skill Callback
+
+    #region Destination Send
+    /// <summary>
+    /// 当前玩家到达终点
+    /// </summary>
+    public void ReachDestination()
+    {
+        KBEngine.Event.fireIn("reachDestination");
+    }
+    #endregion Destination Send
+
+    #region Destination Callback
+    /// <summary>
+    /// 其他玩家到达终点
+    /// </summary>
+    /// <param name="eid">玩家实体ID</param>
+    /// <param name="time">用时</param>
+    public void onReachDestination(int eid, float time)
+    {
+
+    }
+
+    /// <summary>
+    /// 有玩家抵达终点后，服务器发来的统一倒计时
+    /// </summary>
+    /// <param name="sec">倒计时</param>
+    public void onTimerChanged(int sec)
+    {
+        Debug.LogFormat("-------onTimerChanged : {0} ----------", sec);
+    }
+
+    /// <summary>
+    /// 当前玩家是否成功退出房间
+    /// </summary>
+    /// <param name="suc"></param>
+    public void onExitRoom(int suc)
+    {
+        ClientCore.Instance.ExitRoom();
+        SceneManager.LoadScene("Main");
+    }
+    #endregion Destination Callback
 
 }

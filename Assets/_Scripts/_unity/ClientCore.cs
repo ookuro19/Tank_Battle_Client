@@ -13,8 +13,6 @@ public class ClientCore : MonoBehaviour
     // 按座位号排序的列表
     public static List<TankManager> g_tankList = new List<TankManager>();
 
-
-
     // Use this for initialization
     void Start()
     {
@@ -37,6 +35,17 @@ public class ClientCore : MonoBehaviour
         g_tankDict.Add(account.id, tm);
         g_tankList.Add(tm);
         g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
+    }
+
+    public void ExitRoom()
+    {
+        for (int i = 0; i < g_tankList.Count; i++)
+        {
+            g_tankList[i].m_Instance = null;
+            g_tankList[i].m_account.renderObj = null;
+        }
+        g_tankDict.Clear();
+        g_tankList.Clear();
     }
 
     #region Transform
@@ -137,8 +146,8 @@ public class ClientCore : MonoBehaviour
     {
         if (g_tankDict.ContainsKey(targetID))
         {
-            
-            g_tankDict[targetID].onSkillResult(suc); 
+
+            g_tankDict[targetID].onSkillResult(suc);
         }
     }
     #endregion skill

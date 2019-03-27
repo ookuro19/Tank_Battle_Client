@@ -23,17 +23,17 @@ public class UI_Room : MonoBehaviour
         {
             playerUIItem[i].Reset();
         }
+
+        isStartLoading = false;
+
+        Debug.Log("isStartLoading is : " + isStartLoading);
     }
 
     void Update()
     {
-        if (isStartLoading)
-        {
-            isStartLoading = false;
-            StartCoroutine(LoadingScene());
-        }
+        PlayerEnterIn();
 
-        if (async == null)
+        if (!isStartLoading)
         {
             return;
         }
@@ -50,12 +50,18 @@ public class UI_Room : MonoBehaviour
             tProcess = 100;
         }
 
-        // Debug.LogFormat("Cur Player progress is: {0}", tProcess);
-        if (nowProcess < tProcess)
+        if (nowProcess <= tProcess)
         {
+            Debug.LogErrorFormat("tprogress is : {0}, nowProgress is : {1}", tProcess, nowProcess);
             nowProcess = tProcess;
             ServerEvents.Instance.UpdateLoadingProgress(nowProcess);
         }
+    }
+
+    public void StartLoading()
+    {
+        isStartLoading = true;
+        StartCoroutine(LoadingScene());
     }
 
     public IEnumerator LoadingScene()
@@ -70,9 +76,9 @@ public class UI_Room : MonoBehaviour
         async.allowSceneActivation = true;
     }
 
-    public void PlayerEnterin()
+    public void PlayerEnterIn()
     {
-        Debug.Log("ClientCore.g_tankList.count: " + ClientCore.g_tankList.Count);
+        // Debug.Log("ClientCore.g_tankList.count: " + ClientCore.g_tankList.Count);
         for (int i = 0; i < ClientCore.g_tankList.Count; i++)
         {
             playerUIItem[i].SetItem(ClientCore.g_tankList[i]);

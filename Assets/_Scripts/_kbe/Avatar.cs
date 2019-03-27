@@ -37,10 +37,23 @@
             }
         }
 
+        #region Login Callback
+        /// <summary>
+        /// 玩家登陆时在服务器中的状态
+        /// </summary>
+        /// <param name="arg1">0-未登录或未匹配; 1-匹配但未比赛; 2-比赛中</param>
+        public override void onLoginState(int arg1)
+        {
+            Debug.LogErrorFormat("onLoginState : {0}", arg1);
+            Event.fireOut("onLoginState", arg1);
+        }
+        #endregion Login Callback
+
         #region Matching Send
         // 玩家发送匹配请求
         public void StartMatching(int map, int mode)
         {
+            progress = 0;
             Debug.Log("Player Start Matching, id:" + id);
             baseCall("startMatching", map, mode);
         }
@@ -49,10 +62,15 @@
         {
             if (progress < tprogerss)
             {
+                Debug.LogErrorFormat("Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
                 progress = tprogerss;
-                // Debug.LogErrorFormat("Player:{0} updateProgress:{1}", name, progress);
                 cellCall("regProgress", progress);
             }
+        }
+
+        public override void onProgressChanged(int oldValue)
+        {
+            Debug.LogErrorFormat("Player:{0} onProgressChanged:{1}", name, progress);
         }
         #endregion Matching Send
 
@@ -182,7 +200,7 @@
             Event.fireOut("onTimerChanged", sec);
         }
 
-        public void onExitRoom(int suc)
+        public override void onExitRoom(int suc)
         {
             Event.fireOut("onExitRoom", suc);
         }

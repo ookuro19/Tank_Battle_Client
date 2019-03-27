@@ -22,13 +22,13 @@ public class ServerCore : MonoBehaviour
 
     void OnDestroy()
     {
-        KBEngineApp.app.logout();
-        // KBEngine.Event.fireIn("logout");
+        // KBEngineApp.app.logout();
+        KBEngine.Event.fireIn("logout");
     }
     #endregion Unity Method
 
     #region KBEngine
-    
+
     void installEvents()
     {
         // common
@@ -37,6 +37,7 @@ public class ServerCore : MonoBehaviour
         // login
         KBEngine.Event.registerOut("onLoginFailed", this, "onLoginFailed");
         KBEngine.Event.registerOut("onLoginSuccessfully", this, "onLoginSuccessfully");
+        KBEngine.Event.registerOut("onLoginState", this, "onLoginState");
 
         // matching
         KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
@@ -77,6 +78,15 @@ public class ServerCore : MonoBehaviour
     {
         Debug.Log("login is successfully!(登陆成功!)");
         ServerEvents.Instance.onLoginSuccessfully();
+    }
+
+    /// <summary>
+    /// 玩家登陆时在服务器中的状态
+    /// </summary>
+    /// <param name="loginState">0-未登录或未匹配; 1-匹配但未比赛; 2-比赛中</param>
+    public void onLoginState(int loginState)
+    {
+        ServerEvents.Instance.onLoginState(loginState);
     }
     #endregion Login
 
@@ -140,6 +150,7 @@ public class ServerCore : MonoBehaviour
 
     public void onExitRoom(int suc)
     {
+        Debug.Log("onExitRoom");
         ServerEvents.Instance.onExitRoom(suc);
     }
 

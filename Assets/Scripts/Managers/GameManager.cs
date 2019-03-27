@@ -22,12 +22,16 @@ public class GameManager : MonoBehaviour
     private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
     private List<TankManager> m_tankList = new List<TankManager>();
 
-    private void Start()
+    private IEnumerator Start()
     {
         // Create the delays so they only have to be made once.
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
         m_tankList = ClientCore.g_tankList;
+
+        yield return new WaitUntil(() => (m_tankList.Count >= 2));
+        Debug.LogErrorFormat("player count is {0}, game will begin", m_tankList.Count);
+
         SpawnAllTanks();
         SetCameraTargets();
 

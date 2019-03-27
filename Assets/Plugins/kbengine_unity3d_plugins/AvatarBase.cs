@@ -26,8 +26,10 @@ namespace KBEngine
 		public Int32 roomNo = 0;
 		public virtual void onRoomNoChanged(Int32 oldValue) {}
 
+		public abstract void onExitRoom(Int32 arg1); 
 		public abstract void onGetProps(Int32 arg1); 
 		public abstract void onLoadingFinish(Int32 arg1); 
+		public abstract void onLoginState(Int32 arg1); 
 		public abstract void onMatchingFinish(Int32 arg1); 
 		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
 		public abstract void onSkillResult(Int32 arg1, Int32 arg2, Int32 arg3); 
@@ -116,34 +118,42 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 13:
+				case 19:
+					Int32 onExitRoom_arg1 = stream.readInt32();
+					onExitRoom(onExitRoom_arg1);
+					break;
+				case 14:
 					Int32 onGetProps_arg1 = stream.readInt32();
 					onGetProps(onGetProps_arg1);
 					break;
-				case 12:
+				case 13:
 					Int32 onLoadingFinish_arg1 = stream.readInt32();
 					onLoadingFinish(onLoadingFinish_arg1);
 					break;
 				case 11:
+					Int32 onLoginState_arg1 = stream.readInt32();
+					onLoginState(onLoginState_arg1);
+					break;
+				case 12:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
 					break;
-				case 16:
+				case 17:
 					Int32 onReachDestination_arg1 = stream.readInt32();
 					Int32 onReachDestination_arg2 = stream.readInt32();
 					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
 					break;
-				case 15:
+				case 16:
 					Int32 onSkillResult_arg1 = stream.readInt32();
 					Int32 onSkillResult_arg2 = stream.readInt32();
 					Int32 onSkillResult_arg3 = stream.readInt32();
 					onSkillResult(onSkillResult_arg1, onSkillResult_arg2, onSkillResult_arg3);
 					break;
-				case 17:
+				case 18:
 					Int32 onTimerChanged_arg1 = stream.readInt32();
 					onTimerChanged(onTimerChanged_arg1);
 					break;
-				case 14:
+				case 15:
 					Int32 onUseSkill_arg1 = stream.readInt32();
 					Int32 onUseSkill_arg2 = stream.readInt32();
 					Int32 onUseSkill_arg3 = stream.readInt32();
@@ -261,7 +271,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 5:
+					case 6:
 						Int32 oldval_roomNo = roomNo;
 						roomNo = stream.readInt32();
 
