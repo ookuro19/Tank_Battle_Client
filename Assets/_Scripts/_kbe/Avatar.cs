@@ -6,6 +6,19 @@
 
     public class Avatar : AvatarBase
     {
+        private string _name = "";
+        public string name
+        {
+            get
+            {
+                if (_name == "")
+                {
+                    _name = UnicodeToString(nameS);
+                }
+                return _name;
+            }
+        }
+
         public override void __init__()
         {
             if (isPlayer())
@@ -51,11 +64,11 @@
 
         #region Matching Send
         // 玩家发送匹配请求
-        public void StartMatching(int map, int mode)
+        public void StartMatching(int map, int mode, int matchCode)
         {
             progress = 0;
             Debug.Log("Player Start Matching, id:" + id);
-            baseCall("startMatching", map, mode);
+            baseCall("startMatching", map, mode, matchCode);
         }
 
         public void updateProgress(int tprogerss)
@@ -80,6 +93,19 @@
             base.onEnterWorld();
             Debug.LogErrorFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
             Event.fireOut("onAccountEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
+        }
+
+        /// <summary>
+        /// 设置玩家的地图和模式编号
+        /// </summary>
+        /// <param name="arg1">100 * mode + map</param>
+        public override void onSetGameMapMode(int arg1)
+        {
+            if (isPlayer())
+            {
+                Debug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", arg1 % 100, arg1 / 100);
+                Event.fireOut("onSetGameMapMode", arg1);
+            }
         }
 
         public override void onMatchingFinish(int arg1)
@@ -210,6 +236,24 @@
             Event.fireOut("onReachDestination", arg1, arg2);
         }
         #endregion Destination Callback
+
+        #region util
+        /// <summary>
+        /// Unicode转字符串
+        /// </summary>
+        /// <returns>The to string.</returns>
+        /// <param name="unicode">Unicode.</param>
+        private string UnicodeToString(string unicode)
+        {
+            string resultStr = "";
+            string[] strList = unicode.Split('u');
+            for (int i = 1; i < strList.Length; i++)
+            {
+                resultStr += (char)int.Parse(strList[i], System.Globalization.NumberStyles.HexNumber);
+            }
+            return resultStr;
+        }
+        #endregion util
 
     }
 }

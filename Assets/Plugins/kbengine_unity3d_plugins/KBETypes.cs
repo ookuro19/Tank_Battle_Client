@@ -938,74 +938,111 @@ namespace KBEngine
 
 	public struct MAP_NUM
 	{
-		UInt64 value;
+		Int32 value;
 
-		MAP_NUM(UInt64 value)
+		MAP_NUM(Int32 value)
 		{
 			this.value = value;
 		}
 
-		public static implicit operator UInt64(MAP_NUM value)
+		public static implicit operator Int32(MAP_NUM value)
 		{
 			return value.value;
 		}
 
-		public static implicit operator MAP_NUM(UInt64 value)
+		public static implicit operator MAP_NUM(Int32 value)
 		{
-			UInt64 tvalue = (UInt64)value;
+			Int32 tvalue = (Int32)value;
 			return new MAP_NUM(tvalue);
 		}
 
-		public static UInt64 MaxValue
+		public static Int32 MaxValue
 		{
 			get
 			{
-				return UInt64.MaxValue;
+				return Int32.MaxValue;
 			}
 		}
 
-		public static UInt64 MinValue
+		public static Int32 MinValue
 		{
 			get
 			{
-				return UInt64.MinValue;
+				return Int32.MinValue;
 			}
 		}
 	}
 
 	public struct MODE_NUM
 	{
-		UInt64 value;
+		Int32 value;
 
-		MODE_NUM(UInt64 value)
+		MODE_NUM(Int32 value)
 		{
 			this.value = value;
 		}
 
-		public static implicit operator UInt64(MODE_NUM value)
+		public static implicit operator Int32(MODE_NUM value)
 		{
 			return value.value;
 		}
 
-		public static implicit operator MODE_NUM(UInt64 value)
+		public static implicit operator MODE_NUM(Int32 value)
 		{
-			UInt64 tvalue = (UInt64)value;
+			Int32 tvalue = (Int32)value;
 			return new MODE_NUM(tvalue);
 		}
 
-		public static UInt64 MaxValue
+		public static Int32 MaxValue
 		{
 			get
 			{
-				return UInt64.MaxValue;
+				return Int32.MaxValue;
 			}
 		}
 
-		public static UInt64 MinValue
+		public static Int32 MinValue
 		{
 			get
 			{
-				return UInt64.MinValue;
+				return Int32.MinValue;
+			}
+		}
+	}
+
+	public struct MATCH_CODE
+	{
+		Int32 value;
+
+		MATCH_CODE(Int32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator Int32(MATCH_CODE value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator MATCH_CODE(Int32 value)
+		{
+			Int32 tvalue = (Int32)value;
+			return new MATCH_CODE(tvalue);
+		}
+
+		public static Int32 MaxValue
+		{
+			get
+			{
+				return Int32.MaxValue;
+			}
+		}
+
+		public static Int32 MinValue
+		{
+			get
+			{
+				return Int32.MinValue;
 			}
 		}
 	}

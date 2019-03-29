@@ -8,12 +8,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using KBEngine;
 using UnityEngine.SceneManagement;
 
+public enum EPlatform
+{
+    steam,
+    ocgo,
+    mi,
+    htcwave
+}
+
 public class ServerCore : MonoBehaviour
 {
+
     #region Unity Method
     void Start()
     {
@@ -40,6 +50,7 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerOut("onLoginState", this, "onLoginState");
 
         // matching
+        KBEngine.Event.registerOut("onSetGameMapMode", this, "onSetGameMapMode");
         KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
         KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
@@ -54,6 +65,16 @@ public class ServerCore : MonoBehaviour
     }
 
     #region Login
+    /// <summary>
+    /// 玩家登录
+    /// </summary>
+    /// <param name="name">玩家名称</param>
+    /// <param name="pwd">密码</param>
+    public static void PlayerLogin(string name, string pwd)
+    {
+        KBEngine.Event.fireIn("login", StringToUnicode(name), pwd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+    }
+
     public void onConnectionState(bool success)
     {
         if (!success)
@@ -90,7 +111,17 @@ public class ServerCore : MonoBehaviour
     }
     #endregion Login
 
+    /// <summary>
+    /// 设置玩家的地图和模式编号
+    /// </summary>
+    /// <param name="arg1">100 * mode + map</param>
+    public void onSetGameMapMode(int arg1)
+    {
+        ServerEvents.Instance.onSetGameMapMode(arg1);
+    }
+
     #region Matching
+
     public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account)
     {
         ServerEvents.Instance.onAvatarEnter(eid, account);
@@ -161,4 +192,24 @@ public class ServerCore : MonoBehaviour
     #endregion Destination
 
     #endregion KBEngine
+
+    #region util
+    /// <summary>
+    /// 字符串转Unicode码
+    /// </summary>
+    /// <returns>The to unicode.</returns>
+    /// <param name="value">Value.</param>
+    public static string StringToUnicode(string value)
+    {
+        byte[] bytes = Encoding.Unicode.GetBytes(value);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < bytes.Length; i += 2)
+        {
+            // 取两个字符，每个字符都是右对齐。
+            stringBuilder.AppendFormat("u{0}{1}", bytes[i + 1].ToString("x").PadLeft(2, '0'), bytes[i].ToString("x").PadLeft(2, '0'));
+        }
+        Debug.Log("player reg name is " + stringBuilder.ToString());
+        return stringBuilder.ToString();
+    }
+    #endregion util
 }

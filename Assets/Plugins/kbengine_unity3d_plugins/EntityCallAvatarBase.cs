@@ -21,14 +21,15 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_BASE;
 		}
 
-		public void startMatching(UInt64 arg1, UInt64 arg2)
+		public void startMatching(Int32 arg1, Int32 arg2, Int32 arg3)
 		{
 			Bundle pBundle = newCall("startMatching", 0);
 			if(pBundle == null)
 				return;
 
-			bundle.writeUint64(arg1);
-			bundle.writeUint64(arg2);
+			bundle.writeInt32(arg1);
+			bundle.writeInt32(arg2);
+			bundle.writeInt32(arg3);
 			sendCall(null);
 		}
 

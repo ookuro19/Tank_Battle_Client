@@ -48,3 +48,4 @@ Callback:
 | onExitRoom(int suc) | Avatar.onExitRoom(int suc) | base.onExitRoom(int suc)|
 | onUseSkill(userID, targetID, skill) | Avatar.onUseSkill(userID, targetID, skill) | onUseSkill(userID, targetID, skill)|
 |onSkillResult(int userID, int targetID, int skill)| Avatar.onSkillResult(int userID, int targetID, int skill)| cell.room.onSkillResult(int userID, int targetID, int skill)|
+

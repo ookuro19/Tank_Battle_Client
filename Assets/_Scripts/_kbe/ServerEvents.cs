@@ -27,7 +27,7 @@ public class ServerEvents
     /// <param name="pwd">密码</param>
     public void PlayerLogin(string name, string pwd)
     {
-        KBEngine.Event.fireIn("login", name, pwd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+        ServerCore.PlayerLogin(name, pwd);
     }
     #endregion Login Send
 
@@ -76,9 +76,9 @@ public class ServerEvents
     /// </summary>
     /// <param name="map">地图编号</param>
     /// <param name="mode">模式编号</param>
-    public static void StartMatching(int map, int mode)
+    public static void StartMatching(int map, int mode, int matchCode = 0)
     {
-        KBEngine.Event.fireIn("StartMatching", map, mode);
+        KBEngine.Event.fireIn("StartMatching", map, mode, matchCode);
         SceneManager.LoadScene("Room");
     }
 
@@ -93,6 +93,15 @@ public class ServerEvents
     #endregion Matching Send
 
     #region Matching Callback
+    /// <summary>
+    /// 设置玩家的地图和模式编号
+    /// </summary>
+    /// <param name="num">100 * mode + map</param>
+    public void onSetGameMapMode(int num)
+    {
+
+    }
+
     public void onAvatarEnter(int eid, KBEngine.Avatar account)
     {
         ClientCore.Instance.AccountEnterWorld(eid, account);
