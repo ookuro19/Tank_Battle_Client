@@ -68,7 +68,7 @@
         {
             progress = 0;
             Debug.Log("Player Start Matching, id:" + id);
-            baseCall("startMatching", map, mode, matchCode);
+            baseCall("regStartMatching", map, mode, matchCode);
         }
 
         public void updateProgress(int tprogerss)
@@ -99,12 +99,12 @@
         /// 设置玩家的地图和模式编号
         /// </summary>
         /// <param name="arg1">100 * mode + map</param>
-        public override void onSetGameMapMode(int arg1)
+        public override void onMapModeChanged(int arg1)
         {
             if (isPlayer())
             {
                 Debug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", arg1 % 100, arg1 / 100);
-                Event.fireOut("onSetGameMapMode", arg1);
+                Event.fireOut("onMapModeChanged", arg1);
             }
         }
 
@@ -141,7 +141,7 @@
         public void getProps(int type)
         {
             Debug.Log("send get orops info, type: " + type);
-            cellCall("getProps", type);
+            cellCall("regGetProps", type);
         }
         #endregion Props Send
 
@@ -165,7 +165,7 @@
         /// <param name="skill">技能编号</param>
         public void useSkill(int targetID, int skill)
         {
-            cellCall("useSkill", targetID, skill);
+            cellCall("regUseSkill", targetID, skill);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@
             //只有当前玩家与技能施放者相同时才上报技能计算结果
             if (userID == id)
             {
-                cellCall("skillResult", targetID, suc);
+                cellCall("regSkillResult", targetID, suc);
             }
         }
         #endregion Skill Send
@@ -215,7 +215,7 @@
         public void reachDestination()
         {
             Debug.Log("send reachDestination info");
-            cellCall("reachDestination");
+            cellCall("regReachDestination");
         }
         #endregion Destination Send
 

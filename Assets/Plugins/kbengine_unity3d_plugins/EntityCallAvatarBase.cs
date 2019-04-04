@@ -21,9 +21,9 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_BASE;
 		}
 
-		public void startMatching(Int32 arg1, Int32 arg2, Int32 arg3)
+		public void regStartMatching(Int32 arg1, Int32 arg2, Int32 arg3)
 		{
-			Bundle pBundle = newCall("startMatching", 0);
+			Bundle pBundle = newCall("regStartMatching", 0);
 			if(pBundle == null)
 				return;
 
@@ -43,22 +43,13 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
-		public void getProps(Int32 arg1)
+		public void regGetProps(Int32 arg1)
 		{
-			Bundle pBundle = newCall("getProps", 0);
+			Bundle pBundle = newCall("regGetProps", 0);
 			if(pBundle == null)
 				return;
 
 			bundle.writeInt32(arg1);
-			sendCall(null);
-		}
-
-		public void reachDestination()
-		{
-			Bundle pBundle = newCall("reachDestination", 0);
-			if(pBundle == null)
-				return;
-
 			sendCall(null);
 		}
 
@@ -72,9 +63,18 @@ namespace KBEngine
 			sendCall(null);
 		}
 
-		public void skillResult(Int32 arg1, Int32 arg2)
+		public void regReachDestination()
 		{
-			Bundle pBundle = newCall("skillResult", 0);
+			Bundle pBundle = newCall("regReachDestination", 0);
+			if(pBundle == null)
+				return;
+
+			sendCall(null);
+		}
+
+		public void regSkillResult(Int32 arg1, Int32 arg2)
+		{
+			Bundle pBundle = newCall("regSkillResult", 0);
 			if(pBundle == null)
 				return;
 
@@ -83,9 +83,9 @@ namespace KBEngine
 			sendCall(null);
 		}
 
-		public void useSkill(Int32 arg1, Int32 arg2)
+		public void regUseSkill(Int32 arg1, Int32 arg2)
 		{
-			Bundle pBundle = newCall("useSkill", 0);
+			Bundle pBundle = newCall("regUseSkill", 0);
 			if(pBundle == null)
 				return;
 

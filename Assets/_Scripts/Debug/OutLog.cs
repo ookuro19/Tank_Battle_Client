@@ -17,7 +17,7 @@ public class OutLog : MonoBehaviour
 			File.Delete (outpath);
 		}
 		//在这里做一个Log的监听
-		Application.RegisterLogCallback(HandleLog);
+		Application.logMessageReceived += HandleLog;
 		//一个输出
 		Debug.Log("Start Game");
 	}

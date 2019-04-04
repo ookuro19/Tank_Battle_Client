@@ -50,7 +50,7 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerOut("onLoginState", this, "onLoginState");
 
         // matching
-        KBEngine.Event.registerOut("onSetGameMapMode", this, "onSetGameMapMode");
+        KBEngine.Event.registerOut("onMapModeChanged", this, "onMapModeChanged");
         KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
         KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
@@ -115,7 +115,7 @@ public class ServerCore : MonoBehaviour
     /// 设置玩家的地图和模式编号
     /// </summary>
     /// <param name="arg1">100 * mode + map</param>
-    public void onSetGameMapMode(int arg1)
+    public void onMapModeChanged(int arg1)
     {
         ServerEvents.Instance.onSetGameMapMode(arg1);
     }
