@@ -11,6 +11,11 @@ using UnityEngine;
 
 public class PropBehavior : MonoBehaviour
 {
+    void Awake()
+    {
+        Props2Pydata.AppendProps(gameObject.name, transform.position, (int)_propType);
+    }
+
     [Tooltip("道具类型")]
     public EPropType _propType;
 

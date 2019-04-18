@@ -52,7 +52,7 @@ public class UI_Room : MonoBehaviour
 
         if (nowProcess <= tProcess)
         {
-            Debug.LogErrorFormat("tprogress is : {0}, nowProgress is : {1}", tProcess, nowProcess);
+            // Debug.LogErrorFormat("tprogress is : {0}, nowProgress is : {1}", tProcess, nowProcess);
             nowProcess = tProcess;
             ServerEvents.Instance.UpdateLoadingProgress(nowProcess);
         }

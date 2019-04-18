@@ -51,7 +51,7 @@ public class ServerCore : MonoBehaviour
 
         // matching
         KBEngine.Event.registerOut("onMapModeChanged", this, "onMapModeChanged");
-        KBEngine.Event.registerOut("onAccountEnterWorld", this, "onAccountEnterWorld");
+        KBEngine.Event.registerOut("onEntityEnterWorld", this, "onEntityEnterWorld");
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
         KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
 
@@ -95,7 +95,7 @@ public class ServerCore : MonoBehaviour
         }
     }
 
-    public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, KBEngine.Avatar accountEntity)
+    public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, KBEngine.Account accountEntity)
     {
         Debug.Log("login is successfully!(登陆成功!)");
         ServerEvents.Instance.onLoginSuccessfully();
@@ -122,9 +122,10 @@ public class ServerCore : MonoBehaviour
 
     #region Matching
 
-    public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account)
+    public void onEntityEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Entity account)
     {
-        ServerEvents.Instance.onAvatarEnter(eid, account);
+        KBEngine.Avatar m_Avatar = new KBEngine.Avatar(account);
+        ServerEvents.Instance.onAvatarEnter(eid, m_Avatar);
     }
 
     public void onMatchingFinish(int suc)

@@ -26,7 +26,7 @@ Send:
 Callback:
 | C | C/S | S |
 |:-: | :-: | :-: |
-| public void onAccountEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account) | Avatar.onEnterWorld() | kbe内置 |
+| public void onEntityEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar account) | Avatar.onEnterWorld() | kbe内置 |
 | onMatchingFinish(int suc) | onMatchingFinish(int arg1) | base.onMatchingFinish(int suc) |
 
 ## 3. 比赛部分
