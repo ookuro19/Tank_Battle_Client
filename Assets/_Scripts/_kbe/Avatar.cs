@@ -7,11 +7,10 @@
 
     public class Avatar
     {
-        public bool isRobot;
+        public bool isRobot { get; private set; }
         private Account m_account = null;
         private Robot m_robot = null;
 
-        #region Properties
         public Avatar(Entity entity)
         {
             if (entity.className == "Account")
@@ -26,6 +25,10 @@
             }
         }
 
+        #region Properties
+        /// <summary>
+        /// 名字
+        /// </summary>
         public string name
         {
             get
@@ -34,6 +37,9 @@
             }
         }
 
+        /// <summary>
+        /// 场景内gameobject
+        /// </summary>
         public System.Object renderObj
         {
             get
@@ -53,6 +59,9 @@
             }
         }
 
+        /// <summary>
+        /// ID
+        /// </summary>
         public Int32 id
         {
             get
@@ -61,11 +70,31 @@
             }
         }
 
-        public bool isPlayer()
+        /// <summary>
+        /// 是否是玩家
+        /// </summary>
+        public bool isPlayer
         {
-            return isRobot ? m_robot.isPlayer() : m_account.isPlayer();
+            get
+            {
+                return isRobot ? m_robot.isPlayer() : m_account.isPlayer();
+            }
         }
 
+        /// <summary>
+		/// 对于玩家自身来说，它表示是否自己被其它玩家控制了；
+		/// 对于其它entity来说，表示我本机是否控制了这个entity
+		/// </summary>
+        public bool isControllerdRobot
+        {
+            get
+            {
+                return isRobot ? m_robot.isControlled : false;
+            }
+        }
+        /// <summary>
+        /// 房间进入顺位
+        /// </summary>
         public Int32 roomNo
         {
             get
@@ -74,6 +103,9 @@
             }
         }
 
+        /// <summary>
+        /// 加载进度
+        /// </summary>
         public Int32 progress
         {
             get
@@ -84,5 +116,14 @@
 
         #endregion Properties
 
+        #region foo
+        public void updateRobotTran(Vector3 pos)
+        {
+            if (isRobot && m_robot != null)
+            {
+                m_robot.updateRobotTran(pos);
+            }
+        }
+        #endregion
     }
 }

@@ -24,7 +24,7 @@ public class TankManager
 
     //server
     public bool entityEnabled = true;
-    public KBEngine.Avatar m_account { get; private set; }
+    public KBEngine.Avatar m_avatar { get; private set; }
     public int m_eid { get; private set; }
     public int m_roomNo { get; private set; }
     public string m_avatarName { get; private set; }
@@ -32,11 +32,11 @@ public class TankManager
 
     public void SetAvatar(KBEngine.Avatar tAccount)
     {
-        m_account = tAccount;
+        m_avatar = tAccount;
         m_eid = tAccount.id;
         m_roomNo = tAccount.roomNo;
         m_avatarName = tAccount.name;
-        isPlayer = tAccount.isPlayer();
+        isPlayer = tAccount.isPlayer;
 
         Debug.LogErrorFormat("onEnterWorld,{0} is Player: {1} ", m_avatarName, isPlayer);
     }
@@ -50,7 +50,7 @@ public class TankManager
         m_health = m_Instance.GetComponent<TankHealth>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
-        m_movement.m_isPlayer = isPlayer;
+        m_movement.m_avatar = m_avatar;
         m_shooting.m_isPlayer = isPlayer;
         m_shooting.m_tankmanager = this;
         m_health.SetIDText(m_avatarName);
@@ -66,11 +66,6 @@ public class TankManager
             // ... set their material color to the color specific to this tank.
             renderers[i].material.color = m_PlayerColor;
         }
-
-        // if (isPlayer)
-        // {
-        //     m_account.SetInitPos(m_SpawnPoint.position, m_SpawnPoint.rotation.eulerAngles);
-        // }
     }
 
     // Used during the phases of the game where the player shouldn't be able to control their tank.
@@ -113,11 +108,11 @@ public class TankManager
 
     public int GetProgress()
     {
-        if (m_account == null)
+        if (m_avatar == null)
         {
             return 0;
         }
-        return m_account.progress;
+        return m_avatar.progress;
     }
 
     public void onGetProps(int type)

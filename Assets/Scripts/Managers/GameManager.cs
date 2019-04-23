@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         m_EndWait = new WaitForSeconds(m_EndDelay);
         m_tankList = ClientCore.g_tankList;
 
-        yield return new WaitUntil(() => (m_tankList.Count >= 2));
+        yield return new WaitUntil(() => (m_tankList.Count >= 3));
         Debug.LogErrorFormat("player count is {0}, game will begin", m_tankList.Count);
 
         SpawnAllTanks();
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             // ... create them, set their player number and references needed for control.
             m_tankList[i].m_Instance =
                 Instantiate(m_TankPrefab, m_tanks[i].m_SpawnPoint.position, m_tanks[i].m_SpawnPoint.rotation) as GameObject;
-            m_tankList[i].m_account.renderObj = m_tankList[i].m_Instance;
+            m_tankList[i].m_avatar.renderObj = m_tankList[i].m_Instance;
             m_tankList[i].m_SpawnPoint = m_tanks[i].m_SpawnPoint;
             m_tankList[i].m_PlayerNumber = i + 1;
             m_tankList[i].m_PlayerColor = m_tanks[i].m_PlayerColor;

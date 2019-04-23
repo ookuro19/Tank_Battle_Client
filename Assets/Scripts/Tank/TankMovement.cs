@@ -18,7 +18,7 @@ public class TankMovement : MonoBehaviour
     private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
 
     //Server
-    [HideInInspector] public bool m_isPlayer = false;
+    [HideInInspector] public KBEngine.Avatar m_avatar;
 
     private void Awake()
     {
@@ -70,8 +70,9 @@ public class TankMovement : MonoBehaviour
 
 
     private void Update()
-    {
-        if (!m_isPlayer)
+    {   
+        // Debug.LogErrorFormat("avatar: {0}, isControlled: {1}", m_avatar.id, m_avatar.isControllerdRobot);
+        if (!m_avatar.isPlayer)
         {
             return;
         }
@@ -113,15 +114,18 @@ public class TankMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!m_isPlayer)
+        if (m_avatar.isPlayer)
         {
-            return;
-        }
+            // Adjust the rigidbodies position and orientation in FixedUpdate.
+            Move();
+            Turn();
 
-        // Adjust the rigidbodies position and orientation in FixedUpdate.
-        Move();
-        Turn();
-        KBEngine.Event.fireIn("updatePlayer", gameObject.transform.position, gameObject.transform.rotation.eulerAngles.y);
+            KBEngine.Event.fireIn("updatePlayer", gameObject.transform.position, gameObject.transform.rotation.eulerAngles.y);
+        }
+        else if (m_avatar.isControllerdRobot)
+        {
+            ServerEvents.Instance.UpdateRobotTran(m_avatar, transform.position);
+        }
     }
 
     private void Move()
@@ -147,7 +151,7 @@ public class TankMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!m_isPlayer)
+        if (!m_avatar.isPlayer)
         {
             return;
         }

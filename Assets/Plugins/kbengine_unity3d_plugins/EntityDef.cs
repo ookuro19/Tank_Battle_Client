@@ -512,11 +512,27 @@ namespace KBEngine
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(roomNo / 12).");
 
 			pRobotModule.useMethodDescrAlias = true;
+			List<DATATYPE_BASE> pRobot_onControlledBy_args = new List<DATATYPE_BASE>();
+			pRobot_onControlledBy_args.Add(EntityDef.id2datatypes[20]);
+
+			Method pRobot_onControlledBy = new Method();
+			pRobot_onControlledBy.name = "onControlledBy";
+			pRobot_onControlledBy.methodUtype = 23;
+			pRobot_onControlledBy.aliasID = -1;
+			pRobot_onControlledBy.args = pRobot_onControlledBy_args;
+
+			pRobotModule.methods["onControlledBy"] = pRobot_onControlledBy; 
+			pRobotModule.cell_methods["onControlledBy"] = pRobot_onControlledBy;
+
+			pRobotModule.idcell_methods[pRobot_onControlledBy.methodUtype] = pRobot_onControlledBy;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(onControlledBy / 23).");
+
 			List<DATATYPE_BASE> pRobot_regReachDestination_args = new List<DATATYPE_BASE>();
 
 			Method pRobot_regReachDestination = new Method();
 			pRobot_regReachDestination.name = "regReachDestination";
-			pRobot_regReachDestination.methodUtype = 23;
+			pRobot_regReachDestination.methodUtype = 24;
 			pRobot_regReachDestination.aliasID = -1;
 			pRobot_regReachDestination.args = pRobot_regReachDestination_args;
 
@@ -525,7 +541,7 @@ namespace KBEngine
 
 			pRobotModule.idcell_methods[pRobot_regReachDestination.methodUtype] = pRobot_regReachDestination;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(regReachDestination / 23).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(regReachDestination / 24).");
 
 		}
 

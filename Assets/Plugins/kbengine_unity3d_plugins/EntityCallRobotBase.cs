@@ -31,6 +31,16 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
+		public void onControlledBy(byte[] arg1)
+		{
+			Bundle pBundle = newCall("onControlledBy", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeEntitycall(arg1);
+			sendCall(null);
+		}
+
 		public void regReachDestination()
 		{
 			Bundle pBundle = newCall("regReachDestination", 0);

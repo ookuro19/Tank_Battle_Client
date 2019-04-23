@@ -70,6 +70,16 @@ public class ServerEvents
     }
     #endregion Login Callback
 
+    /// <summary>
+    /// 有机器人切换控制权
+    /// </summary>
+    /// <param name="avatar"></param>
+    /// <param name="isControlled_">表示我本机是否控制了这个entity</param>
+    public void onAvatarControlled(KBEngine.Avatar avatar, bool isControlled_)
+    {
+        ClientCore.Instance.onAvatarControlled(avatar, isControlled_);
+    }
+
     #region Matching Send
     /// <summary>
     /// 开始匹配
@@ -107,6 +117,7 @@ public class ServerEvents
         ClientCore.Instance.AccountEnterWorld(eid, account);
     }
 
+
     /// <summary>
     /// 匹配完成
     /// </summary>
@@ -124,6 +135,13 @@ public class ServerEvents
         UI_Room.onLoadingFinish();
     }
     #endregion Matching Callback
+
+    #region Transform Send
+    public void UpdateRobotTran(KBEngine.Avatar avatar, Vector3 pos)
+    {
+        KBEngine.Event.fireIn("updateRobotTran", avatar, pos);
+    }
+    #endregion Transform Send
 
     #region Props Send
     /// <summary>
@@ -147,7 +165,6 @@ public class ServerEvents
         ClientCore.Instance.onGetProps(eid, type);
     }
     #endregion Props Callback
-
 
     #region Skill Send
     /// <summary>

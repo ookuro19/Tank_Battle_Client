@@ -37,12 +37,22 @@ public class ClientCore : MonoBehaviour
         g_tankList.Sort((x, y) => x.m_roomNo.CompareTo(y.m_roomNo));
     }
 
+    public void onAvatarControlled(KBEngine.Avatar avatar, bool isControlled_)
+    {
+        if (isControlled_)
+        {
+            GameObject tGO = avatar.renderObj as GameObject;
+            tGO.AddComponent<AutoMove>();
+            tGO.GetComponent<Collider>().enabled = false;
+        }
+    }
+    
     public void ExitRoom()
     {
         for (int i = 0; i < g_tankList.Count; i++)
         {
             g_tankList[i].m_Instance = null;
-            g_tankList[i].m_account.renderObj = null;
+            g_tankList[i].m_avatar.renderObj = null;
         }
         g_tankDict.Clear();
         g_tankList.Clear();

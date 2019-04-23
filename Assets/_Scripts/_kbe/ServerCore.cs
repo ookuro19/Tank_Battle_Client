@@ -49,13 +49,18 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerOut("onLoginSuccessfully", this, "onLoginSuccessfully");
         KBEngine.Event.registerOut("onLoginState", this, "onLoginState");
 
+        // Enter&Leave
+        KBEngine.Event.registerOut("onEntityEnterWorld", this, "onEntityEnterWorld");
+        KBEngine.Event.registerOut("onAvatarControlled", this, "onAvatarControlled");
+        
         // matching
         KBEngine.Event.registerOut("onMapModeChanged", this, "onMapModeChanged");
-        KBEngine.Event.registerOut("onEntityEnterWorld", this, "onEntityEnterWorld");
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
         KBEngine.Event.registerOut("onLoadingFinish", this, "onLoadingFinish");
 
         // gaming 
+        KBEngine.Event.registerIn("updateRobotTran", this, "updateRobotTran");
+
         KBEngine.Event.registerOut("onGetProps", this, "onGetProps");
         KBEngine.Event.registerOut("onUseSkill", this, "onUseSkill");
         KBEngine.Event.registerOut("onSkillResult", this, "onSkillResult");
@@ -111,6 +116,21 @@ public class ServerCore : MonoBehaviour
     }
     #endregion Login
 
+    #region Enter&Leave
+    public void onEntityEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Entity account)
+    {
+        KBEngine.Avatar m_Avatar = new KBEngine.Avatar(account);
+        ServerEvents.Instance.onAvatarEnter(eid, m_Avatar);
+    }
+
+    public void onAvatarControlled(KBEngine.Robot robot, bool isControlled_)
+    {
+        KBEngine.Avatar m_Avatar = new KBEngine.Avatar(robot);
+        ServerEvents.Instance.onAvatarControlled(m_Avatar, isControlled_);
+    }
+    #endregion Enter&Leave
+
+    #region Matching
     /// <summary>
     /// 设置玩家的地图和模式编号
     /// </summary>
@@ -118,14 +138,6 @@ public class ServerCore : MonoBehaviour
     public void onMapModeChanged(int arg1)
     {
         ServerEvents.Instance.onSetGameMapMode(arg1);
-    }
-
-    #region Matching
-
-    public void onEntityEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Entity account)
-    {
-        KBEngine.Avatar m_Avatar = new KBEngine.Avatar(account);
-        ServerEvents.Instance.onAvatarEnter(eid, m_Avatar);
     }
 
     public void onMatchingFinish(int suc)
@@ -138,6 +150,13 @@ public class ServerCore : MonoBehaviour
         ServerEvents.Instance.onLoadingFinish(suc);
     }
     #endregion Matching
+
+    #region Transform
+    public void updateRobotTran(KBEngine.Avatar avatar, Vector3 pos)
+    {
+        avatar.updateRobotTran(pos);
+    }
+    #endregion Transform
 
     #region Props
     /// <summary>
