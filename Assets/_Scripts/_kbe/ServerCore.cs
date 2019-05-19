@@ -39,6 +39,50 @@ public class ServerCore : MonoBehaviour
 
     #region KBEngine
 
+    #region Send
+    /// <summary>
+    /// 玩家登录
+    /// </summary>
+    /// <param name="name">玩家名称</param>
+    /// <param name="pwd">密码</param>
+    public static void PlayerLogin(string name, string pwd)
+    {
+        KBEngine.Event.fireIn("login", StringToUnicode(name), pwd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
+    }
+    /// 当前玩家获得道具
+    /// </summary>
+    /// <param name="propKey"></param>
+    /// <param name="type">道具类型</param>
+    public static void GetProps(string propKey, int type)
+    {
+        KBEngine.Event.fireIn("regGetProps", propKey, type);
+    }
+
+    /// <summary>
+    /// 当前玩家使用道具
+    /// </summary>
+    /// <param name="targetID">施放目标ID</param>
+    /// <param name="type">道具类型</param>
+    public static void UseProp(int targetID, int type)
+    {
+        KBEngine.Event.fireIn("regUseProp", targetID, type);
+    }
+
+    /// <summary>
+    /// 道具结算结果
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">施放目标ID</param>
+    /// <param name="type">道具类型</param>
+    /// <param name="suc">结算结果编号</param>
+    public static void PropResult(int userID, int targetID, int type, int suc)
+    {
+        //最好当前玩家与技能施放者相同时才上报技能计算结果
+        KBEngine.Event.fireIn("regPropResult", userID, targetID, type, suc);
+    }
+    #endregion Send
+
+    #region Callback
     void installEvents()
     {
         // common
@@ -52,7 +96,7 @@ public class ServerCore : MonoBehaviour
         // Enter&Leave
         KBEngine.Event.registerOut("onEntityEnterWorld", this, "onEntityEnterWorld");
         KBEngine.Event.registerOut("onAvatarControlled", this, "onAvatarControlled");
-        
+
         // matching
         KBEngine.Event.registerOut("onMapModeChanged", this, "onMapModeChanged");
         KBEngine.Event.registerOut("onMatchingFinish", this, "onMatchingFinish");
@@ -62,24 +106,14 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerIn("updateRobotTran", this, "updateRobotTran");
 
         KBEngine.Event.registerOut("onGetProps", this, "onGetProps");
-        KBEngine.Event.registerOut("onUseSkill", this, "onUseSkill");
-        KBEngine.Event.registerOut("onSkillResult", this, "onSkillResult");
+        KBEngine.Event.registerOut("onUseProp", this, "onUseProp");
+        KBEngine.Event.registerOut("onPropResult", this, "onPropResult");
         KBEngine.Event.registerOut("onTimerChanged", this, "onTimerChanged");
         KBEngine.Event.registerOut("onExitRoom", this, "onExitRoom");
         KBEngine.Event.registerOut("onReachDestination", this, "onReachDestination");
     }
 
     #region Login
-    /// <summary>
-    /// 玩家登录
-    /// </summary>
-    /// <param name="name">玩家名称</param>
-    /// <param name="pwd">密码</param>
-    public static void PlayerLogin(string name, string pwd)
-    {
-        KBEngine.Event.fireIn("login", StringToUnicode(name), pwd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
-    }
-
     public void onConnectionState(bool success)
     {
         if (!success)
@@ -100,10 +134,11 @@ public class ServerCore : MonoBehaviour
         }
     }
 
-    public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, KBEngine.Account accountEntity)
+    public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, KBEngine.Account account)
     {
         Debug.Log("login is successfully!(登陆成功!)");
-        ServerEvents.Instance.onLoginSuccessfully();
+        KBEngine.Avatar m_Avatar = new KBEngine.Avatar(account);
+        ServerEvents.Instance.onLoginSuccessfully(eid, m_Avatar);
     }
 
     /// <summary>
@@ -163,9 +198,9 @@ public class ServerCore : MonoBehaviour
     /// 玩家获得道具，不一定是当前player
     /// </summary>
     /// <param name="type">道具类型</param>
-    public void onGetProps(int id, int type)
+    public void onGetProps(int id, string propKey, int type)
     {
-        ServerEvents.Instance.onGetProps(id, type);
+        ServerEvents.Instance.onGetProps(id, propKey, type);
     }
     #endregion Props
 
@@ -175,21 +210,23 @@ public class ServerCore : MonoBehaviour
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
-    /// <param name="skill">技能编号</param>
-    public void onUseSkill(int userID, int targetID, int skill)
+    /// <param name="type">技能编号</param>
+    /// <param name="pos">使用技能时坐标</param>
+    public void onUseProp(int userID, int targetID, int type, Vector3 pos)
     {
-        ServerEvents.Instance.onUseSkill(userID, targetID, skill);
+        ServerEvents.Instance.onUseProp(userID, targetID, type, pos);
     }
 
     /// <summary>
-    /// 技能施放结果回调
+    /// 道具结果回调
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
+    /// <param name="type">prop_type</param>
     /// <param name="suc">结算结果：0命中，1未命中</param>
-    public void onSkillResult(int userID, int targetID, int suc)
+    public void onPropResult(int userID, int targetID, int type, int suc)
     {
-        ServerEvents.Instance.onSkillResult(userID, targetID, suc);
+        ServerEvents.Instance.onPropResult(userID, targetID, type, suc);
     }
     #endregion Skill
 
@@ -210,6 +247,8 @@ public class ServerCore : MonoBehaviour
         ServerEvents.Instance.onReachDestination(eid, time);
     }
     #endregion Destination
+
+    #endregion Callback
 
     #endregion KBEngine
 

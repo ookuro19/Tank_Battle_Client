@@ -69,7 +69,7 @@ public class ShellExplosion : MonoBehaviour
         if (isPlayer)
         {
             // 发送命中结果
-            ServerEvents.Instance.skillResult(userID, targetID, isHitTank ? 0 : 1);
+            ServerEvents.Instance.PropResult(userID, targetID, 0, isHitTank ? 0 : 1);
         }
 
         // Once the particles have finished, destroy the gameobject they are on.

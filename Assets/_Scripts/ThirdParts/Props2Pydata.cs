@@ -53,7 +53,7 @@ public class Props2Pydata : MonoBehaviour
         Debug.Log("save succeed ... ");
     }
 
-    private void OnApplicationFocus(bool focus)
+    private void tOnApplicationFocus(bool focus)
     {
         //进游戏
         if (focus)

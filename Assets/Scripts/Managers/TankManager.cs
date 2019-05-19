@@ -43,7 +43,7 @@ public class TankManager
 
     public void Setup()
     {
-        // m_Instance.GetComponent<Collider>().enabled = isPlayer;
+        m_Instance.GetComponent<Collider>().enabled = isPlayer;
         // Get references to the components.
         m_movement = m_Instance.GetComponent<TankMovement>();
         m_shooting = m_Instance.GetComponent<TankShooting>();

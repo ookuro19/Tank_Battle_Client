@@ -30,9 +30,9 @@
 
                 //比赛
                 Event.registerIn("updatePlayer", this, "updatePlayer");
-                Event.registerIn("getProps", this, "getProps");
-                Event.registerIn("useSkill", this, "useSkill");
-                Event.registerIn("skillResult", this, "skillResult");
+                Event.registerIn("regGetProps", this, "regGetProps");
+                Event.registerIn("regUseProp", this, "regUseProp");
+                Event.registerIn("regPropResult", this, "regPropResult");
                 Event.registerIn("reachDestination", this, "reachDestination");
                 #endregion register
 
@@ -137,10 +137,10 @@
         #endregion Transform Send
 
         #region Props Send
-        public void getProps(int type)
+        public void regGetProps(string propKey, int type)
         {
             Debug.Log("send get orops info, type: " + type);
-            cellCall("regGetProps", type);
+            cellCall("regGetProps", propKey, type);
         }
         #endregion Props Send
 
@@ -148,23 +148,25 @@
         /// <summary>
         /// 玩家获得道具，不一定是当前player
         /// </summary>
-        /// <param name="type">道具类型</param>
-        public override void onGetProps(int type)
+        /// <param name="arg1">id</param>
+        /// <param name="arg2">prop_key</param>
+        /// <param name="arg3">prop_type</param>
+        public override void onGetPropsClient(int arg1, string arg2, int arg3)
         {
-            Debug.LogFormat("onGetProps, name:{0}, type:{1}", name, type);
-            Event.fireOut("onGetProps", id, type);
+            Debug.LogErrorFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
+            Event.fireOut("onGetProps", arg1, arg2, arg3);
         }
         #endregion Props Callback
 
         #region Skill Send
         /// <summary>
-        /// 当前玩家实用技能
+        /// 当前玩家使用道具
         /// </summary>
         /// <param name="targetID">施放目标ID</param>
-        /// <param name="skill">技能编号</param>
-        public void useSkill(int targetID, int skill)
+        /// <param name="type">道具类型</param>
+        public void regUseProp(int targetID, int type)
         {
-            cellCall("regUseSkill", targetID, skill);
+            cellCall("regUseProp", targetID, type);
         }
 
         /// <summary>
@@ -172,13 +174,14 @@
         /// </summary>
         /// <param name="userID">使用者ID</param>
         /// <param name="targetID">施放目标ID</param>
+        /// <param name="type">道具类型</param>
         /// <param name="suc">结算结果编号</param>
-        public void skillResult(int userID, int targetID, int suc)
+        public void regPropResult(int userID, int targetID, int type, int suc)
         {
             //只有当前玩家与技能施放者相同时才上报技能计算结果
             if (userID == id)
             {
-                cellCall("regSkillResult", targetID, suc);
+                cellCall("regPropResult", userID, targetID, type, suc);
             }
         }
         #endregion Skill Send
@@ -187,13 +190,14 @@
         /// <summary>
         /// 有玩家施放技能
         /// </summary>
-        /// <param name="userID">使用者ID</param>
-        /// <param name="targetID">技能目标ID</param>
-        /// <param name="suc">结算结果：0命中，1未命中</param>
-        public override void onUseSkill(int userID, int targetID, int skill)
+        /// <param name="arg1">使用者ID</param>
+        /// <param name="arg2">技能目标ID</param>
+        /// <param name="arg3">prop_type</param>
+        /// <param name="arg4">使用技能时坐标</param>
+        public override void onUseProp(int arg1, int arg2, int arg3, Vector3 arg4)
         {
-            Debug.LogFormat("{0} use skill {1} to {2}", userID, skill, targetID);
-            Event.fireOut("onUseSkill", userID, targetID, skill);
+            Debug.LogFormat("{0} use skill {1} to {2}, pos is {3}", arg1, arg2, arg3, arg4);
+            Event.fireOut("onUseProp", arg1, arg2, arg3, arg4);
         }
 
         /// <summary>
@@ -201,12 +205,12 @@
         /// </summary>
         /// <param name="userID">使用者ID</param>
         /// <param name="targetID">技能目标ID</param>
+        /// <param name="type">prop_type</param>
         /// <param name="suc">结算结果：0命中，1未命中</param>
-        public override void onSkillResult(int userID, int targetID, int suc)
+        public override void onPropResultClient(int userID, int targetID, int type, byte suc)
         {
-
             Debug.LogFormat("{0} use skill hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
-            Event.fireOut("onSkillResult", userID, targetID, suc);
+            Event.fireOut("onPropResult", userID, targetID, type, (int)suc);
         }
         #endregion Skill Callback
 

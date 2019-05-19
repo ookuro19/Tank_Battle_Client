@@ -221,7 +221,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 12:
+					case 13:
 						Int32 oldval_roomNo = roomNo;
 						roomNo = stream.readInt32();
 

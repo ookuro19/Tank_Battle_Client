@@ -14,6 +14,28 @@ public class PropBehavior : MonoBehaviour
     void Awake()
     {
         Props2Pydata.AppendProps(gameObject.name, transform.position, (int)_propType);
+
+        Color tColor = Color.white;
+
+        switch (_propType)
+        {
+            case EPropType.ePT_Damage:
+                {
+                    tColor = Color.red;
+                    break;
+                }
+            case EPropType.ePT_Shell:
+                {
+                    tColor = Color.green;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+        gameObject.GetComponentInChildren<MeshRenderer>().material.color = tColor;
+
     }
 
     [Tooltip("道具类型")]
@@ -23,7 +45,7 @@ public class PropBehavior : MonoBehaviour
     {
         if (col.tag == "Player")
         {
-            ServerEvents.Instance.GetProps((int)_propType);
+            ServerEvents.Instance.GetProps(gameObject.name, (int)_propType);
             gameObject.SetActive(false);
         }
     }

@@ -708,6 +708,43 @@ namespace KBEngine
 		}
 	}
 
+	public struct SUC
+	{
+		Byte value;
+
+		SUC(Byte value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator Byte(SUC value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator SUC(Byte value)
+		{
+			Byte tvalue = (Byte)value;
+			return new SUC(tvalue);
+		}
+
+		public static Byte MaxValue
+		{
+			get
+			{
+				return Byte.MaxValue;
+			}
+		}
+
+		public static Byte MinValue
+		{
+			get
+			{
+				return Byte.MinValue;
+			}
+		}
+	}
+
 	public struct DBID
 	{
 		UInt64 value;
@@ -1044,6 +1081,64 @@ namespace KBEngine
 			{
 				return Int32.MinValue;
 			}
+		}
+	}
+
+	public struct PROP_TYPE
+	{
+		Int32 value;
+
+		PROP_TYPE(Int32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator Int32(PROP_TYPE value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator PROP_TYPE(Int32 value)
+		{
+			Int32 tvalue = (Int32)value;
+			return new PROP_TYPE(tvalue);
+		}
+
+		public static Int32 MaxValue
+		{
+			get
+			{
+				return Int32.MaxValue;
+			}
+		}
+
+		public static Int32 MinValue
+		{
+			get
+			{
+				return Int32.MinValue;
+			}
+		}
+	}
+
+	public struct PROP_KEY
+	{
+		string value;
+
+		PROP_KEY(string value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator string(PROP_KEY value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator PROP_KEY(string value)
+		{
+			string tvalue = (string)value;
+			return new PROP_KEY(tvalue);
 		}
 	}
 

@@ -27,15 +27,15 @@ namespace KBEngine
 		public virtual void onRoomNoChanged(Int32 oldValue) {}
 
 		public abstract void onExitRoom(Int32 arg1); 
-		public abstract void onGetProps(Int32 arg1); 
+		public abstract void onGetPropsClient(Int32 arg1, string arg2, Int32 arg3); 
 		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onLoginState(Int32 arg1); 
 		public abstract void onMapModeChanged(Int32 arg1); 
 		public abstract void onMatchingFinish(Int32 arg1); 
+		public abstract void onPropResultClient(Int32 arg1, Int32 arg2, Int32 arg3, Byte arg4); 
 		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
-		public abstract void onSkillResult(Int32 arg1, Int32 arg2, Int32 arg3); 
 		public abstract void onTimerChanged(Int32 arg1); 
-		public abstract void onUseSkill(Int32 arg1, Int32 arg2, Int32 arg3); 
+		public abstract void onUseProp(Int32 arg1, Int32 arg2, Int32 arg3, Vector3 arg4); 
 
 		public AccountBase()
 		{
@@ -119,50 +119,54 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 22:
+				case 24:
 					Int32 onExitRoom_arg1 = stream.readInt32();
 					onExitRoom(onExitRoom_arg1);
 					break;
-				case 17:
-					Int32 onGetProps_arg1 = stream.readInt32();
-					onGetProps(onGetProps_arg1);
+				case 19:
+					Int32 onGetPropsClient_arg1 = stream.readInt32();
+					string onGetPropsClient_arg2 = stream.readUnicode();
+					Int32 onGetPropsClient_arg3 = stream.readInt32();
+					onGetPropsClient(onGetPropsClient_arg1, onGetPropsClient_arg2, onGetPropsClient_arg3);
 					break;
-				case 16:
+				case 18:
 					Int32 onLoadingFinish_arg1 = stream.readInt32();
 					onLoadingFinish(onLoadingFinish_arg1);
 					break;
-				case 13:
+				case 15:
 					Int32 onLoginState_arg1 = stream.readInt32();
 					onLoginState(onLoginState_arg1);
 					break;
-				case 14:
+				case 16:
 					Int32 onMapModeChanged_arg1 = stream.readInt32();
 					onMapModeChanged(onMapModeChanged_arg1);
 					break;
-				case 15:
+				case 17:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
 					break;
-				case 20:
+				case 21:
+					Int32 onPropResultClient_arg1 = stream.readInt32();
+					Int32 onPropResultClient_arg2 = stream.readInt32();
+					Int32 onPropResultClient_arg3 = stream.readInt32();
+					Byte onPropResultClient_arg4 = stream.readUint8();
+					onPropResultClient(onPropResultClient_arg1, onPropResultClient_arg2, onPropResultClient_arg3, onPropResultClient_arg4);
+					break;
+				case 22:
 					Int32 onReachDestination_arg1 = stream.readInt32();
 					Int32 onReachDestination_arg2 = stream.readInt32();
 					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
 					break;
-				case 19:
-					Int32 onSkillResult_arg1 = stream.readInt32();
-					Int32 onSkillResult_arg2 = stream.readInt32();
-					Int32 onSkillResult_arg3 = stream.readInt32();
-					onSkillResult(onSkillResult_arg1, onSkillResult_arg2, onSkillResult_arg3);
-					break;
-				case 21:
+				case 23:
 					Int32 onTimerChanged_arg1 = stream.readInt32();
 					onTimerChanged(onTimerChanged_arg1);
 					break;
-				case 18:
-					Int32 onUseSkill_arg1 = stream.readInt32();
-					Int32 onUseSkill_arg2 = stream.readInt32();
-					Int32 onUseSkill_arg3 = stream.readInt32();
-					onUseSkill(onUseSkill_arg1, onUseSkill_arg2, onUseSkill_arg3);
+				case 20:
+					Int32 onUseProp_arg1 = stream.readInt32();
+					Int32 onUseProp_arg2 = stream.readInt32();
+					Int32 onUseProp_arg3 = stream.readInt32();
+					Vector3 onUseProp_arg4 = stream.readVector3();
+					onUseProp(onUseProp_arg1, onUseProp_arg2, onUseProp_arg3, onUseProp_arg4);
 					break;
 				default:
 					break;

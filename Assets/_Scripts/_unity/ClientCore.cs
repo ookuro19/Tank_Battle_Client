@@ -13,6 +13,8 @@ public class ClientCore : MonoBehaviour
     // 按座位号排序的列表
     public static List<TankManager> g_tankList = new List<TankManager>();
 
+    public Dictionary<string, PropBehavior> g_propDict = new Dictionary<string, PropBehavior>();
+
     // Use this for initialization
     void Start()
     {
@@ -39,6 +41,7 @@ public class ClientCore : MonoBehaviour
 
     public void onAvatarControlled(KBEngine.Avatar avatar, bool isControlled_)
     {
+        Debug.LogErrorFormat("Avatar id {0} iscontroller {1}", avatar.id, isControlled_);
         if (isControlled_)
         {
             GameObject tGO = avatar.renderObj as GameObject;
@@ -46,7 +49,7 @@ public class ClientCore : MonoBehaviour
             tGO.GetComponent<Collider>().enabled = false;
         }
     }
-    
+
     public void ExitRoom()
     {
         for (int i = 0; i < g_tankList.Count; i++)
@@ -96,7 +99,7 @@ public class ClientCore : MonoBehaviour
     #endregion Transform
 
     #region Props
-    public void onGetProps(int eid, int type)
+    public void onGetProps(int eid, string propKey, int type)
     {
         if (g_tankDict.ContainsKey(eid))
         {

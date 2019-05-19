@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EPropType
 {
-	ePT_Rescure,
+	ePT_Shell,
 	ePT_Damage
 }
 

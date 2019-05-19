@@ -35,7 +35,7 @@ public class ServerEvents
     /// <summary>
     /// 登录成功的回调
     /// </summary>
-    public void onLoginSuccessfully()
+    public void onLoginSuccessfully(int id, KBEngine.Avatar accountEntity)
     {
         SceneManager.LoadScene("Main");
     }
@@ -86,7 +86,7 @@ public class ServerEvents
     /// </summary>
     /// <param name="map">地图编号</param>
     /// <param name="mode">模式编号</param>
-    public static void StartMatching(int map, int mode, int matchCode = 0)
+    public static void StartMatching(int map, int mode, int matchCode)
     {
         KBEngine.Event.fireIn("StartMatching", map, mode, matchCode);
         SceneManager.LoadScene("Room");
@@ -137,20 +137,36 @@ public class ServerEvents
     #endregion Matching Callback
 
     #region Transform Send
+    /// <summary>
+    /// 机器人同步坐标
+    /// </summary>
+    /// <param name="avatar">机器人实体</param>
+    /// <param name="pos">位置</param>
     public void UpdateRobotTran(KBEngine.Avatar avatar, Vector3 pos)
     {
         KBEngine.Event.fireIn("updateRobotTran", avatar, pos);
     }
+
+    /// <summary>
+    /// 玩家同步坐标
+    /// </summary>
+    /// <param name="pos">位置</param>
+    public void UpdatePlayerTran(Vector3 pos, float y_angle)
+    {
+        KBEngine.Event.fireIn("updatePlayer", pos, y_angle);
+    }
+
     #endregion Transform Send
 
-    #region Props Send
+    #region Get Props Send
     /// <summary>
     /// 当前玩家获得道具
     /// </summary>
+    /// <param name="propKey">道具键值</param>
     /// <param name="type">道具类型</param>
-    public void GetProps(int type)
+    public void GetProps(string propKey, int type)
     {
-        KBEngine.Event.fireIn("getProps", type);
+        ServerCore.GetProps(propKey, type);
     }
     #endregion Props Send
 
@@ -158,57 +174,61 @@ public class ServerEvents
     /// <summary>
     /// 其他玩家获得道具
     /// </summary>
-    /// <param name="eid"></param>
-    /// <param name="type"></param>
-    public void onGetProps(int eid, int type)
+    /// <param name="eid">玩家实体ID</param>
+    /// <param name="propKey">道具键值</param>
+    /// <param name="type">道具种类</param>
+    public void onGetProps(int eid, string propKey, int type)
     {
-        ClientCore.Instance.onGetProps(eid, type);
+        ClientCore.Instance.onGetProps(eid, propKey, type);
     }
     #endregion Props Callback
 
-    #region Skill Send
+    #region Use Prop Send
     /// <summary>
-    /// 当前玩家实用技能
+    /// 当前玩家使用道具
     /// </summary>
     /// <param name="targetID">施放目标ID</param>
-    /// <param name="skill">技能编号</param>
-    public void useSkill(int targetID, int skill)
+    /// <param name="type">道具类型</param>
+    public void useSkill(int targetID, int type)
     {
-        KBEngine.Event.fireIn("useSkill", targetID, skill);
+        ServerCore.UseProp(targetID, type);
     }
 
     /// <summary>
-    /// 技能结算结果
+    /// 道具结算结果
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">施放目标ID</param>
+    /// <param name="type">道具类型</param>
     /// <param name="suc">结算结果编号</param>
-    public void skillResult(int userID, int targetID, int suc)
+    public void PropResult(int userID, int targetID, int type, int suc)
     {
         //最好当前玩家与技能施放者相同时才上报技能计算结果
-        KBEngine.Event.fireIn("skillResult", userID, targetID, suc);
+        ServerCore.PropResult(userID, targetID, type, suc);
     }
     #endregion Skill Send
 
     #region Skill Callback
     /// <summary>
-    /// 有玩家施放技能
+    /// 有玩家使用道具
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
-    /// <param name="skill">技能编号</param>
-    public void onUseSkill(int userID, int targetID, int skill)
+    /// <param name="type">技能编号</param>
+    /// <param name="pos">使用技能时坐标</param>
+    public void onUseProp(int userID, int targetID, int type, Vector3 pos)
     {
-        ClientCore.Instance.onUseSkill(userID, targetID, skill);
+        ClientCore.Instance.onUseSkill(userID, targetID, type);
     }
 
     /// <summary>
-    /// 技能施放结果回调
+    /// 道具结果回调
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
+    /// <param name="type">prop_type</param>
     /// <param name="suc">结算结果：0命中，1未命中</param>
-    public void onSkillResult(int userID, int targetID, int suc)
+    public void onPropResult(int userID, int targetID, int type, int suc)
     {
         ClientCore.Instance.onSkillResult(userID, targetID, suc);
     }
