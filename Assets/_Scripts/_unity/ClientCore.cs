@@ -13,7 +13,7 @@ public class ClientCore : MonoBehaviour
     // 按座位号排序的列表
     public static List<TankManager> g_tankList = new List<TankManager>();
 
-    public Dictionary<string, PropBehavior> g_propDict = new Dictionary<string, PropBehavior>();
+    public static Dictionary<string, PropBehavior> g_propDict = new Dictionary<string, PropBehavior>();
 
     // Use this for initialization
     void Start()
@@ -104,6 +104,27 @@ public class ClientCore : MonoBehaviour
         if (g_tankDict.ContainsKey(eid))
         {
             g_tankDict[eid].onGetProps(type);
+        }
+
+        if (g_propDict.ContainsKey(propKey))
+        {
+            g_propDict[propKey].DisableProp();
+        }
+    }
+
+    /// <summary>
+    /// 恢复道具
+    /// </summary>
+    /// <param name="propsList">道具列表</param>
+    public void onResetProp(List<string> propsList)
+    {
+        for (int i = 0; i < propsList.Count; i++)
+        {
+            Debug.Log("onResetPropClient " + propsList[i]);
+            if (g_propDict.ContainsKey(propsList[i]))
+            {
+                g_propDict[propsList[i]].ResetProp();
+            }
         }
     }
     #endregion Props

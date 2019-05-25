@@ -56,7 +56,7 @@
         /// <param name="arg1">0-未登录或未匹配; 1-匹配但未比赛; 2-比赛中</param>
         public override void onLoginState(int arg1)
         {
-            Debug.LogErrorFormat("onLoginState : {0}", arg1);
+            Debug.LogFormat("onLoginState : {0}", arg1);
             Event.fireOut("onLoginState", arg1);
         }
         #endregion Login Callback
@@ -74,7 +74,7 @@
         {
             if (progress < tprogerss)
             {
-                Debug.LogErrorFormat("Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
+                Debug.LogFormat("Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
                 progress = tprogerss;
                 cellCall("regProgress", progress);
             }
@@ -82,7 +82,7 @@
 
         public override void onProgressChanged(int oldValue)
         {
-            Debug.LogErrorFormat("Player:{0} onProgressChanged:{1}", name, progress);
+            Debug.LogFormat("Player:{0} onProgressChanged:{1}", name, progress);
         }
         #endregion Matching Send
 
@@ -90,7 +90,7 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-            Debug.LogErrorFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
+            Debug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
             Event.fireOut("onEntityEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
         }
 
@@ -153,8 +153,18 @@
         /// <param name="arg3">prop_type</param>
         public override void onGetPropsClient(int arg1, string arg2, int arg3)
         {
-            Debug.LogErrorFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
+            Debug.LogFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
             Event.fireOut("onGetProps", arg1, arg2, arg3);
+        }
+
+        /// <summary>
+        /// 恢复相应道具
+        /// </summary>
+        /// <param name="arg1">需要恢复的道具列表</param>
+        public override void onResetPropClient(PROP_LIST arg1)
+        {
+            Debug.LogFormat("onResetPropClient");
+            Event.fireOut("onResetProp", arg1);
         }
         #endregion Props Callback
 

@@ -35,7 +35,7 @@ public class PropBehavior : MonoBehaviour
                 }
         }
         gameObject.GetComponentInChildren<MeshRenderer>().material.color = tColor;
-
+        ClientCore.g_propDict[gameObject.name] = this;
     }
 
     [Tooltip("道具类型")]
@@ -48,5 +48,15 @@ public class PropBehavior : MonoBehaviour
             ServerEvents.Instance.GetProps(gameObject.name, (int)_propType);
             gameObject.SetActive(false);
         }
+    }
+
+    public void DisableProp()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void ResetProp()
+    {
+        gameObject.SetActive(true);
     }
 }

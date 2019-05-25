@@ -106,6 +106,7 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerIn("updateRobotTran", this, "updateRobotTran");
 
         KBEngine.Event.registerOut("onGetProps", this, "onGetProps");
+        KBEngine.Event.registerOut("onResetProp", this, "onResetProp");
         KBEngine.Event.registerOut("onUseProp", this, "onUseProp");
         KBEngine.Event.registerOut("onPropResult", this, "onPropResult");
         KBEngine.Event.registerOut("onTimerChanged", this, "onTimerChanged");
@@ -202,9 +203,16 @@ public class ServerCore : MonoBehaviour
     {
         ServerEvents.Instance.onGetProps(id, propKey, type);
     }
-    #endregion Props
 
-    #region Skill
+    /// <summary>
+    /// 恢复道具
+    /// </summary>
+    /// <param name="propsList">道具列表</param>
+    public void onResetProp(List<string> propsList)
+    {
+        ServerEvents.Instance.onResetProp(propsList);
+    }
+
     /// <summary>
     /// 有玩家施放技能
     /// </summary>
@@ -228,7 +236,7 @@ public class ServerCore : MonoBehaviour
     {
         ServerEvents.Instance.onPropResult(userID, targetID, type, suc);
     }
-    #endregion Skill
+    #endregion Prop
 
     #region Destination
     public void onTimerChanged(int sec)

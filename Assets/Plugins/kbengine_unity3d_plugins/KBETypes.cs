@@ -1142,5 +1142,10 @@ namespace KBEngine
 		}
 	}
 
+	public class PROP_LIST : List<string>
+	{
+
+	}
+
 
 }

@@ -181,6 +181,15 @@ public class ServerEvents
     {
         ClientCore.Instance.onGetProps(eid, propKey, type);
     }
+
+    /// <summary>
+    /// 恢复道具
+    /// </summary>
+    /// <param name="propsList">道具列表</param>
+    public void onResetProp(List<string> propsList)
+    {
+        ClientCore.Instance.onResetProp(propsList);
+    }
     #endregion Props Callback
 
     #region Use Prop Send

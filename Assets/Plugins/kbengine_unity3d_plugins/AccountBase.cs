@@ -34,6 +34,7 @@ namespace KBEngine
 		public abstract void onMatchingFinish(Int32 arg1); 
 		public abstract void onPropResultClient(Int32 arg1, Int32 arg2, Int32 arg3, Byte arg4); 
 		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
+		public abstract void onResetPropClient(PROP_LIST arg1); 
 		public abstract void onTimerChanged(Int32 arg1); 
 		public abstract void onUseProp(Int32 arg1, Int32 arg2, Int32 arg3, Vector3 arg4); 
 
@@ -119,7 +120,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 24:
+				case 25:
 					Int32 onExitRoom_arg1 = stream.readInt32();
 					onExitRoom(onExitRoom_arg1);
 					break;
@@ -152,12 +153,16 @@ namespace KBEngine
 					Byte onPropResultClient_arg4 = stream.readUint8();
 					onPropResultClient(onPropResultClient_arg1, onPropResultClient_arg2, onPropResultClient_arg3, onPropResultClient_arg4);
 					break;
-				case 22:
+				case 23:
 					Int32 onReachDestination_arg1 = stream.readInt32();
 					Int32 onReachDestination_arg2 = stream.readInt32();
 					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
 					break;
-				case 23:
+				case 22:
+					PROP_LIST onResetPropClient_arg1 = ((DATATYPE_PROP_LIST)method.args[0]).createFromStreamEx(stream);
+					onResetPropClient(onResetPropClient_arg1);
+					break;
+				case 24:
 					Int32 onTimerChanged_arg1 = stream.readInt32();
 					onTimerChanged(onTimerChanged_arg1);
 					break;

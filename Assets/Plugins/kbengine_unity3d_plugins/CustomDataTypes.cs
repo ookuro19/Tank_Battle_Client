@@ -12,4 +12,32 @@ namespace KBEngine
 	using System.Collections.Generic;
 
 
+
+	public class DATATYPE_PROP_LIST : DATATYPE_BASE
+	{
+		public PROP_LIST createFromStreamEx(MemoryStream stream)
+		{
+			UInt32 size = stream.readUint32();
+			PROP_LIST datas = new PROP_LIST();
+
+			while(size > 0)
+			{
+				--size;
+				datas.Add(stream.readUnicode());
+			};
+
+			return datas;
+		}
+
+		public void addToStreamEx(Bundle stream, PROP_LIST v)
+		{
+			stream.writeUint32((UInt32)v.Count);
+			for(int i=0; i<v.Count; ++i)
+			{
+				stream.writeUnicode(v[i]);
+			};
+		}
+	}
+
+
 }
