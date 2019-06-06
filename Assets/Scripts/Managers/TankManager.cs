@@ -29,6 +29,7 @@ public class TankManager
     public int m_roomNo { get; private set; }
     public string m_avatarName { get; private set; }
     private bool isPlayer = false;
+    private EPropType m_curPropType = EPropType.ept_None;
 
     public void SetAvatar(KBEngine.Avatar tAccount)
     {
@@ -37,6 +38,7 @@ public class TankManager
         m_roomNo = tAccount.roomNo;
         m_avatarName = tAccount.name;
         isPlayer = tAccount.isPlayer;
+        m_curPropType = EPropType.ept_None;
 
         Debug.LogErrorFormat("onEnterWorld,{0} is Player: {1} ", m_avatarName, isPlayer);
     }
@@ -118,12 +120,43 @@ public class TankManager
     public void onGetProps(int type)
     {
         Debug.LogErrorFormat("id: {0} get props {1}", m_eid, (EPropType)type);
+        m_curPropType = (EPropType)type;
+    }
+
+    public void useSkill(int targetID, int type)
+    {
+        if ((int)m_curPropType == type)
+        {
+            m_curPropType = EPropType.ept_None;
+            ServerEvents.Instance.useSkill(targetID, type);
+        }
+        else
+        {
+            Debug.LogErrorFormat("You dont have this prop " + (EPropType)type);
+        }
     }
 
     // 向target使用技能
-    public void onUseSkill(TankManager targetTM, int skill)
+    public void onUseSkill(TankManager targetTM, int type, Vector3 pos)
     {
-        m_shooting.onUseSkill(targetTM, skill);
+        switch ((EPropType)type)
+        {
+            case EPropType.ePT_Bullet:
+                {
+                    m_shooting.onUseSkill(targetTM, type);
+                    break;
+                }
+            case EPropType.ePT_Shell:
+                {
+                    
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+
     }
 
     /// <summary>

@@ -19,6 +19,12 @@ namespace KBEngine
 		public EntityBaseEntityCall_AccountBase baseEntityCall = null;
 		public EntityCellEntityCall_AccountBase cellEntityCall = null;
 
+		public ITEM_LIST bagItemList = new ITEM_LIST();
+		public virtual void onBagItemListChanged(ITEM_LIST oldValue) {}
+		public EQUIP_DICT currentItemDict = new EQUIP_DICT();
+		public virtual void onCurrentItemDictChanged(EQUIP_DICT oldValue) {}
+		public Int32 gold = 0;
+		public virtual void onGoldChanged(Int32 oldValue) {}
 		public string nameS = "";
 		public virtual void onNameSChanged(string oldValue) {}
 		public Int32 progress = 0;
@@ -26,7 +32,10 @@ namespace KBEngine
 		public Int32 roomNo = 0;
 		public virtual void onRoomNoChanged(Int32 oldValue) {}
 
+		public abstract void onBuyEquip(Int32 arg1, Byte arg2); 
+		public abstract void onChangeEquip(Int32 arg1, Byte arg2); 
 		public abstract void onExitRoom(Int32 arg1); 
+		public abstract void onGetGold(Int32 arg1); 
 		public abstract void onGetPropsClient(Int32 arg1, string arg2, Int32 arg3); 
 		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onLoginState(Int32 arg1); 
@@ -120,53 +129,67 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 25:
+				case 29:
+					Int32 onBuyEquip_arg1 = stream.readInt32();
+					Byte onBuyEquip_arg2 = stream.readUint8();
+					onBuyEquip(onBuyEquip_arg1, onBuyEquip_arg2);
+					break;
+				case 30:
+					Int32 onChangeEquip_arg1 = stream.readInt32();
+					Byte onChangeEquip_arg2 = stream.readUint8();
+					onChangeEquip(onChangeEquip_arg1, onChangeEquip_arg2);
+					break;
+				case 28:
 					Int32 onExitRoom_arg1 = stream.readInt32();
 					onExitRoom(onExitRoom_arg1);
 					break;
-				case 19:
+				case 31:
+					Int32 onGetGold_arg1 = stream.readInt32();
+					onGetGold(onGetGold_arg1);
+					break;
+				case 22:
 					Int32 onGetPropsClient_arg1 = stream.readInt32();
 					string onGetPropsClient_arg2 = stream.readUnicode();
 					Int32 onGetPropsClient_arg3 = stream.readInt32();
 					onGetPropsClient(onGetPropsClient_arg1, onGetPropsClient_arg2, onGetPropsClient_arg3);
 					break;
-				case 18:
+				case 21:
 					Int32 onLoadingFinish_arg1 = stream.readInt32();
 					onLoadingFinish(onLoadingFinish_arg1);
 					break;
-				case 15:
+				case 18:
 					Int32 onLoginState_arg1 = stream.readInt32();
 					onLoginState(onLoginState_arg1);
 					break;
-				case 16:
+				case 19:
 					Int32 onMapModeChanged_arg1 = stream.readInt32();
 					onMapModeChanged(onMapModeChanged_arg1);
 					break;
-				case 17:
+				case 20:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
 					break;
-				case 21:
+				case 24:
 					Int32 onPropResultClient_arg1 = stream.readInt32();
 					Int32 onPropResultClient_arg2 = stream.readInt32();
 					Int32 onPropResultClient_arg3 = stream.readInt32();
 					Byte onPropResultClient_arg4 = stream.readUint8();
 					onPropResultClient(onPropResultClient_arg1, onPropResultClient_arg2, onPropResultClient_arg3, onPropResultClient_arg4);
 					break;
-				case 23:
+				case 26:
 					Int32 onReachDestination_arg1 = stream.readInt32();
 					Int32 onReachDestination_arg2 = stream.readInt32();
 					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
 					break;
-				case 22:
+				case 25:
 					PROP_LIST onResetPropClient_arg1 = ((DATATYPE_PROP_LIST)method.args[0]).createFromStreamEx(stream);
 					onResetPropClient(onResetPropClient_arg1);
 					break;
-				case 24:
+				case 27:
 					Int32 onTimerChanged_arg1 = stream.readInt32();
 					onTimerChanged(onTimerChanged_arg1);
 					break;
-				case 20:
+				case 23:
 					Int32 onUseProp_arg1 = stream.readInt32();
 					Int32 onUseProp_arg2 = stream.readInt32();
 					Int32 onUseProp_arg3 = stream.readInt32();
@@ -221,6 +244,38 @@ namespace KBEngine
 
 				switch(prop.properUtype)
 				{
+					case 11:
+						ITEM_LIST oldval_bagItemList = bagItemList;
+						bagItemList = ((DATATYPE_ITEM_LIST)EntityDef.id2datatypes[23]).createFromStreamEx(stream);
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onBagItemListChanged(oldval_bagItemList);
+						}
+						else
+						{
+							if(inWorld)
+								onBagItemListChanged(oldval_bagItemList);
+						}
+
+						break;
+					case 12:
+						EQUIP_DICT oldval_currentItemDict = currentItemDict;
+						currentItemDict = ((DATATYPE_EQUIP_DICT)EntityDef.id2datatypes[24]).createFromStreamEx(stream);
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onCurrentItemDictChanged(oldval_currentItemDict);
+						}
+						else
+						{
+							if(inWorld)
+								onCurrentItemDictChanged(oldval_currentItemDict);
+						}
+
+						break;
 					case 40001:
 						Vector3 oldval_direction = direction;
 						direction = stream.readVector3();
@@ -237,7 +292,23 @@ namespace KBEngine
 						}
 
 						break;
-					case 5:
+					case 1:
+						Int32 oldval_gold = gold;
+						gold = stream.readInt32();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onGoldChanged(oldval_gold);
+						}
+						else
+						{
+							if(inWorld)
+								onGoldChanged(oldval_gold);
+						}
+
+						break;
+					case 2:
 						string oldval_nameS = nameS;
 						nameS = stream.readUnicode();
 
@@ -269,7 +340,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 7:
+					case 8:
 						Int32 oldval_progress = progress;
 						progress = stream.readInt32();
 
@@ -285,7 +356,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 9:
+					case 10:
 						Int32 oldval_roomNo = roomNo;
 						roomNo = stream.readInt32();
 
@@ -315,6 +386,48 @@ namespace KBEngine
 			ScriptModule sm = EntityDef.moduledefs["Account"];
 			Dictionary<UInt16, Property> pdatas = sm.idpropertys;
 
+			ITEM_LIST oldval_bagItemList = bagItemList;
+			Property prop_bagItemList = pdatas[4];
+			if(prop_bagItemList.isBase())
+			{
+				if(inited && !inWorld)
+					onBagItemListChanged(oldval_bagItemList);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_bagItemList.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onBagItemListChanged(oldval_bagItemList);
+					}
+				}
+			}
+
+			EQUIP_DICT oldval_currentItemDict = currentItemDict;
+			Property prop_currentItemDict = pdatas[5];
+			if(prop_currentItemDict.isBase())
+			{
+				if(inited && !inWorld)
+					onCurrentItemDictChanged(oldval_currentItemDict);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_currentItemDict.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onCurrentItemDictChanged(oldval_currentItemDict);
+					}
+				}
+			}
+
 			Vector3 oldval_direction = direction;
 			Property prop_direction = pdatas[2];
 			if(prop_direction.isBase())
@@ -336,8 +449,29 @@ namespace KBEngine
 				}
 			}
 
+			Int32 oldval_gold = gold;
+			Property prop_gold = pdatas[6];
+			if(prop_gold.isBase())
+			{
+				if(inited && !inWorld)
+					onGoldChanged(oldval_gold);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_gold.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onGoldChanged(oldval_gold);
+					}
+				}
+			}
+
 			string oldval_nameS = nameS;
-			Property prop_nameS = pdatas[4];
+			Property prop_nameS = pdatas[7];
 			if(prop_nameS.isBase())
 			{
 				if(inited && !inWorld)
@@ -379,7 +513,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_progress = progress;
-			Property prop_progress = pdatas[5];
+			Property prop_progress = pdatas[8];
 			if(prop_progress.isBase())
 			{
 				if(inited && !inWorld)
@@ -400,7 +534,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_roomNo = roomNo;
-			Property prop_roomNo = pdatas[6];
+			Property prop_roomNo = pdatas[9];
 			if(prop_roomNo.isBase())
 			{
 				if(inited && !inWorld)

@@ -86,7 +86,8 @@ public class ServerEvents
     /// </summary>
     /// <param name="map">地图编号</param>
     /// <param name="mode">模式编号</param>
-    public static void StartMatching(int map, int mode, int matchCode)
+    /// <param name="matchCode">匹配码</param>
+    public static void StartMatching(int map, int mode, int matchCode = -1)
     {
         KBEngine.Event.fireIn("StartMatching", map, mode, matchCode);
         SceneManager.LoadScene("Room");
@@ -104,19 +105,24 @@ public class ServerEvents
 
     #region Matching Callback
     /// <summary>
+    /// 有玩家进入房间
+    /// </summary>
+    /// <param name="seatNum">玩家座位号</param>
+    /// <param name="account"></param>
+    public void onAvatarEnter(int seatNum, KBEngine.Avatar account)
+    {
+        ClientCore.Instance.AccountEnterWorld(seatNum, account);
+    }
+
+    /// <summary>
     /// 设置玩家的地图和模式编号
     /// </summary>
-    /// <param name="num">100 * mode + map</param>
-    public void onSetGameMapMode(int num)
+    /// <param name="mode">模式</param>
+    /// <param name="map">地图</param>
+    public void onSetGameMapMode(int mode, int map)
     {
 
     }
-
-    public void onAvatarEnter(int eid, KBEngine.Avatar account)
-    {
-        ClientCore.Instance.AccountEnterWorld(eid, account);
-    }
-
 
     /// <summary>
     /// 匹配完成
@@ -158,7 +164,7 @@ public class ServerEvents
 
     #endregion Transform Send
 
-    #region Get Props Send
+    #region Props Send
     /// <summary>
     /// 当前玩家获得道具
     /// </summary>
@@ -167,6 +173,29 @@ public class ServerEvents
     public void GetProps(string propKey, int type)
     {
         ServerCore.GetProps(propKey, type);
+    }
+
+    /// <summary>
+    /// 当前玩家使用道具
+    /// </summary>
+    /// <param name="targetID">施放目标ID</param>
+    /// <param name="type">道具类型</param>
+    public void useSkill(int targetID, int type)
+    {
+        ServerCore.UseProp(targetID, type);
+    }
+
+    /// <summary>
+    /// 道具结算结果
+    /// </summary>
+    /// <param name="userID">使用者ID</param>
+    /// <param name="targetID">施放目标ID</param>
+    /// <param name="type">道具类型</param>
+    /// <param name="suc">结算结果编号</param>
+    public void SkillResult(int userID, int targetID, int type, int suc)
+    {
+        //最好当前玩家与技能施放者相同时才上报技能计算结果
+        ServerCore.PropResult(userID, targetID, type, suc);
     }
     #endregion Props Send
 
@@ -190,34 +219,7 @@ public class ServerEvents
     {
         ClientCore.Instance.onResetProp(propsList);
     }
-    #endregion Props Callback
 
-    #region Use Prop Send
-    /// <summary>
-    /// 当前玩家使用道具
-    /// </summary>
-    /// <param name="targetID">施放目标ID</param>
-    /// <param name="type">道具类型</param>
-    public void useSkill(int targetID, int type)
-    {
-        ServerCore.UseProp(targetID, type);
-    }
-
-    /// <summary>
-    /// 道具结算结果
-    /// </summary>
-    /// <param name="userID">使用者ID</param>
-    /// <param name="targetID">施放目标ID</param>
-    /// <param name="type">道具类型</param>
-    /// <param name="suc">结算结果编号</param>
-    public void PropResult(int userID, int targetID, int type, int suc)
-    {
-        //最好当前玩家与技能施放者相同时才上报技能计算结果
-        ServerCore.PropResult(userID, targetID, type, suc);
-    }
-    #endregion Skill Send
-
-    #region Skill Callback
     /// <summary>
     /// 有玩家使用道具
     /// </summary>
@@ -227,7 +229,7 @@ public class ServerEvents
     /// <param name="pos">使用技能时坐标</param>
     public void onUseProp(int userID, int targetID, int type, Vector3 pos)
     {
-        ClientCore.Instance.onUseSkill(userID, targetID, type);
+        ClientCore.Instance.onUseSkill(userID, targetID, type, pos);
     }
 
     /// <summary>
@@ -241,7 +243,7 @@ public class ServerEvents
     {
         ClientCore.Instance.onSkillResult(userID, targetID, suc);
     }
-    #endregion Skill Callback
+    #endregion Props Callback
 
     #region Destination Send
     /// <summary>
@@ -255,6 +257,15 @@ public class ServerEvents
 
     #region Destination Callback
     /// <summary>
+    /// 有玩家抵达终点后，服务器发来的统一倒计时
+    /// </summary>
+    /// <param name="sec">倒计时</param>
+    public void onTimerChanged(int sec)
+    {
+        Debug.LogFormat("-------onTimerChanged : {0} ----------", sec);
+    }
+
+    /// <summary>
     /// 其他玩家到达终点
     /// </summary>
     /// <param name="eid">玩家实体ID</param>
@@ -262,15 +273,6 @@ public class ServerEvents
     public void onReachDestination(int eid, float time)
     {
 
-    }
-
-    /// <summary>
-    /// 有玩家抵达终点后，服务器发来的统一倒计时
-    /// </summary>
-    /// <param name="sec">倒计时</param>
-    public void onTimerChanged(int sec)
-    {
-        Debug.LogFormat("-------onTimerChanged : {0} ----------", sec);
     }
 
     /// <summary>
@@ -284,4 +286,63 @@ public class ServerEvents
     }
     #endregion Destination Callback
 
+    #region Shop Send
+    /// <summary>
+    /// 得到金币
+    /// </summary>
+    /// <param name="tGold"></param>
+    public void regGetGold(int tGold)
+    {
+        ServerCore.regGetGold(tGold);
+    }
+
+    /// <summary>
+    /// 购买装备
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    public void regBuyEquip(int itemID)
+    {
+        ServerCore.regBuyEquip(itemID);
+    }
+
+    /// <summary>
+    /// 切换装备
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    public void regChangeEquip(int itemID)
+    {
+        ServerCore.regChangeEquip(itemID);
+    }
+    #endregion Shop Send
+
+    #region Shop Callback
+    /// <summary>
+    /// 得到金币回调
+    /// </summary>
+    /// <param name="tGold"></param>
+    public void onGetGold(int tGold)
+    {
+
+    }
+
+    /// <summary>
+    /// 购买装备回调
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    /// <param name="suc">购买结果: 0-成功, 1-已拥有, 2-金币不足, 3-道具不存在</param>
+    public void onBuyEquip(int itemID, int suc)
+    {
+
+    }
+
+    /// <summary>
+    /// 切换装备回调
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    /// <param name="suc">结果: 0-成功, 1-未拥有</param>
+    public void onChangeEquip(int itemID, int suc)
+    {
+
+    }
+    #endregion Shop Callback
 }

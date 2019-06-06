@@ -22,7 +22,7 @@ public class KBEMain : MonoBehaviour
 	public int syncPlayerMS = 1000 / 60;
 
 	public int threadUpdateHZ = 60 * 2;
-	public int serverHeartbeatTick = 30;
+	public int serverHeartbeatTick = 60;
 	public int TCP_SEND_BUFFER_MAX = (int)KBEngine.NetworkInterfaceBase.TCP_PACKET_MAX;
 	public int TCP_RECV_BUFFER_MAX = (int)KBEngine.NetworkInterfaceBase.TCP_PACKET_MAX;
 	public int UDP_SEND_BUFFER_MAX = (int)KBEngine.NetworkInterfaceBase.UDP_PACKET_MAX;

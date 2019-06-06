@@ -21,6 +21,36 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_BASE;
 		}
 
+		public void regBuyEquip(Int32 arg1)
+		{
+			Bundle pBundle = newCall("regBuyEquip", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			sendCall(null);
+		}
+
+		public void regChangeEquip(Int32 arg1)
+		{
+			Bundle pBundle = newCall("regChangeEquip", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			sendCall(null);
+		}
+
+		public void regGetGold(Int32 arg1)
+		{
+			Bundle pBundle = newCall("regGetGold", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			sendCall(null);
+		}
+
 		public void regStartMatching(Int32 arg1, Int32 arg2, Int32 arg3)
 		{
 			Bundle pBundle = newCall("regStartMatching", 0);

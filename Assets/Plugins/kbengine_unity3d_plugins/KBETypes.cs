@@ -782,6 +782,43 @@ namespace KBEngine
 		}
 	}
 
+	public struct GOLD_NUM
+	{
+		Int32 value;
+
+		GOLD_NUM(Int32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator Int32(GOLD_NUM value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator GOLD_NUM(Int32 value)
+		{
+			Int32 tvalue = (Int32)value;
+			return new GOLD_NUM(tvalue);
+		}
+
+		public static Int32 MaxValue
+		{
+			get
+			{
+				return Int32.MaxValue;
+			}
+		}
+
+		public static Int32 MinValue
+		{
+			get
+			{
+				return Int32.MinValue;
+			}
+		}
+	}
+
 	public struct ENTITY_ID
 	{
 		Int32 value;
@@ -1144,6 +1181,58 @@ namespace KBEngine
 
 	public class PROP_LIST : List<string>
 	{
+
+	}
+
+	public struct ITEM_ID
+	{
+		Int32 value;
+
+		ITEM_ID(Int32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator Int32(ITEM_ID value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator ITEM_ID(Int32 value)
+		{
+			Int32 tvalue = (Int32)value;
+			return new ITEM_ID(tvalue);
+		}
+
+		public static Int32 MaxValue
+		{
+			get
+			{
+				return Int32.MaxValue;
+			}
+		}
+
+		public static Int32 MinValue
+		{
+			get
+			{
+				return Int32.MinValue;
+			}
+		}
+	}
+
+	public class ITEM_LIST : List<Int32>
+	{
+
+	}
+
+	public class EQUIP_DICT
+	{
+		public Int32 head = 0;
+		public Int32 clothes = 0;
+		public Int32 hand = 0;
+		public Int32 shoe = 0;
+		public Int32 bag = 0;
 
 	}
 

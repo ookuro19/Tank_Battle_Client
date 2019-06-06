@@ -4,8 +4,10 @@ using UnityEngine;
 
 public enum EPropType
 {
-	ePT_Shell,
-	ePT_Damage
+    ept_None = 0,
+    ePT_Shell = 1,
+    ePT_Bullet = 2,
+    ePT_Mine = 3
 }
 
-public class CommonClass{ }
+public class CommonClass { }

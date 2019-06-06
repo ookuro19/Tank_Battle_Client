@@ -173,7 +173,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 10:
+					case 13:
 						string oldval_nameS = nameS;
 						nameS = stream.readUnicode();
 
@@ -205,7 +205,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 11:
+					case 14:
 						Int32 oldval_progress = progress;
 						progress = stream.readInt32();
 
@@ -221,7 +221,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 13:
+					case 16:
 						Int32 oldval_roomNo = roomNo;
 						roomNo = stream.readInt32();
 

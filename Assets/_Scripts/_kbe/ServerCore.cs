@@ -49,6 +49,7 @@ public class ServerCore : MonoBehaviour
     {
         KBEngine.Event.fireIn("login", StringToUnicode(name), pwd, System.Text.Encoding.UTF8.GetBytes("kbengine_unity3d_demo"));
     }
+
     /// 当前玩家获得道具
     /// </summary>
     /// <param name="propKey"></param>
@@ -80,6 +81,35 @@ public class ServerCore : MonoBehaviour
         //最好当前玩家与技能施放者相同时才上报技能计算结果
         KBEngine.Event.fireIn("regPropResult", userID, targetID, type, suc);
     }
+
+    /// <summary>
+    /// 得到金币
+    /// </summary>
+    /// <param name="tGold"></param>
+    public static void regGetGold(int tGold)
+    {
+        KBEngine.Event.fireIn("regGetGold", tGold);
+    }
+
+    /// <summary>
+    /// 购买装备
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    public static void regBuyEquip(int itemID)
+    {
+        KBEngine.Event.fireIn("regBuyEquip", itemID);
+    }
+
+    /// <summary>
+    /// 切换装备
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    public static void regChangeEquip(int itemID)
+    {
+        KBEngine.Event.fireIn("regChangeEquip", itemID);
+    }
+
+
     #endregion Send
 
     #region Callback
@@ -112,32 +142,37 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerOut("onTimerChanged", this, "onTimerChanged");
         KBEngine.Event.registerOut("onExitRoom", this, "onExitRoom");
         KBEngine.Event.registerOut("onReachDestination", this, "onReachDestination");
+
+        // Shop
+        KBEngine.Event.registerOut("onGetGold", this, "onGetGold");
+        KBEngine.Event.registerOut("onBuyEquip", this, "onBuyEquip");
+        KBEngine.Event.registerOut("onChangeEquip", this, "onChangeEquip");
     }
 
     #region Login
     public void onConnectionState(bool success)
     {
         if (!success)
-            Debug.LogError("connect(" + KBEngineApp.app.getInitArgs().ip + ":" + KBEngineApp.app.getInitArgs().port + ") is error! (连接错误)");
+            KBEDebug.LogError("connect(" + KBEngineApp.app.getInitArgs().ip + ":" + KBEngineApp.app.getInitArgs().port + ") is error! (连接错误)");
         else
-            Debug.Log("connect successfully, please wait...(连接成功，请等候...)");
+            KBEDebug.Log("connect successfully, please wait...(连接成功，请等候...)");
     }
 
     public void onLoginFailed(UInt16 failedcode)
     {
         if (failedcode == 20)
         {
-            Debug.LogError("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.ASCII.GetString(KBEngineApp.app.serverdatas()));
+            KBEDebug.LogError("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode) + ", " + System.Text.Encoding.ASCII.GetString(KBEngineApp.app.serverdatas()));
         }
         else
         {
-            Debug.LogError("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode));
+            KBEDebug.LogError("login is failed(登陆失败), err=" + KBEngineApp.app.serverErr(failedcode));
         }
     }
 
     public void onLoginSuccessfully(UInt64 rndUUID, Int32 eid, KBEngine.Account account)
     {
-        Debug.Log("login is successfully!(登陆成功!)");
+        KBEDebug.Log("login is successfully!(登陆成功!)");
         KBEngine.Avatar m_Avatar = new KBEngine.Avatar(account);
         ServerEvents.Instance.onLoginSuccessfully(eid, m_Avatar);
     }
@@ -173,7 +208,7 @@ public class ServerCore : MonoBehaviour
     /// <param name="arg1">100 * mode + map</param>
     public void onMapModeChanged(int arg1)
     {
-        ServerEvents.Instance.onSetGameMapMode(arg1);
+        ServerEvents.Instance.onSetGameMapMode(arg1 / 100, arg1 % 100);
     }
 
     public void onMatchingFinish(int suc)
@@ -246,7 +281,7 @@ public class ServerCore : MonoBehaviour
 
     public void onExitRoom(int suc)
     {
-        Debug.Log("onExitRoom");
+        KBEDebug.Log("onExitRoom");
         ServerEvents.Instance.onExitRoom(suc);
     }
 
@@ -255,6 +290,37 @@ public class ServerCore : MonoBehaviour
         ServerEvents.Instance.onReachDestination(eid, time);
     }
     #endregion Destination
+
+    #region Shop
+    /// <summary>
+    /// 得到金币回调
+    /// </summary>
+    /// <param name="tGold"></param>
+    public void onGetGold(int tGold)
+    {
+        ServerEvents.Instance.onGetGold(tGold);
+    }
+
+    /// <summary>
+    /// 购买装备回调
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    /// <param name="suc">购买结果: 0-成功, 1-已拥有, 2-金币不足, 3-道具不存在</param>
+    public void onBuyEquip(int itemID, int suc)
+    {
+        ServerEvents.Instance.onBuyEquip(itemID, suc);
+    }
+
+    /// <summary>
+    /// 切换装备回调
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    /// <param name="suc">结果: 0-成功, 1-未拥有</param>
+    public void onChangeEquip(int itemID, int suc)
+    {
+        ServerEvents.Instance.onChangeEquip(itemID, suc);
+    }
+    #endregion Shop
 
     #endregion Callback
 
@@ -275,7 +341,7 @@ public class ServerCore : MonoBehaviour
             // 取两个字符，每个字符都是右对齐。
             stringBuilder.AppendFormat("u{0}{1}", bytes[i + 1].ToString("x").PadLeft(2, '0'), bytes[i].ToString("x").PadLeft(2, '0'));
         }
-        Debug.Log("player reg name is " + stringBuilder.ToString());
+        KBEDebug.Log("player reg name is " + stringBuilder.ToString());
         return stringBuilder.ToString();
     }
     #endregion util

@@ -7,6 +7,8 @@ public class UI_Main : MonoBehaviour
 {
     public InputField ipf_map;
     public InputField ipf_mode;
+    public InputField ipf_equip;
+    public InputField ipf_gold;
 
     public void StartQuickMatching()
     {
@@ -27,6 +29,33 @@ public class UI_Main : MonoBehaviour
         }
     }
 
+    public void BuyEquipment()
+    {
+        int tEquip;
+        if (int.TryParse(ipf_equip.text, out tEquip))
+        {
+            ClientCore.Instance.regBuyEquip(tEquip);
+        }
+    }
+
+    public void ChangeEquipment()
+    {
+        int tEquip;
+        if (int.TryParse(ipf_equip.text, out tEquip))
+        {
+            ClientCore.Instance.regChangeEquip(tEquip);
+        }
+    }
+    
+    public void GetGold()
+    {
+        int tGold;
+        if (int.TryParse(ipf_gold.text, out tGold))
+        {
+            ClientCore.Instance.regGetGold(tGold);
+        }
+    }
+    
     public void Logout()
     {
         KBEngine.Event.fireIn("logout");

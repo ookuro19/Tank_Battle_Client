@@ -122,11 +122,52 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(spaceID / 40002).");
 
+			Property pAccount_bagItemList = new Property();
+			pAccount_bagItemList.name = "bagItemList";
+			pAccount_bagItemList.properUtype = 11;
+			pAccount_bagItemList.properFlags = 32;
+			pAccount_bagItemList.aliasID = 4;
+			pAccount_bagItemList.defaultVal = EntityDef.id2datatypes[23].parseDefaultValStr("");
+			pAccountModule.propertys["bagItemList"] = pAccount_bagItemList; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_bagItemList.aliasID] = pAccount_bagItemList;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(bagItemList / 11).");
+
+			Property pAccount_currentItemDict = new Property();
+			pAccount_currentItemDict.name = "currentItemDict";
+			pAccount_currentItemDict.properUtype = 12;
+			pAccount_currentItemDict.properFlags = 32;
+			pAccount_currentItemDict.aliasID = 5;
+			pAccount_currentItemDict.defaultVal = EntityDef.id2datatypes[24].parseDefaultValStr("");
+			pAccountModule.propertys["currentItemDict"] = pAccount_currentItemDict; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_currentItemDict.aliasID] = pAccount_currentItemDict;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(currentItemDict / 12).");
+
+			Property pAccount_gold = new Property();
+			pAccount_gold.name = "gold";
+			pAccount_gold.properUtype = 1;
+			pAccount_gold.properFlags = 32;
+			pAccount_gold.aliasID = 6;
+			Int32 Account_gold_defval;
+			Int32.TryParse("0", out Account_gold_defval);
+			pAccount_gold.defaultVal = Account_gold_defval;
+			pAccountModule.propertys["gold"] = pAccount_gold; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_gold.aliasID] = pAccount_gold;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(gold / 1).");
+
 			Property pAccount_nameS = new Property();
 			pAccount_nameS.name = "nameS";
-			pAccount_nameS.properUtype = 5;
+			pAccount_nameS.properUtype = 2;
 			pAccount_nameS.properFlags = 4;
-			pAccount_nameS.aliasID = 4;
+			pAccount_nameS.aliasID = 7;
 			string Account_nameS_defval = "";
 			pAccount_nameS.defaultVal = Account_nameS_defval;
 			pAccountModule.propertys["nameS"] = pAccount_nameS; 
@@ -134,13 +175,13 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_nameS.aliasID] = pAccount_nameS;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(nameS / 5).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(nameS / 2).");
 
 			Property pAccount_progress = new Property();
 			pAccount_progress.name = "progress";
-			pAccount_progress.properUtype = 7;
+			pAccount_progress.properUtype = 8;
 			pAccount_progress.properFlags = 128;
-			pAccount_progress.aliasID = 5;
+			pAccount_progress.aliasID = 8;
 			Int32 Account_progress_defval;
 			Int32.TryParse("0", out Account_progress_defval);
 			pAccount_progress.defaultVal = Account_progress_defval;
@@ -149,13 +190,13 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_progress.aliasID] = pAccount_progress;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(progress / 7).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(progress / 8).");
 
 			Property pAccount_roomNo = new Property();
 			pAccount_roomNo.name = "roomNo";
-			pAccount_roomNo.properUtype = 9;
+			pAccount_roomNo.properUtype = 10;
 			pAccount_roomNo.properFlags = 4;
-			pAccount_roomNo.aliasID = 6;
+			pAccount_roomNo.aliasID = 9;
 			Int32 Account_roomNo_defval;
 			Int32.TryParse("0", out Account_roomNo_defval);
 			pAccount_roomNo.defaultVal = Account_roomNo_defval;
@@ -164,22 +205,69 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_roomNo.aliasID] = pAccount_roomNo;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(roomNo / 9).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(roomNo / 10).");
+
+			List<DATATYPE_BASE> pAccount_onBuyEquip_args = new List<DATATYPE_BASE>();
+			pAccount_onBuyEquip_args.Add(EntityDef.id2datatypes[8]);
+			pAccount_onBuyEquip_args.Add(EntityDef.id2datatypes[2]);
+
+			Method pAccount_onBuyEquip = new Method();
+			pAccount_onBuyEquip.name = "onBuyEquip";
+			pAccount_onBuyEquip.methodUtype = 29;
+			pAccount_onBuyEquip.aliasID = 1;
+			pAccount_onBuyEquip.args = pAccount_onBuyEquip_args;
+
+			pAccountModule.methods["onBuyEquip"] = pAccount_onBuyEquip; 
+			pAccountModule.useMethodDescrAlias = true;
+			pAccountModule.idmethods[(UInt16)pAccount_onBuyEquip.aliasID] = pAccount_onBuyEquip;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onBuyEquip / 29).");
+
+			List<DATATYPE_BASE> pAccount_onChangeEquip_args = new List<DATATYPE_BASE>();
+			pAccount_onChangeEquip_args.Add(EntityDef.id2datatypes[8]);
+			pAccount_onChangeEquip_args.Add(EntityDef.id2datatypes[2]);
+
+			Method pAccount_onChangeEquip = new Method();
+			pAccount_onChangeEquip.name = "onChangeEquip";
+			pAccount_onChangeEquip.methodUtype = 30;
+			pAccount_onChangeEquip.aliasID = 2;
+			pAccount_onChangeEquip.args = pAccount_onChangeEquip_args;
+
+			pAccountModule.methods["onChangeEquip"] = pAccount_onChangeEquip; 
+			pAccountModule.useMethodDescrAlias = true;
+			pAccountModule.idmethods[(UInt16)pAccount_onChangeEquip.aliasID] = pAccount_onChangeEquip;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onChangeEquip / 30).");
 
 			List<DATATYPE_BASE> pAccount_onExitRoom_args = new List<DATATYPE_BASE>();
 			pAccount_onExitRoom_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onExitRoom = new Method();
 			pAccount_onExitRoom.name = "onExitRoom";
-			pAccount_onExitRoom.methodUtype = 25;
-			pAccount_onExitRoom.aliasID = 1;
+			pAccount_onExitRoom.methodUtype = 28;
+			pAccount_onExitRoom.aliasID = 3;
 			pAccount_onExitRoom.args = pAccount_onExitRoom_args;
 
 			pAccountModule.methods["onExitRoom"] = pAccount_onExitRoom; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onExitRoom.aliasID] = pAccount_onExitRoom;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onExitRoom / 25).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onExitRoom / 28).");
+
+			List<DATATYPE_BASE> pAccount_onGetGold_args = new List<DATATYPE_BASE>();
+			pAccount_onGetGold_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAccount_onGetGold = new Method();
+			pAccount_onGetGold.name = "onGetGold";
+			pAccount_onGetGold.methodUtype = 31;
+			pAccount_onGetGold.aliasID = 4;
+			pAccount_onGetGold.args = pAccount_onGetGold_args;
+
+			pAccountModule.methods["onGetGold"] = pAccount_onGetGold; 
+			pAccountModule.useMethodDescrAlias = true;
+			pAccountModule.idmethods[(UInt16)pAccount_onGetGold.aliasID] = pAccount_onGetGold;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onGetGold / 31).");
 
 			List<DATATYPE_BASE> pAccount_onGetPropsClient_args = new List<DATATYPE_BASE>();
 			pAccount_onGetPropsClient_args.Add(EntityDef.id2datatypes[8]);
@@ -188,75 +276,75 @@ namespace KBEngine
 
 			Method pAccount_onGetPropsClient = new Method();
 			pAccount_onGetPropsClient.name = "onGetPropsClient";
-			pAccount_onGetPropsClient.methodUtype = 19;
-			pAccount_onGetPropsClient.aliasID = 2;
+			pAccount_onGetPropsClient.methodUtype = 22;
+			pAccount_onGetPropsClient.aliasID = 5;
 			pAccount_onGetPropsClient.args = pAccount_onGetPropsClient_args;
 
 			pAccountModule.methods["onGetPropsClient"] = pAccount_onGetPropsClient; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onGetPropsClient.aliasID] = pAccount_onGetPropsClient;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onGetPropsClient / 19).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onGetPropsClient / 22).");
 
 			List<DATATYPE_BASE> pAccount_onLoadingFinish_args = new List<DATATYPE_BASE>();
 			pAccount_onLoadingFinish_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onLoadingFinish = new Method();
 			pAccount_onLoadingFinish.name = "onLoadingFinish";
-			pAccount_onLoadingFinish.methodUtype = 18;
-			pAccount_onLoadingFinish.aliasID = 3;
+			pAccount_onLoadingFinish.methodUtype = 21;
+			pAccount_onLoadingFinish.aliasID = 6;
 			pAccount_onLoadingFinish.args = pAccount_onLoadingFinish_args;
 
 			pAccountModule.methods["onLoadingFinish"] = pAccount_onLoadingFinish; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onLoadingFinish.aliasID] = pAccount_onLoadingFinish;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onLoadingFinish / 18).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onLoadingFinish / 21).");
 
 			List<DATATYPE_BASE> pAccount_onLoginState_args = new List<DATATYPE_BASE>();
 			pAccount_onLoginState_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onLoginState = new Method();
 			pAccount_onLoginState.name = "onLoginState";
-			pAccount_onLoginState.methodUtype = 15;
-			pAccount_onLoginState.aliasID = 4;
+			pAccount_onLoginState.methodUtype = 18;
+			pAccount_onLoginState.aliasID = 7;
 			pAccount_onLoginState.args = pAccount_onLoginState_args;
 
 			pAccountModule.methods["onLoginState"] = pAccount_onLoginState; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onLoginState.aliasID] = pAccount_onLoginState;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onLoginState / 15).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onLoginState / 18).");
 
 			List<DATATYPE_BASE> pAccount_onMapModeChanged_args = new List<DATATYPE_BASE>();
 			pAccount_onMapModeChanged_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onMapModeChanged = new Method();
 			pAccount_onMapModeChanged.name = "onMapModeChanged";
-			pAccount_onMapModeChanged.methodUtype = 16;
-			pAccount_onMapModeChanged.aliasID = 5;
+			pAccount_onMapModeChanged.methodUtype = 19;
+			pAccount_onMapModeChanged.aliasID = 8;
 			pAccount_onMapModeChanged.args = pAccount_onMapModeChanged_args;
 
 			pAccountModule.methods["onMapModeChanged"] = pAccount_onMapModeChanged; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onMapModeChanged.aliasID] = pAccount_onMapModeChanged;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onMapModeChanged / 16).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onMapModeChanged / 19).");
 
 			List<DATATYPE_BASE> pAccount_onMatchingFinish_args = new List<DATATYPE_BASE>();
 			pAccount_onMatchingFinish_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onMatchingFinish = new Method();
 			pAccount_onMatchingFinish.name = "onMatchingFinish";
-			pAccount_onMatchingFinish.methodUtype = 17;
-			pAccount_onMatchingFinish.aliasID = 6;
+			pAccount_onMatchingFinish.methodUtype = 20;
+			pAccount_onMatchingFinish.aliasID = 9;
 			pAccount_onMatchingFinish.args = pAccount_onMatchingFinish_args;
 
 			pAccountModule.methods["onMatchingFinish"] = pAccount_onMatchingFinish; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onMatchingFinish.aliasID] = pAccount_onMatchingFinish;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onMatchingFinish / 17).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onMatchingFinish / 20).");
 
 			List<DATATYPE_BASE> pAccount_onPropResultClient_args = new List<DATATYPE_BASE>();
 			pAccount_onPropResultClient_args.Add(EntityDef.id2datatypes[8]);
@@ -266,15 +354,15 @@ namespace KBEngine
 
 			Method pAccount_onPropResultClient = new Method();
 			pAccount_onPropResultClient.name = "onPropResultClient";
-			pAccount_onPropResultClient.methodUtype = 21;
-			pAccount_onPropResultClient.aliasID = 7;
+			pAccount_onPropResultClient.methodUtype = 24;
+			pAccount_onPropResultClient.aliasID = 10;
 			pAccount_onPropResultClient.args = pAccount_onPropResultClient_args;
 
 			pAccountModule.methods["onPropResultClient"] = pAccount_onPropResultClient; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onPropResultClient.aliasID] = pAccount_onPropResultClient;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onPropResultClient / 21).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onPropResultClient / 24).");
 
 			List<DATATYPE_BASE> pAccount_onReachDestination_args = new List<DATATYPE_BASE>();
 			pAccount_onReachDestination_args.Add(EntityDef.id2datatypes[8]);
@@ -282,45 +370,45 @@ namespace KBEngine
 
 			Method pAccount_onReachDestination = new Method();
 			pAccount_onReachDestination.name = "onReachDestination";
-			pAccount_onReachDestination.methodUtype = 23;
-			pAccount_onReachDestination.aliasID = 8;
+			pAccount_onReachDestination.methodUtype = 26;
+			pAccount_onReachDestination.aliasID = 11;
 			pAccount_onReachDestination.args = pAccount_onReachDestination_args;
 
 			pAccountModule.methods["onReachDestination"] = pAccount_onReachDestination; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onReachDestination.aliasID] = pAccount_onReachDestination;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onReachDestination / 23).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onReachDestination / 26).");
 
 			List<DATATYPE_BASE> pAccount_onResetPropClient_args = new List<DATATYPE_BASE>();
 			pAccount_onResetPropClient_args.Add(EntityDef.id2datatypes[22]);
 
 			Method pAccount_onResetPropClient = new Method();
 			pAccount_onResetPropClient.name = "onResetPropClient";
-			pAccount_onResetPropClient.methodUtype = 22;
-			pAccount_onResetPropClient.aliasID = 9;
+			pAccount_onResetPropClient.methodUtype = 25;
+			pAccount_onResetPropClient.aliasID = 12;
 			pAccount_onResetPropClient.args = pAccount_onResetPropClient_args;
 
 			pAccountModule.methods["onResetPropClient"] = pAccount_onResetPropClient; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onResetPropClient.aliasID] = pAccount_onResetPropClient;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onResetPropClient / 22).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onResetPropClient / 25).");
 
 			List<DATATYPE_BASE> pAccount_onTimerChanged_args = new List<DATATYPE_BASE>();
 			pAccount_onTimerChanged_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onTimerChanged = new Method();
 			pAccount_onTimerChanged.name = "onTimerChanged";
-			pAccount_onTimerChanged.methodUtype = 24;
-			pAccount_onTimerChanged.aliasID = 10;
+			pAccount_onTimerChanged.methodUtype = 27;
+			pAccount_onTimerChanged.aliasID = 13;
 			pAccount_onTimerChanged.args = pAccount_onTimerChanged_args;
 
 			pAccountModule.methods["onTimerChanged"] = pAccount_onTimerChanged; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onTimerChanged.aliasID] = pAccount_onTimerChanged;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onTimerChanged / 24).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onTimerChanged / 27).");
 
 			List<DATATYPE_BASE> pAccount_onUseProp_args = new List<DATATYPE_BASE>();
 			pAccount_onUseProp_args.Add(EntityDef.id2datatypes[8]);
@@ -330,15 +418,63 @@ namespace KBEngine
 
 			Method pAccount_onUseProp = new Method();
 			pAccount_onUseProp.name = "onUseProp";
-			pAccount_onUseProp.methodUtype = 20;
-			pAccount_onUseProp.aliasID = 11;
+			pAccount_onUseProp.methodUtype = 23;
+			pAccount_onUseProp.aliasID = 14;
 			pAccount_onUseProp.args = pAccount_onUseProp_args;
 
 			pAccountModule.methods["onUseProp"] = pAccount_onUseProp; 
 			pAccountModule.useMethodDescrAlias = true;
 			pAccountModule.idmethods[(UInt16)pAccount_onUseProp.aliasID] = pAccount_onUseProp;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onUseProp / 20).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onUseProp / 23).");
+
+			List<DATATYPE_BASE> pAccount_regBuyEquip_args = new List<DATATYPE_BASE>();
+			pAccount_regBuyEquip_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAccount_regBuyEquip = new Method();
+			pAccount_regBuyEquip.name = "regBuyEquip";
+			pAccount_regBuyEquip.methodUtype = 15;
+			pAccount_regBuyEquip.aliasID = -1;
+			pAccount_regBuyEquip.args = pAccount_regBuyEquip_args;
+
+			pAccountModule.methods["regBuyEquip"] = pAccount_regBuyEquip; 
+			pAccountModule.base_methods["regBuyEquip"] = pAccount_regBuyEquip;
+
+			pAccountModule.idbase_methods[pAccount_regBuyEquip.methodUtype] = pAccount_regBuyEquip;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(regBuyEquip / 15).");
+
+			List<DATATYPE_BASE> pAccount_regChangeEquip_args = new List<DATATYPE_BASE>();
+			pAccount_regChangeEquip_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAccount_regChangeEquip = new Method();
+			pAccount_regChangeEquip.name = "regChangeEquip";
+			pAccount_regChangeEquip.methodUtype = 16;
+			pAccount_regChangeEquip.aliasID = -1;
+			pAccount_regChangeEquip.args = pAccount_regChangeEquip_args;
+
+			pAccountModule.methods["regChangeEquip"] = pAccount_regChangeEquip; 
+			pAccountModule.base_methods["regChangeEquip"] = pAccount_regChangeEquip;
+
+			pAccountModule.idbase_methods[pAccount_regChangeEquip.methodUtype] = pAccount_regChangeEquip;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(regChangeEquip / 16).");
+
+			List<DATATYPE_BASE> pAccount_regGetGold_args = new List<DATATYPE_BASE>();
+			pAccount_regGetGold_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAccount_regGetGold = new Method();
+			pAccount_regGetGold.name = "regGetGold";
+			pAccount_regGetGold.methodUtype = 17;
+			pAccount_regGetGold.aliasID = -1;
+			pAccount_regGetGold.args = pAccount_regGetGold_args;
+
+			pAccountModule.methods["regGetGold"] = pAccount_regGetGold; 
+			pAccountModule.base_methods["regGetGold"] = pAccount_regGetGold;
+
+			pAccountModule.idbase_methods[pAccount_regGetGold.methodUtype] = pAccount_regGetGold;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(regGetGold / 17).");
 
 			List<DATATYPE_BASE> pAccount_regStartMatching_args = new List<DATATYPE_BASE>();
 			pAccount_regStartMatching_args.Add(EntityDef.id2datatypes[8]);
@@ -491,7 +627,7 @@ namespace KBEngine
 
 			Property pRobot_nameS = new Property();
 			pRobot_nameS.name = "nameS";
-			pRobot_nameS.properUtype = 10;
+			pRobot_nameS.properUtype = 13;
 			pRobot_nameS.properFlags = 4;
 			pRobot_nameS.aliasID = 4;
 			string Robot_nameS_defval = "";
@@ -501,11 +637,11 @@ namespace KBEngine
 			pRobotModule.usePropertyDescrAlias = true;
 			pRobotModule.idpropertys[(UInt16)pRobot_nameS.aliasID] = pRobot_nameS;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(nameS / 10).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(nameS / 13).");
 
 			Property pRobot_progress = new Property();
 			pRobot_progress.name = "progress";
-			pRobot_progress.properUtype = 11;
+			pRobot_progress.properUtype = 14;
 			pRobot_progress.properFlags = 4;
 			pRobot_progress.aliasID = 5;
 			Int32 Robot_progress_defval;
@@ -516,11 +652,11 @@ namespace KBEngine
 			pRobotModule.usePropertyDescrAlias = true;
 			pRobotModule.idpropertys[(UInt16)pRobot_progress.aliasID] = pRobot_progress;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(progress / 11).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(progress / 14).");
 
 			Property pRobot_roomNo = new Property();
 			pRobot_roomNo.name = "roomNo";
-			pRobot_roomNo.properUtype = 13;
+			pRobot_roomNo.properUtype = 16;
 			pRobot_roomNo.properFlags = 4;
 			pRobot_roomNo.aliasID = 6;
 			Int32 Robot_roomNo_defval;
@@ -531,7 +667,7 @@ namespace KBEngine
 			pRobotModule.usePropertyDescrAlias = true;
 			pRobotModule.idpropertys[(UInt16)pRobot_roomNo.aliasID] = pRobot_roomNo;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(roomNo / 13).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(roomNo / 16).");
 
 			pRobotModule.useMethodDescrAlias = true;
 			List<DATATYPE_BASE> pRobot_onControlledBy_args = new List<DATATYPE_BASE>();
@@ -539,7 +675,7 @@ namespace KBEngine
 
 			Method pRobot_onControlledBy = new Method();
 			pRobot_onControlledBy.name = "onControlledBy";
-			pRobot_onControlledBy.methodUtype = 26;
+			pRobot_onControlledBy.methodUtype = 32;
 			pRobot_onControlledBy.aliasID = -1;
 			pRobot_onControlledBy.args = pRobot_onControlledBy_args;
 
@@ -548,13 +684,13 @@ namespace KBEngine
 
 			pRobotModule.idcell_methods[pRobot_onControlledBy.methodUtype] = pRobot_onControlledBy;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(onControlledBy / 26).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(onControlledBy / 32).");
 
 			List<DATATYPE_BASE> pRobot_regReachDestination_args = new List<DATATYPE_BASE>();
 
 			Method pRobot_regReachDestination = new Method();
 			pRobot_regReachDestination.name = "regReachDestination";
-			pRobot_regReachDestination.methodUtype = 27;
+			pRobot_regReachDestination.methodUtype = 33;
 			pRobot_regReachDestination.aliasID = -1;
 			pRobot_regReachDestination.args = pRobot_regReachDestination_args;
 
@@ -563,7 +699,7 @@ namespace KBEngine
 
 			pRobotModule.idcell_methods[pRobot_regReachDestination.methodUtype] = pRobot_regReachDestination;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(regReachDestination / 27).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), method(regReachDestination / 33).");
 
 		}
 
@@ -637,7 +773,7 @@ namespace KBEngine
 
 			{
 				UInt16 utype = 8;
-				string typeName = "PROP_TYPE";
+				string typeName = "ITEM_ID";
 				string name = "INT32";
 				DATATYPE_BASE val = null;
 				EntityDef.datatypes.TryGetValue(name, out val);
@@ -804,6 +940,24 @@ namespace KBEngine
 				UInt16 utype = 22;
 				string typeName = "PROP_LIST";
 				DATATYPE_PROP_LIST datatype = new DATATYPE_PROP_LIST();
+				EntityDef.datatypes[typeName] = datatype;
+				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
+				EntityDef.datatype2id[typeName] = utype;
+			}
+
+			{
+				UInt16 utype = 23;
+				string typeName = "ITEM_LIST";
+				DATATYPE_ITEM_LIST datatype = new DATATYPE_ITEM_LIST();
+				EntityDef.datatypes[typeName] = datatype;
+				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
+				EntityDef.datatype2id[typeName] = utype;
+			}
+
+			{
+				UInt16 utype = 24;
+				string typeName = "EQUIP_DICT";
+				DATATYPE_EQUIP_DICT datatype = new DATATYPE_EQUIP_DICT();
 				EntityDef.datatypes[typeName] = datatype;
 				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
 				EntityDef.datatype2id[typeName] = utype;

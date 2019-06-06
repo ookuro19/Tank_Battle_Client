@@ -34,11 +34,18 @@
                 Event.registerIn("regUseProp", this, "regUseProp");
                 Event.registerIn("regPropResult", this, "regPropResult");
                 Event.registerIn("reachDestination", this, "reachDestination");
+                Event.registerIn("regGetGold", this, "regGetGold");
+                Event.registerIn("regBuyEquip", this, "regBuyEquip");
+                Event.registerIn("regChangeEquip", this, "regChangeEquip");
                 #endregion register
 
                 // 触发登陆成功事件
                 Event.fireOut("onLoginSuccessfully", KBEngineApp.app.entity_uuid, id, this);
             }
+
+            KBEDebug.LogFormat("gold: {0}", gold);
+            KBEDebug.LogFormat("current equip, head: {0}, clothes: {1}, hand: {2}, shoe: {3}, bag: {4}",
+                                currentItemDict.head, currentItemDict.clothes, currentItemDict.hand, currentItemDict.shoe, currentItemDict.bag);
         }
 
         public override void onDestroy()
@@ -56,7 +63,7 @@
         /// <param name="arg1">0-未登录或未匹配; 1-匹配但未比赛; 2-比赛中</param>
         public override void onLoginState(int arg1)
         {
-            Debug.LogFormat("onLoginState : {0}", arg1);
+            KBEDebug.LogFormat("onLoginState : {0}", arg1);
             Event.fireOut("onLoginState", arg1);
         }
         #endregion Login Callback
@@ -66,23 +73,23 @@
         public void StartMatching(int map, int mode, int matchCode)
         {
             progress = 0;
-            Debug.Log("Player Start Matching, id:" + id);
-            baseCall("regStartMatching", map, mode, matchCode);
+            KBEDebug.Log("Player Start Matching, id:" + id);
+            baseEntityCall.regStartMatching(map, mode, matchCode);
         }
 
         public void updateProgress(int tprogerss)
         {
             if (progress < tprogerss)
             {
-                Debug.LogFormat("Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
+                KBEDebug.LogFormat("Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
                 progress = tprogerss;
-                cellCall("regProgress", progress);
+                cellEntityCall.regProgress(progress);
             }
         }
 
         public override void onProgressChanged(int oldValue)
         {
-            Debug.LogFormat("Player:{0} onProgressChanged:{1}", name, progress);
+            KBEDebug.LogFormat("Player:{0} onProgressChanged:{1}", name, progress);
         }
         #endregion Matching Send
 
@@ -90,7 +97,7 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-            Debug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
+            KBEDebug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
             Event.fireOut("onEntityEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
         }
 
@@ -102,14 +109,14 @@
         {
             if (isPlayer())
             {
-                Debug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", arg1 % 100, arg1 / 100);
+                KBEDebug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", arg1 % 100, arg1 / 100);
                 Event.fireOut("onMapModeChanged", arg1);
             }
         }
 
         public override void onMatchingFinish(int arg1)
         {
-            Debug.Log("onMatchingFinish, id is: " + id);
+            KBEDebug.Log("onMatchingFinish, id is: " + id);
             if (isPlayer())
             {
                 Event.fireOut("onMatchingFinish", arg1);
@@ -139,21 +146,21 @@
         #region Props Send
         public void regGetProps(string propKey, int type)
         {
-            Debug.Log("send get orops info, type: " + type);
-            cellCall("regGetProps", propKey, type);
+            KBEDebug.Log("send get orops info, type: " + type);
+            cellEntityCall.regGetProps(propKey, type);
         }
         #endregion Props Send
 
         #region Props Callback
         /// <summary>
-        /// 玩家获得道具，不一定是当前player
+        /// 玩家获得道具, 不一定是当前player
         /// </summary>
         /// <param name="arg1">id</param>
         /// <param name="arg2">prop_key</param>
         /// <param name="arg3">prop_type</param>
         public override void onGetPropsClient(int arg1, string arg2, int arg3)
         {
-            Debug.LogFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
+            KBEDebug.LogFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
             Event.fireOut("onGetProps", arg1, arg2, arg3);
         }
 
@@ -163,7 +170,7 @@
         /// <param name="arg1">需要恢复的道具列表</param>
         public override void onResetPropClient(PROP_LIST arg1)
         {
-            Debug.LogFormat("onResetPropClient");
+            KBEDebug.LogFormat("onResetPropClient");
             Event.fireOut("onResetProp", arg1);
         }
         #endregion Props Callback
@@ -176,7 +183,7 @@
         /// <param name="type">道具类型</param>
         public void regUseProp(int targetID, int type)
         {
-            cellCall("regUseProp", targetID, type);
+            cellEntityCall.regUseProp(targetID, type);
         }
 
         /// <summary>
@@ -191,7 +198,7 @@
             //只有当前玩家与技能施放者相同时才上报技能计算结果
             if (userID == id)
             {
-                cellCall("regPropResult", userID, targetID, type, suc);
+                cellEntityCall.regPropResult(userID, targetID, type, (byte)suc);
             }
         }
         #endregion Skill Send
@@ -206,7 +213,7 @@
         /// <param name="arg4">使用技能时坐标</param>
         public override void onUseProp(int arg1, int arg2, int arg3, Vector3 arg4)
         {
-            Debug.LogFormat("{0} use skill {1} to {2}, pos is {3}", arg1, arg2, arg3, arg4);
+            KBEDebug.LogFormat("{0} use skill {1} to {2}, pos is {3}", arg1, arg2, arg3, arg4);
             Event.fireOut("onUseProp", arg1, arg2, arg3, arg4);
         }
 
@@ -216,26 +223,96 @@
         /// <param name="userID">使用者ID</param>
         /// <param name="targetID">技能目标ID</param>
         /// <param name="type">prop_type</param>
-        /// <param name="suc">结算结果：0命中，1未命中</param>
+        /// <param name="suc">结算结果：0-命中, 1-未命中</param>
         public override void onPropResultClient(int userID, int targetID, int type, byte suc)
         {
-            Debug.LogFormat("{0} use skill hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
+            KBEDebug.LogFormat("{0} use skill hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
             Event.fireOut("onPropResult", userID, targetID, type, (int)suc);
         }
         #endregion Skill Callback
 
+        #region Shop Send
+        /// <summary>
+        /// 得到金币
+        /// </summary>
+        /// <param name="tGold"></param>
+        public void regGetGold(int tGold)
+        {
+            KBEDebug.LogFormat("regGetGold: {0}", tGold);
+            baseEntityCall.regGetGold(tGold);
+        }
+
+        /// <summary>
+        /// 购买装备
+        /// </summary>
+        /// <param name="itemID">装备id</param>
+        public void regBuyEquip(int itemID)
+        {
+            KBEDebug.LogFormat("regBuyEquip: {0}", itemID);
+            baseEntityCall.regBuyEquip(itemID);
+        }
+
+        /// <summary>
+        /// 切换装备
+        /// </summary>
+        /// <param name="itemID">装备id</param>
+        public void regChangeEquip(int itemID)
+        {
+            KBEDebug.LogFormat("regChangeEquip: {0}", itemID);
+            baseEntityCall.regChangeEquip(itemID);
+        }
+        #endregion Shop Send
+
+        #region Shop Callback
+        /// <summary>
+        /// 得到金币回调
+        /// </summary>
+        /// <param name="tGold"></param>
+        public override void onGetGold(int tGold)
+        {
+            KBEDebug.LogFormat("onGetGold {0}", tGold);
+            Event.fireOut("onGetGold", tGold);
+        }
+        
+        /// <summary>
+        /// 购买装备回调
+        /// </summary>
+        /// <param name="itemID">装备id</param>
+        /// <param name="suc">购买结果: 0-成功, 1-已拥有, 2-金币不足, 3-道具不存在</param>
+        public override void onBuyEquip(int itemID, byte suc)
+        {
+            KBEDebug.LogFormat("onBuyEquip {0}, result is {1}", itemID, suc);
+            KBEDebug.LogFormat("current equip, head: {0}, clothes: {1}, hand: {2}, shoe: {3}, bag: {4}",
+                                currentItemDict.head, currentItemDict.clothes, currentItemDict.hand, currentItemDict.shoe, currentItemDict.bag);
+            Event.fireOut("onBuyEquip", itemID, (int)suc);
+        }
+
+        /// <summary>
+        /// 切换装备回调
+        /// </summary>
+        /// <param name="itemID">装备id</param>
+        /// <param name="suc">结果: 0-成功, 1-未拥有</param>
+        public override void onChangeEquip(int itemID, byte suc)
+        {
+            KBEDebug.LogFormat("onChangeEquip {0}, result is {1}", itemID, suc);
+            KBEDebug.LogFormat("current equip, head: {0}, clothes: {1}, hand: {2}, shoe: {3}, bag: {4}",
+                                currentItemDict.head, currentItemDict.clothes, currentItemDict.hand, currentItemDict.shoe, currentItemDict.bag);
+            Event.fireOut("onChangeEquip", itemID, (int)suc);
+        }
+        #endregion Shop Callback
+
         #region Destination Send
         public void reachDestination()
         {
-            Debug.Log("send reachDestination info");
-            cellCall("regReachDestination");
+            KBEDebug.Log("send reachDestination info");
+            cellEntityCall.regReachDestination();
         }
         #endregion Destination Send
 
         #region Destination Callback
         public override void onTimerChanged(int sec)
         {
-            // Debug.LogFormat("onTimerChanged:{0}, name:{1}", sec, name);
+            // KBEDebug.LogFormat("onTimerChanged:{0}, name:{1}", sec, name);
             Event.fireOut("onTimerChanged", sec);
         }
 

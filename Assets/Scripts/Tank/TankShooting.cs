@@ -83,15 +83,14 @@ public class TankShooting : MonoBehaviour
         }
     }
 
-
     private void Fire()
     {
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
-        ServerEvents.Instance.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), (int)m_CurrentLaunchForce);
+        m_tankmanager.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), (int)EPropType.ePT_Bullet);
 
-        // Reset the launch force.  This is a precaution in case of missing button events.
+        // Reset the launch force. This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
     }
 

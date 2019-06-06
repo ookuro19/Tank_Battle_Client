@@ -42,12 +42,12 @@ public class ClientCore : MonoBehaviour
     public void onAvatarControlled(KBEngine.Avatar avatar, bool isControlled_)
     {
         Debug.LogErrorFormat("Avatar id {0} iscontroller {1}", avatar.id, isControlled_);
-        if (isControlled_)
-        {
-            GameObject tGO = avatar.renderObj as GameObject;
-            tGO.AddComponent<AutoMove>();
-            tGO.GetComponent<Collider>().enabled = false;
-        }
+        // if (isControlled_)
+        // {
+        //     GameObject tGO = avatar.renderObj as GameObject;
+        //     tGO.AddComponent<AutoMove>();
+        //     tGO.GetComponent<Collider>().enabled = false;
+        // }
     }
 
     public void ExitRoom()
@@ -160,13 +160,13 @@ public class ClientCore : MonoBehaviour
     /// </summary>
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
-    /// <param name="skill">本来是技能编号，本游戏中作为炮弹力度大小</param>
-    public void onUseSkill(int userID, int targetID, int skill)
+    /// <param name="prop">本来是技能编号，本游戏中作为炮弹力度大小</param>
+    public void onUseSkill(int userID, int targetID, int prop, Vector3 pos)
     {
         if (g_tankDict.ContainsKey(userID)
                 && g_tankDict.ContainsKey(targetID))
         {
-            g_tankDict[userID].onUseSkill(g_tankDict[targetID], skill);
+            g_tankDict[userID].onUseSkill(g_tankDict[targetID], prop, pos);
         }
     }
 
@@ -186,5 +186,32 @@ public class ClientCore : MonoBehaviour
     }
     #endregion skill
 
+    #region Equipment
+    /// <summary>
+    /// 得到金币
+    /// </summary>
+    /// <param name="tGold"></param>
+    public void regGetGold(int tGold)
+    {
+        ServerEvents.Instance.regGetGold(tGold);
+    }
 
+    /// <summary>
+    /// 购买装备
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    public void regBuyEquip(int itemID)
+    {
+        ServerEvents.Instance.regBuyEquip(itemID);
+    }
+
+    /// <summary>
+    /// 切换装备
+    /// </summary>
+    /// <param name="itemID">装备id</param>
+    public void regChangeEquip(int itemID)
+    {
+        ServerEvents.Instance.regChangeEquip(itemID);
+    }
+    #endregion Equipment
 }

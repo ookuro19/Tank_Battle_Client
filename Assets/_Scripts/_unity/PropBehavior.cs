@@ -19,7 +19,7 @@ public class PropBehavior : MonoBehaviour
 
         switch (_propType)
         {
-            case EPropType.ePT_Damage:
+            case EPropType.ePT_Bullet:
                 {
                     tColor = Color.red;
                     break;

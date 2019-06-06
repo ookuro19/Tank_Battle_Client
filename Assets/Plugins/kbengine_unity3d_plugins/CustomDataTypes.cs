@@ -40,4 +40,57 @@ namespace KBEngine
 	}
 
 
+
+	public class DATATYPE_ITEM_LIST : DATATYPE_BASE
+	{
+		public ITEM_LIST createFromStreamEx(MemoryStream stream)
+		{
+			UInt32 size = stream.readUint32();
+			ITEM_LIST datas = new ITEM_LIST();
+
+			while(size > 0)
+			{
+				--size;
+				datas.Add(stream.readInt32());
+			};
+
+			return datas;
+		}
+
+		public void addToStreamEx(Bundle stream, ITEM_LIST v)
+		{
+			stream.writeUint32((UInt32)v.Count);
+			for(int i=0; i<v.Count; ++i)
+			{
+				stream.writeInt32(v[i]);
+			};
+		}
+	}
+
+
+
+	public class DATATYPE_EQUIP_DICT : DATATYPE_BASE
+	{
+		public EQUIP_DICT createFromStreamEx(MemoryStream stream)
+		{
+			EQUIP_DICT datas = new EQUIP_DICT();
+			datas.head = stream.readInt32();
+			datas.clothes = stream.readInt32();
+			datas.hand = stream.readInt32();
+			datas.shoe = stream.readInt32();
+			datas.bag = stream.readInt32();
+			return datas;
+		}
+
+		public void addToStreamEx(Bundle stream, EQUIP_DICT v)
+		{
+			stream.writeInt32(v.head);
+			stream.writeInt32(v.clothes);
+			stream.writeInt32(v.hand);
+			stream.writeInt32(v.shoe);
+			stream.writeInt32(v.bag);
+		}
+	}
+
+
 }
