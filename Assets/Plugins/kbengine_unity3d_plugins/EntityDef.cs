@@ -124,7 +124,7 @@ namespace KBEngine
 
 			Property pAccount_bagItemList = new Property();
 			pAccount_bagItemList.name = "bagItemList";
-			pAccount_bagItemList.properUtype = 11;
+			pAccount_bagItemList.properUtype = 16;
 			pAccount_bagItemList.properFlags = 32;
 			pAccount_bagItemList.aliasID = 4;
 			pAccount_bagItemList.defaultVal = EntityDef.id2datatypes[23].parseDefaultValStr("");
@@ -133,11 +133,11 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_bagItemList.aliasID] = pAccount_bagItemList;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(bagItemList / 11).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(bagItemList / 16).");
 
 			Property pAccount_currentItemDict = new Property();
 			pAccount_currentItemDict.name = "currentItemDict";
-			pAccount_currentItemDict.properUtype = 12;
+			pAccount_currentItemDict.properUtype = 17;
 			pAccount_currentItemDict.properFlags = 32;
 			pAccount_currentItemDict.aliasID = 5;
 			pAccount_currentItemDict.defaultVal = EntityDef.id2datatypes[24].parseDefaultValStr("");
@@ -146,11 +146,11 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_currentItemDict.aliasID] = pAccount_currentItemDict;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(currentItemDict / 12).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(currentItemDict / 17).");
 
 			Property pAccount_gold = new Property();
 			pAccount_gold.name = "gold";
-			pAccount_gold.properUtype = 1;
+			pAccount_gold.properUtype = 8;
 			pAccount_gold.properFlags = 32;
 			pAccount_gold.aliasID = 6;
 			Int32 Account_gold_defval;
@@ -161,13 +161,58 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_gold.aliasID] = pAccount_gold;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(gold / 1).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(gold / 8).");
+
+			Property pAccount_lastLoginDate = new Property();
+			pAccount_lastLoginDate.name = "lastLoginDate";
+			pAccount_lastLoginDate.properUtype = 3;
+			pAccount_lastLoginDate.properFlags = 32;
+			pAccount_lastLoginDate.aliasID = 7;
+			SByte Account_lastLoginDate_defval;
+			SByte.TryParse("0", out Account_lastLoginDate_defval);
+			pAccount_lastLoginDate.defaultVal = Account_lastLoginDate_defval;
+			pAccountModule.propertys["lastLoginDate"] = pAccount_lastLoginDate; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_lastLoginDate.aliasID] = pAccount_lastLoginDate;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(lastLoginDate / 3).");
+
+			Property pAccount_lastLoginDayLoginTimes = new Property();
+			pAccount_lastLoginDayLoginTimes.name = "lastLoginDayLoginTimes";
+			pAccount_lastLoginDayLoginTimes.properUtype = 7;
+			pAccount_lastLoginDayLoginTimes.properFlags = 32;
+			pAccount_lastLoginDayLoginTimes.aliasID = 8;
+			Int16 Account_lastLoginDayLoginTimes_defval;
+			Int16.TryParse("0", out Account_lastLoginDayLoginTimes_defval);
+			pAccount_lastLoginDayLoginTimes.defaultVal = Account_lastLoginDayLoginTimes_defval;
+			pAccountModule.propertys["lastLoginDayLoginTimes"] = pAccount_lastLoginDayLoginTimes; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_lastLoginDayLoginTimes.aliasID] = pAccount_lastLoginDayLoginTimes;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(lastLoginDayLoginTimes / 7).");
+
+			Property pAccount_lastLoginDayPlayTime = new Property();
+			pAccount_lastLoginDayPlayTime.name = "lastLoginDayPlayTime";
+			pAccount_lastLoginDayPlayTime.properUtype = 5;
+			pAccount_lastLoginDayPlayTime.properFlags = 32;
+			pAccount_lastLoginDayPlayTime.aliasID = 9;
+			Int16 Account_lastLoginDayPlayTime_defval;
+			Int16.TryParse("0", out Account_lastLoginDayPlayTime_defval);
+			pAccount_lastLoginDayPlayTime.defaultVal = Account_lastLoginDayPlayTime_defval;
+			pAccountModule.propertys["lastLoginDayPlayTime"] = pAccount_lastLoginDayPlayTime; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_lastLoginDayPlayTime.aliasID] = pAccount_lastLoginDayPlayTime;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(lastLoginDayPlayTime / 5).");
 
 			Property pAccount_nameS = new Property();
 			pAccount_nameS.name = "nameS";
 			pAccount_nameS.properUtype = 2;
 			pAccount_nameS.properFlags = 4;
-			pAccount_nameS.aliasID = 7;
+			pAccount_nameS.aliasID = 10;
 			string Account_nameS_defval = "";
 			pAccount_nameS.defaultVal = Account_nameS_defval;
 			pAccountModule.propertys["nameS"] = pAccount_nameS; 
@@ -179,9 +224,9 @@ namespace KBEngine
 
 			Property pAccount_progress = new Property();
 			pAccount_progress.name = "progress";
-			pAccount_progress.properUtype = 8;
+			pAccount_progress.properUtype = 13;
 			pAccount_progress.properFlags = 128;
-			pAccount_progress.aliasID = 8;
+			pAccount_progress.aliasID = 11;
 			Int32 Account_progress_defval;
 			Int32.TryParse("0", out Account_progress_defval);
 			pAccount_progress.defaultVal = Account_progress_defval;
@@ -190,13 +235,13 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_progress.aliasID] = pAccount_progress;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(progress / 8).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(progress / 13).");
 
 			Property pAccount_roomNo = new Property();
 			pAccount_roomNo.name = "roomNo";
-			pAccount_roomNo.properUtype = 10;
+			pAccount_roomNo.properUtype = 15;
 			pAccount_roomNo.properFlags = 4;
-			pAccount_roomNo.aliasID = 9;
+			pAccount_roomNo.aliasID = 12;
 			Int32 Account_roomNo_defval;
 			Int32.TryParse("0", out Account_roomNo_defval);
 			pAccount_roomNo.defaultVal = Account_roomNo_defval;
@@ -205,7 +250,37 @@ namespace KBEngine
 			pAccountModule.usePropertyDescrAlias = true;
 			pAccountModule.idpropertys[(UInt16)pAccount_roomNo.aliasID] = pAccount_roomNo;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(roomNo / 10).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(roomNo / 15).");
+
+			Property pAccount_totalLoginTimes = new Property();
+			pAccount_totalLoginTimes.name = "totalLoginTimes";
+			pAccount_totalLoginTimes.properUtype = 6;
+			pAccount_totalLoginTimes.properFlags = 32;
+			pAccount_totalLoginTimes.aliasID = 13;
+			Int16 Account_totalLoginTimes_defval;
+			Int16.TryParse("0", out Account_totalLoginTimes_defval);
+			pAccount_totalLoginTimes.defaultVal = Account_totalLoginTimes_defval;
+			pAccountModule.propertys["totalLoginTimes"] = pAccount_totalLoginTimes; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_totalLoginTimes.aliasID] = pAccount_totalLoginTimes;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(totalLoginTimes / 6).");
+
+			Property pAccount_totalPlayTime = new Property();
+			pAccount_totalPlayTime.name = "totalPlayTime";
+			pAccount_totalPlayTime.properUtype = 4;
+			pAccount_totalPlayTime.properFlags = 32;
+			pAccount_totalPlayTime.aliasID = 14;
+			Int16 Account_totalPlayTime_defval;
+			Int16.TryParse("0", out Account_totalPlayTime_defval);
+			pAccount_totalPlayTime.defaultVal = Account_totalPlayTime_defval;
+			pAccountModule.propertys["totalPlayTime"] = pAccount_totalPlayTime; 
+
+			pAccountModule.usePropertyDescrAlias = true;
+			pAccountModule.idpropertys[(UInt16)pAccount_totalPlayTime.aliasID] = pAccount_totalPlayTime;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), property(totalPlayTime / 4).");
 
 			List<DATATYPE_BASE> pAccount_onBuyEquip_args = new List<DATATYPE_BASE>();
 			pAccount_onBuyEquip_args.Add(EntityDef.id2datatypes[8]);
@@ -317,6 +392,7 @@ namespace KBEngine
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Account), method(onLoginState / 18).");
 
 			List<DATATYPE_BASE> pAccount_onMapModeChanged_args = new List<DATATYPE_BASE>();
+			pAccount_onMapModeChanged_args.Add(EntityDef.id2datatypes[8]);
 			pAccount_onMapModeChanged_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pAccount_onMapModeChanged = new Method();
@@ -627,7 +703,7 @@ namespace KBEngine
 
 			Property pRobot_nameS = new Property();
 			pRobot_nameS.name = "nameS";
-			pRobot_nameS.properUtype = 13;
+			pRobot_nameS.properUtype = 18;
 			pRobot_nameS.properFlags = 4;
 			pRobot_nameS.aliasID = 4;
 			string Robot_nameS_defval = "";
@@ -637,11 +713,11 @@ namespace KBEngine
 			pRobotModule.usePropertyDescrAlias = true;
 			pRobotModule.idpropertys[(UInt16)pRobot_nameS.aliasID] = pRobot_nameS;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(nameS / 13).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(nameS / 18).");
 
 			Property pRobot_progress = new Property();
 			pRobot_progress.name = "progress";
-			pRobot_progress.properUtype = 14;
+			pRobot_progress.properUtype = 19;
 			pRobot_progress.properFlags = 4;
 			pRobot_progress.aliasID = 5;
 			Int32 Robot_progress_defval;
@@ -652,11 +728,11 @@ namespace KBEngine
 			pRobotModule.usePropertyDescrAlias = true;
 			pRobotModule.idpropertys[(UInt16)pRobot_progress.aliasID] = pRobot_progress;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(progress / 14).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(progress / 19).");
 
 			Property pRobot_roomNo = new Property();
 			pRobot_roomNo.name = "roomNo";
-			pRobot_roomNo.properUtype = 16;
+			pRobot_roomNo.properUtype = 21;
 			pRobot_roomNo.properFlags = 4;
 			pRobot_roomNo.aliasID = 6;
 			Int32 Robot_roomNo_defval;
@@ -667,7 +743,7 @@ namespace KBEngine
 			pRobotModule.usePropertyDescrAlias = true;
 			pRobotModule.idpropertys[(UInt16)pRobot_roomNo.aliasID] = pRobot_roomNo;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(roomNo / 16).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Robot), property(roomNo / 21).");
 
 			pRobotModule.useMethodDescrAlias = true;
 			List<DATATYPE_BASE> pRobot_onControlledBy_args = new List<DATATYPE_BASE>();

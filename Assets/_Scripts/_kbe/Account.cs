@@ -104,13 +104,14 @@
         /// <summary>
         /// 设置玩家的地图和模式编号
         /// </summary>
-        /// <param name="arg1">100 * mode + map</param>
-        public override void onMapModeChanged(int arg1)
+        /// <param name="mapNum">地图</param>
+        /// <param name="modeNum">模式</param>
+        public override void onMapModeChanged(int mapNum, int modeNum)
         {
             if (isPlayer())
             {
-                KBEDebug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", arg1 % 100, arg1 / 100);
-                Event.fireOut("onMapModeChanged", arg1);
+                KBEDebug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", mapNum, modeNum);
+                Event.fireOut("onMapModeChanged", mapNum, modeNum);
             }
         }
 
@@ -273,7 +274,7 @@
             KBEDebug.LogFormat("onGetGold {0}", tGold);
             Event.fireOut("onGetGold", tGold);
         }
-        
+
         /// <summary>
         /// 购买装备回调
         /// </summary>

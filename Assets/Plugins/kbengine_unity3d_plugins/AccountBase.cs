@@ -25,12 +25,22 @@ namespace KBEngine
 		public virtual void onCurrentItemDictChanged(EQUIP_DICT oldValue) {}
 		public Int32 gold = 0;
 		public virtual void onGoldChanged(Int32 oldValue) {}
+		public SByte lastLoginDate = 0;
+		public virtual void onLastLoginDateChanged(SByte oldValue) {}
+		public Int16 lastLoginDayLoginTimes = 0;
+		public virtual void onLastLoginDayLoginTimesChanged(Int16 oldValue) {}
+		public Int16 lastLoginDayPlayTime = 0;
+		public virtual void onLastLoginDayPlayTimeChanged(Int16 oldValue) {}
 		public string nameS = "";
 		public virtual void onNameSChanged(string oldValue) {}
 		public Int32 progress = 0;
 		public virtual void onProgressChanged(Int32 oldValue) {}
 		public Int32 roomNo = 0;
 		public virtual void onRoomNoChanged(Int32 oldValue) {}
+		public Int16 totalLoginTimes = 0;
+		public virtual void onTotalLoginTimesChanged(Int16 oldValue) {}
+		public Int16 totalPlayTime = 0;
+		public virtual void onTotalPlayTimeChanged(Int16 oldValue) {}
 
 		public abstract void onBuyEquip(Int32 arg1, Byte arg2); 
 		public abstract void onChangeEquip(Int32 arg1, Byte arg2); 
@@ -39,7 +49,7 @@ namespace KBEngine
 		public abstract void onGetPropsClient(Int32 arg1, string arg2, Int32 arg3); 
 		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onLoginState(Int32 arg1); 
-		public abstract void onMapModeChanged(Int32 arg1); 
+		public abstract void onMapModeChanged(Int32 arg1, Int32 arg2); 
 		public abstract void onMatchingFinish(Int32 arg1); 
 		public abstract void onPropResultClient(Int32 arg1, Int32 arg2, Int32 arg3, Byte arg4); 
 		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
@@ -163,7 +173,8 @@ namespace KBEngine
 					break;
 				case 19:
 					Int32 onMapModeChanged_arg1 = stream.readInt32();
-					onMapModeChanged(onMapModeChanged_arg1);
+					Int32 onMapModeChanged_arg2 = stream.readInt32();
+					onMapModeChanged(onMapModeChanged_arg1, onMapModeChanged_arg2);
 					break;
 				case 20:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
@@ -244,7 +255,7 @@ namespace KBEngine
 
 				switch(prop.properUtype)
 				{
-					case 11:
+					case 16:
 						ITEM_LIST oldval_bagItemList = bagItemList;
 						bagItemList = ((DATATYPE_ITEM_LIST)EntityDef.id2datatypes[23]).createFromStreamEx(stream);
 
@@ -260,7 +271,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 12:
+					case 17:
 						EQUIP_DICT oldval_currentItemDict = currentItemDict;
 						currentItemDict = ((DATATYPE_EQUIP_DICT)EntityDef.id2datatypes[24]).createFromStreamEx(stream);
 
@@ -292,7 +303,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 1:
+					case 8:
 						Int32 oldval_gold = gold;
 						gold = stream.readInt32();
 
@@ -305,6 +316,54 @@ namespace KBEngine
 						{
 							if(inWorld)
 								onGoldChanged(oldval_gold);
+						}
+
+						break;
+					case 3:
+						SByte oldval_lastLoginDate = lastLoginDate;
+						lastLoginDate = stream.readInt8();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onLastLoginDateChanged(oldval_lastLoginDate);
+						}
+						else
+						{
+							if(inWorld)
+								onLastLoginDateChanged(oldval_lastLoginDate);
+						}
+
+						break;
+					case 7:
+						Int16 oldval_lastLoginDayLoginTimes = lastLoginDayLoginTimes;
+						lastLoginDayLoginTimes = stream.readInt16();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onLastLoginDayLoginTimesChanged(oldval_lastLoginDayLoginTimes);
+						}
+						else
+						{
+							if(inWorld)
+								onLastLoginDayLoginTimesChanged(oldval_lastLoginDayLoginTimes);
+						}
+
+						break;
+					case 5:
+						Int16 oldval_lastLoginDayPlayTime = lastLoginDayPlayTime;
+						lastLoginDayPlayTime = stream.readInt16();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onLastLoginDayPlayTimeChanged(oldval_lastLoginDayPlayTime);
+						}
+						else
+						{
+							if(inWorld)
+								onLastLoginDayPlayTimeChanged(oldval_lastLoginDayPlayTime);
 						}
 
 						break;
@@ -340,7 +399,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 8:
+					case 13:
 						Int32 oldval_progress = progress;
 						progress = stream.readInt32();
 
@@ -356,7 +415,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 10:
+					case 15:
 						Int32 oldval_roomNo = roomNo;
 						roomNo = stream.readInt32();
 
@@ -374,6 +433,38 @@ namespace KBEngine
 						break;
 					case 40002:
 						stream.readUint32();
+						break;
+					case 6:
+						Int16 oldval_totalLoginTimes = totalLoginTimes;
+						totalLoginTimes = stream.readInt16();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onTotalLoginTimesChanged(oldval_totalLoginTimes);
+						}
+						else
+						{
+							if(inWorld)
+								onTotalLoginTimesChanged(oldval_totalLoginTimes);
+						}
+
+						break;
+					case 4:
+						Int16 oldval_totalPlayTime = totalPlayTime;
+						totalPlayTime = stream.readInt16();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onTotalPlayTimeChanged(oldval_totalPlayTime);
+						}
+						else
+						{
+							if(inWorld)
+								onTotalPlayTimeChanged(oldval_totalPlayTime);
+						}
+
 						break;
 					default:
 						break;
@@ -470,8 +561,71 @@ namespace KBEngine
 				}
 			}
 
+			SByte oldval_lastLoginDate = lastLoginDate;
+			Property prop_lastLoginDate = pdatas[7];
+			if(prop_lastLoginDate.isBase())
+			{
+				if(inited && !inWorld)
+					onLastLoginDateChanged(oldval_lastLoginDate);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_lastLoginDate.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onLastLoginDateChanged(oldval_lastLoginDate);
+					}
+				}
+			}
+
+			Int16 oldval_lastLoginDayLoginTimes = lastLoginDayLoginTimes;
+			Property prop_lastLoginDayLoginTimes = pdatas[8];
+			if(prop_lastLoginDayLoginTimes.isBase())
+			{
+				if(inited && !inWorld)
+					onLastLoginDayLoginTimesChanged(oldval_lastLoginDayLoginTimes);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_lastLoginDayLoginTimes.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onLastLoginDayLoginTimesChanged(oldval_lastLoginDayLoginTimes);
+					}
+				}
+			}
+
+			Int16 oldval_lastLoginDayPlayTime = lastLoginDayPlayTime;
+			Property prop_lastLoginDayPlayTime = pdatas[9];
+			if(prop_lastLoginDayPlayTime.isBase())
+			{
+				if(inited && !inWorld)
+					onLastLoginDayPlayTimeChanged(oldval_lastLoginDayPlayTime);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_lastLoginDayPlayTime.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onLastLoginDayPlayTimeChanged(oldval_lastLoginDayPlayTime);
+					}
+				}
+			}
+
 			string oldval_nameS = nameS;
-			Property prop_nameS = pdatas[7];
+			Property prop_nameS = pdatas[10];
 			if(prop_nameS.isBase())
 			{
 				if(inited && !inWorld)
@@ -513,7 +667,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_progress = progress;
-			Property prop_progress = pdatas[8];
+			Property prop_progress = pdatas[11];
 			if(prop_progress.isBase())
 			{
 				if(inited && !inWorld)
@@ -534,7 +688,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_roomNo = roomNo;
-			Property prop_roomNo = pdatas[9];
+			Property prop_roomNo = pdatas[12];
 			if(prop_roomNo.isBase())
 			{
 				if(inited && !inWorld)
@@ -550,6 +704,48 @@ namespace KBEngine
 					else
 					{
 						onRoomNoChanged(oldval_roomNo);
+					}
+				}
+			}
+
+			Int16 oldval_totalLoginTimes = totalLoginTimes;
+			Property prop_totalLoginTimes = pdatas[13];
+			if(prop_totalLoginTimes.isBase())
+			{
+				if(inited && !inWorld)
+					onTotalLoginTimesChanged(oldval_totalLoginTimes);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_totalLoginTimes.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onTotalLoginTimesChanged(oldval_totalLoginTimes);
+					}
+				}
+			}
+
+			Int16 oldval_totalPlayTime = totalPlayTime;
+			Property prop_totalPlayTime = pdatas[14];
+			if(prop_totalPlayTime.isBase())
+			{
+				if(inited && !inWorld)
+					onTotalPlayTimeChanged(oldval_totalPlayTime);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_totalPlayTime.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onTotalPlayTimeChanged(oldval_totalPlayTime);
 					}
 				}
 			}

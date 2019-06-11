@@ -205,10 +205,11 @@ public class ServerCore : MonoBehaviour
     /// <summary>
     /// 设置玩家的地图和模式编号
     /// </summary>
-    /// <param name="arg1">100 * mode + map</param>
-    public void onMapModeChanged(int arg1)
+    /// <param name="mapNum">地图</param>
+    /// <param name="modeNum">模式</param>
+    public void onMapModeChanged(int mapNum, int modeNum)
     {
-        ServerEvents.Instance.onSetGameMapMode(arg1 / 100, arg1 % 100);
+        ServerEvents.Instance.onSetGameMapMode(modeNum, mapNum);
     }
 
     public void onMatchingFinish(int suc)
