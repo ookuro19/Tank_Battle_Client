@@ -47,14 +47,9 @@ namespace KBEngine
 		public abstract void onExitRoom(Int32 arg1); 
 		public abstract void onGetGold(Int32 arg1); 
 		public abstract void onGetPropsClient(Int32 arg1, string arg2, Int32 arg3); 
-		public abstract void onLoadingFinish(Int32 arg1); 
 		public abstract void onLoginState(Int32 arg1); 
 		public abstract void onMapModeChanged(Int32 arg1, Int32 arg2); 
 		public abstract void onMatchingFinish(Int32 arg1); 
-		public abstract void onPropResultClient(Int32 arg1, Int32 arg2, Int32 arg3, Byte arg4); 
-		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
-		public abstract void onResetPropClient(PROP_LIST arg1); 
-		public abstract void onTimerChanged(Int32 arg1); 
 		public abstract void onUseProp(Int32 arg1, Int32 arg2, Int32 arg3, Vector3 arg4); 
 
 		public AccountBase()
@@ -139,68 +134,44 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 29:
+				case 20:
 					Int32 onBuyEquip_arg1 = stream.readInt32();
 					Byte onBuyEquip_arg2 = stream.readUint8();
 					onBuyEquip(onBuyEquip_arg1, onBuyEquip_arg2);
 					break;
-				case 30:
+				case 21:
 					Int32 onChangeEquip_arg1 = stream.readInt32();
 					Byte onChangeEquip_arg2 = stream.readUint8();
 					onChangeEquip(onChangeEquip_arg1, onChangeEquip_arg2);
 					break;
-				case 28:
+				case 19:
 					Int32 onExitRoom_arg1 = stream.readInt32();
 					onExitRoom(onExitRoom_arg1);
 					break;
-				case 31:
+				case 22:
 					Int32 onGetGold_arg1 = stream.readInt32();
 					onGetGold(onGetGold_arg1);
 					break;
-				case 22:
+				case 17:
 					Int32 onGetPropsClient_arg1 = stream.readInt32();
 					string onGetPropsClient_arg2 = stream.readUnicode();
 					Int32 onGetPropsClient_arg3 = stream.readInt32();
 					onGetPropsClient(onGetPropsClient_arg1, onGetPropsClient_arg2, onGetPropsClient_arg3);
 					break;
-				case 21:
-					Int32 onLoadingFinish_arg1 = stream.readInt32();
-					onLoadingFinish(onLoadingFinish_arg1);
-					break;
-				case 18:
+				case 14:
 					Int32 onLoginState_arg1 = stream.readInt32();
 					onLoginState(onLoginState_arg1);
 					break;
-				case 19:
+				case 15:
 					Int32 onMapModeChanged_arg1 = stream.readInt32();
 					Int32 onMapModeChanged_arg2 = stream.readInt32();
 					onMapModeChanged(onMapModeChanged_arg1, onMapModeChanged_arg2);
 					break;
-				case 20:
+				case 16:
 					Int32 onMatchingFinish_arg1 = stream.readInt32();
 					onMatchingFinish(onMatchingFinish_arg1);
 					break;
-				case 24:
-					Int32 onPropResultClient_arg1 = stream.readInt32();
-					Int32 onPropResultClient_arg2 = stream.readInt32();
-					Int32 onPropResultClient_arg3 = stream.readInt32();
-					Byte onPropResultClient_arg4 = stream.readUint8();
-					onPropResultClient(onPropResultClient_arg1, onPropResultClient_arg2, onPropResultClient_arg3, onPropResultClient_arg4);
-					break;
-				case 26:
-					Int32 onReachDestination_arg1 = stream.readInt32();
-					Int32 onReachDestination_arg2 = stream.readInt32();
-					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
-					break;
-				case 25:
-					PROP_LIST onResetPropClient_arg1 = ((DATATYPE_PROP_LIST)method.args[0]).createFromStreamEx(stream);
-					onResetPropClient(onResetPropClient_arg1);
-					break;
-				case 27:
-					Int32 onTimerChanged_arg1 = stream.readInt32();
-					onTimerChanged(onTimerChanged_arg1);
-					break;
-				case 23:
+				case 18:
 					Int32 onUseProp_arg1 = stream.readInt32();
 					Int32 onUseProp_arg2 = stream.readInt32();
 					Int32 onUseProp_arg3 = stream.readInt32();

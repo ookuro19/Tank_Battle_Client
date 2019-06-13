@@ -20,6 +20,11 @@ namespace KBEngine
 		public EntityCellEntityCall_RoomBase cellEntityCall = null;
 
 
+		public abstract void onLoadingFinish(Int32 arg1); 
+		public abstract void onPropResult(Int32 arg1, Int32 arg2, Int32 arg3, Byte arg4); 
+		public abstract void onReachDestination(Int32 arg1, Int32 arg2); 
+		public abstract void onResetProps(PROP_LIST arg1); 
+		public abstract void onTimerChanged(Int32 arg1); 
 
 		public RoomBase()
 		{
@@ -103,6 +108,30 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
+				case 40:
+					Int32 onLoadingFinish_arg1 = stream.readInt32();
+					onLoadingFinish(onLoadingFinish_arg1);
+					break;
+				case 42:
+					Int32 onPropResult_arg1 = stream.readInt32();
+					Int32 onPropResult_arg2 = stream.readInt32();
+					Int32 onPropResult_arg3 = stream.readInt32();
+					Byte onPropResult_arg4 = stream.readUint8();
+					onPropResult(onPropResult_arg1, onPropResult_arg2, onPropResult_arg3, onPropResult_arg4);
+					break;
+				case 43:
+					Int32 onReachDestination_arg1 = stream.readInt32();
+					Int32 onReachDestination_arg2 = stream.readInt32();
+					onReachDestination(onReachDestination_arg1, onReachDestination_arg2);
+					break;
+				case 41:
+					PROP_LIST onResetProps_arg1 = ((DATATYPE_PROP_LIST)method.args[0]).createFromStreamEx(stream);
+					onResetProps(onResetProps_arg1);
+					break;
+				case 44:
+					Int32 onTimerChanged_arg1 = stream.readInt32();
+					onTimerChanged(onTimerChanged_arg1);
+					break;
 				default:
 					break;
 			};

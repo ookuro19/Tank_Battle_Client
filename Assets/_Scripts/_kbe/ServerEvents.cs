@@ -68,6 +68,20 @@ public class ServerEvents
                 }
         }
     }
+    
+    public void onConnectionState(bool success)
+    {
+        if (!success)
+        {
+            // GameNetwork.Instance.IfConnectToServer = false;
+            // Debug.LogError("玩家断开连接");
+        }
+        else
+        {
+            // GameNetwork.Instance.IfConnectToServer = true;
+            // Debug.LogError("玩家已连接");
+        }
+    }
     #endregion Login Callback
 
     /// <summary>

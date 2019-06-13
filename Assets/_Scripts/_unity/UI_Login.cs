@@ -16,6 +16,14 @@ public class UI_Login : MonoBehaviour
         stringAccount = ipt_account.text;
         stringPasswd = ipt_pwd.text;
 
+#if !UNITY_EDITOR
+        if (stringAccount == "")
+        {
+            stringAccount = "123";
+            stringPasswd = "123123";
+        }
+#endif
+
         Debug.Log("connect to server...(连接到服务端...)");
         ServerEvents.Instance.PlayerLogin(stringAccount, stringPasswd);
     }

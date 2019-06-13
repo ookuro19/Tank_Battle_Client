@@ -117,6 +117,7 @@ public class ServerCore : MonoBehaviour
     {
         // common
         KBEngine.Event.registerOut("onConnectionState", this, "onConnectionState");
+        KBEngine.Event.registerOut("onDisconnected", this, "onDisconnected");
 
         // login
         KBEngine.Event.registerOut("onLoginFailed", this, "onLoginFailed");
@@ -136,7 +137,7 @@ public class ServerCore : MonoBehaviour
         KBEngine.Event.registerIn("updateRobotTran", this, "updateRobotTran");
 
         KBEngine.Event.registerOut("onGetProps", this, "onGetProps");
-        KBEngine.Event.registerOut("onResetProp", this, "onResetProp");
+        KBEngine.Event.registerOut("onResetProps", this, "onResetProps");
         KBEngine.Event.registerOut("onUseProp", this, "onUseProp");
         KBEngine.Event.registerOut("onPropResult", this, "onPropResult");
         KBEngine.Event.registerOut("onTimerChanged", this, "onTimerChanged");
@@ -153,10 +154,53 @@ public class ServerCore : MonoBehaviour
     public void onConnectionState(bool success)
     {
         if (!success)
+        {
             KBEDebug.LogError("connect(" + KBEngineApp.app.getInitArgs().ip + ":" + KBEngineApp.app.getInitArgs().port + ") is error! (连接错误)");
+        }
         else
+        {
             KBEDebug.Log("connect successfully, please wait...(连接成功，请等候...)");
+        }
+
+        ServerEvents.Instance.onConnectionState(success);
     }
+
+    // public void onConnectionState(bool success)
+    // {
+    //     if (!success)
+    //     {
+    //         KBEDebug.LogError("connect(" + KBEngineApp.app.getInitArgs().ip + ":" + KBEngineApp.app.getInitArgs().port + ") is error! (连接错误)");
+    //         GameNetwork.Instance.IfConnectToServer = false;
+    //         Debug.LogError("玩家断开连接");
+    //     }
+    //     else
+    //     {
+    //         KBEDebug.Log("connect successfully, please wait...(连接成功，请等候...)");
+    //         GameNetwork.Instance.IfConnectToServer = true;
+    //         Debug.LogError("玩家已连接");
+    //     }
+    // }
+
+    public void onDisconnected()
+    {
+        KBEDebug.LogError("disconnect! will try to reconnect...(你已掉线，尝试重连中!)");
+        // startRelogin = true;
+        // Invoke("onReloginBaseappTimer", 1.0f);
+    }
+
+    // public void onReloginBaseappTimer()
+    // {
+    //     if (ui_state == 0)
+    //     {
+    //         KBEDebug.LogError("disconnect! (你已掉线!)");
+    //         return;
+    //     }
+
+    //     KBEngineApp.app.reloginBaseapp();
+
+    //     if (startRelogin)
+    //         Invoke("onReloginBaseappTimer", 3.0f);
+    // }
 
     public void onLoginFailed(UInt16 failedcode)
     {
@@ -244,7 +288,7 @@ public class ServerCore : MonoBehaviour
     /// 恢复道具
     /// </summary>
     /// <param name="propsList">道具列表</param>
-    public void onResetProp(List<string> propsList)
+    public void onResetProps(List<string> propsList)
     {
         ServerEvents.Instance.onResetProp(propsList);
     }

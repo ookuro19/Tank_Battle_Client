@@ -41,6 +41,14 @@ public class KBEDebug
             Debug.LogError(message, context);
         }
     }
+
+    public static void LogErrorFormat(string format, params object[] args)
+    {
+        if (EnableLog)
+        {
+            Debug.LogErrorFormat(format, args);
+        }
+    }
     #endregion LogError
 
     #region Warning

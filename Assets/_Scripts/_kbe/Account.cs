@@ -87,10 +87,10 @@
             }
         }
 
-        public override void onProgressChanged(int oldValue)
-        {
-            KBEDebug.LogFormat("Player:{0} onProgressChanged:{1}", name, progress);
-        }
+        // public override void onProgressChanged(int oldValue)
+        // {
+        //     KBEDebug.LogFormat("Player:{0} onProgressChanged:{1}", name, progress);
+        // }
         #endregion Matching Send
 
         #region Matching Callback
@@ -98,7 +98,7 @@
         {
             base.onEnterWorld();
             KBEDebug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
-            Event.fireOut("onEntityEnterWorld", new object[] { KBEngineApp.app.entity_uuid, roomNo, this });
+            Event.fireOut("onEntityEnterWorld", KBEngineApp.app.entity_uuid, roomNo, this);
         }
 
         /// <summary>
@@ -121,14 +121,6 @@
             if (isPlayer())
             {
                 Event.fireOut("onMatchingFinish", arg1);
-            }
-        }
-
-        public override void onLoadingFinish(int arg1)
-        {
-            if (isPlayer())
-            {
-                Event.fireOut("onLoadingFinish", arg1);
             }
         }
         #endregion Matching Callback
@@ -163,16 +155,6 @@
         {
             KBEDebug.LogFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
             Event.fireOut("onGetProps", arg1, arg2, arg3);
-        }
-
-        /// <summary>
-        /// 恢复相应道具
-        /// </summary>
-        /// <param name="arg1">需要恢复的道具列表</param>
-        public override void onResetPropClient(PROP_LIST arg1)
-        {
-            KBEDebug.LogFormat("onResetPropClient");
-            Event.fireOut("onResetProp", arg1);
         }
         #endregion Props Callback
 
@@ -216,19 +198,6 @@
         {
             KBEDebug.LogFormat("{0} use skill {1} to {2}, pos is {3}", arg1, arg2, arg3, arg4);
             Event.fireOut("onUseProp", arg1, arg2, arg3, arg4);
-        }
-
-        /// <summary>
-        /// 技能施放结果回调
-        /// </summary>
-        /// <param name="userID">使用者ID</param>
-        /// <param name="targetID">技能目标ID</param>
-        /// <param name="type">prop_type</param>
-        /// <param name="suc">结算结果：0-命中, 1-未命中</param>
-        public override void onPropResultClient(int userID, int targetID, int type, byte suc)
-        {
-            KBEDebug.LogFormat("{0} use skill hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
-            Event.fireOut("onPropResult", userID, targetID, type, (int)suc);
         }
         #endregion Skill Callback
 
@@ -311,20 +280,9 @@
         #endregion Destination Send
 
         #region Destination Callback
-        public override void onTimerChanged(int sec)
-        {
-            // KBEDebug.LogFormat("onTimerChanged:{0}, name:{1}", sec, name);
-            Event.fireOut("onTimerChanged", sec);
-        }
-
         public override void onExitRoom(int suc)
         {
             Event.fireOut("onExitRoom", suc);
-        }
-
-        public override void onReachDestination(int arg1, int arg2)
-        {
-            Event.fireOut("onReachDestination", arg1, arg2);
         }
         #endregion Destination Callback
 

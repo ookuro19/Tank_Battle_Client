@@ -30,7 +30,7 @@ public class Props2Pydata : MonoBehaviour
         }
 
         string tStr = string.Format("'{2}' : {0}'posx' : {3:0.000}, 'posy' : {4:0.000}, 'posz' : {5:0.000}, 'type':{6}{1}", "{", "}", propKey, pos.x, pos.y, pos.z, type);
-        Debug.Log(tStr);
+        // Debug.Log(tStr);
 
         propDict.Add(propKey, pos);
 

@@ -114,6 +114,16 @@
             }
         }
 
+        /// <summary>
+        /// 坐标
+        /// </summary>
+        public Vector3 position
+        {
+            get
+            {
+                return isRobot ? m_robot.position : m_account.position;
+            }
+        }
         #endregion Properties
 
         #region foo
