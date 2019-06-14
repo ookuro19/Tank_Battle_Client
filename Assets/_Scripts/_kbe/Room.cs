@@ -51,7 +51,7 @@ namespace KBEngine
         /// <param name="suc">结算结果：0-命中, 1-未命中</param>
         public override void onPropResult(int userID, int targetID, int type, byte suc)
         {
-            KBEDebug.LogFormat("{0} use skill hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
+            KBEDebug.LogFormat("Room::onPropResult {0} use prop hit {1} : {2}", userID, targetID, suc == 0 ? true : false);
             Event.fireOut("onPropResult", userID, targetID, type, (int)suc);
         }
         #endregion Prop
@@ -59,13 +59,13 @@ namespace KBEngine
         #region Destination
         public override void onTimerChanged(int sec)
         {
-            // KBEDebug.LogFormat("onTimerChanged:{0}, name:{1}", sec, name);
+            KBEDebug.LogFormat("Room::onTimerChanged:{0}, name:{1}", sec);
             Event.fireOut("onTimerChanged", sec);
         }
 
         public override void onReachDestination(int arg1, int arg2)
         {
-            Event.fireOut("onReachDestination", arg1, arg2);
+            Event.fireOut("Room::onReachDestination", arg1, arg2);
         }
         #endregion Destination
 

@@ -19,7 +19,8 @@ public class TankManager
 
     private TankMovement m_movement;                        // Reference to tank's movement script, used to disable and enable control.
     private TankShooting m_shooting;                        // Reference to tank's shooting script, used to disable and enable control.
-    private TankHealth m_health;                          // Reference to tank's health script, used to disable and enable control.
+    private TankHealth m_health;                            // Reference to tank's health script, used to disable and enable control.
+    private TankPropBehavior m_propBehavior;                            // Reference to tank's prop
     private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
 
     //server
@@ -50,11 +51,15 @@ public class TankManager
         m_movement = m_Instance.GetComponent<TankMovement>();
         m_shooting = m_Instance.GetComponent<TankShooting>();
         m_health = m_Instance.GetComponent<TankHealth>();
+        m_propBehavior = m_Instance.GetComponent<TankPropBehavior>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
         m_movement.m_avatar = m_avatar;
         m_shooting.m_isPlayer = isPlayer;
         m_shooting.m_tankmanager = this;
+        m_propBehavior.m_isPlayer = isPlayer;
+        m_propBehavior.m_tankmanager = this;
+
         m_health.SetIDText(m_avatarName);
         // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
         m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
@@ -121,14 +126,16 @@ public class TankManager
     {
         Debug.LogErrorFormat("id: {0} get props {1}", m_eid, (EPropType)type);
         m_curPropType = (EPropType)type;
+        m_propBehavior.onGetProp(m_curPropType);
     }
 
-    public void useSkill(int targetID, int type)
+    public void useSkill(int targetID, EPropType type)
     {
-        if ((int)m_curPropType == type)
+        if (m_curPropType == type)
         {
+            Debug.LogErrorFormat("Player use prop {0}", type);
             m_curPropType = EPropType.ept_None;
-            ServerEvents.Instance.useSkill(targetID, type);
+            ServerEvents.Instance.useSkill(targetID, (int)type);
         }
         else
         {
@@ -137,22 +144,19 @@ public class TankManager
     }
 
     // 向target使用技能
-    public void onUseSkill(TankManager targetTM, int type, Vector3 pos)
+    public void onUseSkill(TankManager targetTM, EPropType type, Vector3 pos)
     {
-        switch ((EPropType)type)
+        Debug.LogErrorFormat("TankManager::onUseSkill {0}", type);
+        switch (type)
         {
             case EPropType.ePT_Bullet:
                 {
                     m_shooting.onUseSkill(targetTM, type);
                     break;
                 }
-            case EPropType.ePT_Shell:
-                {
-                    
-                    break;
-                }
             default:
                 {
+                    m_propBehavior.onUseSkill(targetTM, type, pos);
                     break;
                 }
         }
@@ -162,12 +166,14 @@ public class TankManager
     /// <summary>
     /// 被使用技能的结算结果
     /// </summary>
+    /// <param name="targetTM">技能目标TankManager</param>
     /// <param name="suc">结算结果：0命中，1未命中</param>
-    public void onSkillResult(int suc)
+    public void onSkillResult(TankManager targetTM, int type, int suc)
     {
         if (suc == 0)
         {
-            m_health.TakeDamage(10);
+            m_propBehavior.onSkillResult(targetTM, (EPropType)type);
+            // m_health.TakeDamage(10);
         }
     }
 }

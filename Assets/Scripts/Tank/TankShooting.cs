@@ -88,13 +88,13 @@ public class TankShooting : MonoBehaviour
         // Set the fired flag so only Fire is only called once.
         m_Fired = true;
 
-        m_tankmanager.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), (int)EPropType.ePT_Bullet);
+        m_tankmanager.useSkill(ClientCore.Instance.GetEnemyID(m_tankmanager.m_eid), EPropType.ePT_Bullet);
 
         // Reset the launch force. This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
     }
 
-    public void onUseSkill(TankManager target, int skill)
+    public void onUseSkill(TankManager target, EPropType skill)
     {
         // Create an instance of the shell and store a reference to it's rigidbody.
         Rigidbody shellInstance =

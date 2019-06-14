@@ -68,7 +68,7 @@ public class ServerEvents
                 }
         }
     }
-    
+
     public void onConnectionState(bool success)
     {
         if (!success)
@@ -255,7 +255,7 @@ public class ServerEvents
     /// <param name="suc">结算结果：0命中，1未命中</param>
     public void onPropResult(int userID, int targetID, int type, int suc)
     {
-        ClientCore.Instance.onSkillResult(userID, targetID, suc);
+        ClientCore.Instance.onSkillResult(userID, targetID, type, suc);
     }
     #endregion Props Callback
 

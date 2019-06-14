@@ -166,7 +166,7 @@ public class ClientCore : MonoBehaviour
         if (g_tankDict.ContainsKey(userID)
                 && g_tankDict.ContainsKey(targetID))
         {
-            g_tankDict[userID].onUseSkill(g_tankDict[targetID], prop, pos);
+            g_tankDict[userID].onUseSkill(g_tankDict[targetID], (EPropType) prop, pos);
         }
     }
 
@@ -176,12 +176,11 @@ public class ClientCore : MonoBehaviour
     /// <param name="userID">使用者ID</param>
     /// <param name="targetID">技能目标ID</param>
     /// <param name="suc">结算结果：0命中，1未命中</param>
-    public void onSkillResult(int userID, int targetID, int suc)
+    public void onSkillResult(int userID, int targetID, int type, int suc)
     {
         if (g_tankDict.ContainsKey(targetID))
         {
-
-            g_tankDict[targetID].onSkillResult(suc);
+            g_tankDict[userID].onSkillResult(g_tankDict[targetID], type, suc);
         }
     }
     #endregion skill

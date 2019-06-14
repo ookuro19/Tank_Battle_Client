@@ -29,6 +29,11 @@ public class PropBehavior : MonoBehaviour
                     tColor = Color.green;
                     break;
                 }
+            case EPropType.ePT_Mine:
+                {
+                    tColor = Color.yellow;
+                    break;
+                }
             default:
                 {
                     break;

@@ -63,7 +63,7 @@
         /// <param name="arg1">0-未登录或未匹配; 1-匹配但未比赛; 2-比赛中</param>
         public override void onLoginState(int arg1)
         {
-            KBEDebug.LogFormat("onLoginState : {0}", arg1);
+            KBEDebug.LogFormat("Account::onLoginState : {0}", arg1);
             Event.fireOut("onLoginState", arg1);
         }
         #endregion Login Callback
@@ -73,7 +73,7 @@
         public void StartMatching(int map, int mode, int matchCode)
         {
             progress = 0;
-            KBEDebug.Log("Player Start Matching, id:" + id);
+            KBEDebug.Log("Account::Player Start Matching, id:" + id);
             baseEntityCall.regStartMatching(map, mode, matchCode);
         }
 
@@ -81,7 +81,7 @@
         {
             if (progress < tprogerss)
             {
-                KBEDebug.LogFormat("Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
+                KBEDebug.LogFormat("Account::Player:{0} now progress {1}, update to rogress:{2}", name, progress, tprogerss);
                 progress = tprogerss;
                 cellEntityCall.regProgress(progress);
             }
@@ -97,7 +97,7 @@
         public override void onEnterWorld()
         {
             base.onEnterWorld();
-            KBEDebug.LogFormat("Account onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
+            KBEDebug.LogFormat("Account::onEnterWorld, id: {0},  name: {1},  roomNo: {2}", id, name, roomNo);
             Event.fireOut("onEntityEnterWorld", KBEngineApp.app.entity_uuid, roomNo, this);
         }
 
@@ -110,7 +110,7 @@
         {
             if (isPlayer())
             {
-                KBEDebug.LogFormat("设置玩家的地图为: {0}, 模式为: {1}", mapNum, modeNum);
+                KBEDebug.LogFormat("Account::设置玩家的地图为: {0}, 模式为: {1}", mapNum, modeNum);
                 Event.fireOut("onMapModeChanged", mapNum, modeNum);
             }
         }
@@ -153,7 +153,7 @@
         /// <param name="arg3">prop_type</param>
         public override void onGetPropsClient(int arg1, string arg2, int arg3)
         {
-            KBEDebug.LogFormat("onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
+            KBEDebug.LogFormat("Account::onGetPropsClient, self id: {3}, owner id:{0}, key:{1}, type:{2}", arg1, arg2, arg3, id);
             Event.fireOut("onGetProps", arg1, arg2, arg3);
         }
         #endregion Props Callback
@@ -196,7 +196,7 @@
         /// <param name="arg4">使用技能时坐标</param>
         public override void onUseProp(int arg1, int arg2, int arg3, Vector3 arg4)
         {
-            KBEDebug.LogFormat("{0} use skill {1} to {2}, pos is {3}", arg1, arg2, arg3, arg4);
+            KBEDebug.LogFormat("Account::{0} use prop {1} to {2}, pos is {3}", arg1, arg2, arg3, arg4);
             Event.fireOut("onUseProp", arg1, arg2, arg3, arg4);
         }
         #endregion Skill Callback
@@ -208,7 +208,7 @@
         /// <param name="tGold"></param>
         public void regGetGold(int tGold)
         {
-            KBEDebug.LogFormat("regGetGold: {0}", tGold);
+            KBEDebug.LogFormat("Account::regGetGold: {0}", tGold);
             baseEntityCall.regGetGold(tGold);
         }
 
